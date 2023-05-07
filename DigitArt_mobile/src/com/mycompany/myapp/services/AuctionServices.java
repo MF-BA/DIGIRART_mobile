@@ -59,7 +59,6 @@ public class AuctionServices {
         String description = obj.get("description").toString();
         String artworkName = artwork.get("artworkName").toString();
         return new Auction(id_auction, starting_price, increment, id_artwork, date, description, artworkName);
-
     }
 
     public ArrayList<Auction> parseAuctions(String jsonText) throws IOException, ParseException {

@@ -49,7 +49,7 @@ import java.util.ArrayList;
 public class AuctionDisplay extends BaseForm {
 
     public AuctionDisplay(Resources res) {
-        super("Newsfeed", BoxLayout.y());
+        super("Auction", BoxLayout.y());
         Toolbar tb = new Toolbar(true);
         setToolbar(tb);
         getTitleArea().setUIID("Welcome");
@@ -65,15 +65,19 @@ public class AuctionDisplay extends BaseForm {
         RadioButton add = RadioButton.createToggle("Add to Auction", barGroup);
         add.setUIID("SelectBar");
         Label arrow = new Label(res.getImage("news-tab-down-arrow.png"), "Container");
+
+        EncodedImage placeholderImageseparator = EncodedImage.createFromImage(Image.createImage(1000, 110), false);
+        String separURL = "http://127.0.0.1:8000/uploads/pngegg.png";
+        Image separatorIMG = URLImage.createToStorage(placeholderImageseparator, separURL, separURL, URLImage.RESIZE_SCALE_TO_FILL);
+
+        ScaleImageLabel imageLab = new ScaleImageLabel(separatorIMG);
+        imageLab.setUIID("LogoLabel");
+
         Container content = new Container();
-        
-        content.add(new Container() {
-            @Override
-            public Dimension getPreferredSize() {
-                return new Dimension();
-            }
-        });
-        
+
+        content.add(imageLab);
+
+        add(content);
         add(LayeredLayout.encloseIn(
                 GridLayout.encloseIn(2, Display, add),
                 FlowLayout.encloseBottom(arrow)
@@ -98,82 +102,10 @@ public class AuctionDisplay extends BaseForm {
         }
     }
 
-    private Container createArticles() {
-        ArrayList<Auction> auctions = AuctionServices.getInstance().getAllAuctions();
-        Container articleContainer = new Container();
-        articleContainer.setLayout(new BoxLayout(BoxLayout.Y_AXIS));
-        articleContainer.setScrollableY(true);
-        //-- Add articles to the articleContainer
-        for (int i = 0; i < auctions.size(); i++) {
-            Container article = new Container(new BorderLayout());
-            //-- Add article image        
-            int placeholderWidth = Display.getInstance().getDisplayWidth() / 2; // half the screen width
-            int placeholderHeight = Display.getInstance().getDisplayHeight() / 4; // one quarter of the screen height
-            EncodedImage placeholderImage = EncodedImage.createFromImage(Image.createImage(placeholderWidth, placeholderHeight), false);
-            ArrayList images = AuctionServices.getInstance().getArtworkImages(auctions.get(i).getId_artwork());
-            String imageURL = images.isEmpty() ? Static.BASE_URL + "uploads/noimage.jpg" : Static.BASE_URL + "uploads/" + images.get(0);
-            Image image = URLImage.createToStorage(placeholderImage, imageURL, imageURL, URLImage.RESIZE_SCALE_TO_FILL);
-            Label imageLabel = new ScaleImageLabel(image);
-            article.addComponent(BorderLayout.CENTER, imageLabel);
-            //-- Add article text
-            Container articleTextContainer = new Container(new BorderLayout());
-            String description = auctions.get(i).getDescription();
-            if (description.length() > 50) {
-                description = description.substring(0, 50) + "...";
-            }
-            articleTextContainer.addComponent(BorderLayout.CENTER, new Label(description));
-            Button more_info = new Button("more information");
-            //more_info.addActionListener(e-> new AddTaskForm(current).show());
-            //-- Add article button
-            articleTextContainer.addComponent(BorderLayout.SOUTH, more_info);
-            article.addComponent(BorderLayout.SOUTH, articleTextContainer);
-            articleContainer.add(article);
-        }
-        return articleContainer;
-    }
-
     private void updateArrowPosition(Button b, Label arrow) {
         arrow.getUnselectedStyle().setMargin(LEFT, b.getX() + b.getWidth() / 2 - arrow.getWidth() / 2);
         arrow.getParent().repaint();
 
-    }
-
-    private void addTab(Tabs swipe, Image img, Label spacer, String likesStr, String commentsStr, String text) {
-        int size = Math.min(Display.getInstance().getDisplayWidth(), Display.getInstance().getDisplayHeight());
-        if (img.getHeight() < size) {
-            img = img.scaledHeight(size);
-        }
-        Label likes = new Label(likesStr);
-        Style heartStyle = new Style(likes.getUnselectedStyle());
-        heartStyle.setFgColor(0xff2d55);
-        FontImage heartImage = FontImage.createMaterial(FontImage.MATERIAL_FAVORITE, heartStyle);
-        likes.setIcon(heartImage);
-        likes.setTextPosition(RIGHT);
-
-        Label comments = new Label(commentsStr);
-        FontImage.setMaterialIcon(comments, FontImage.MATERIAL_CHAT);
-        if (img.getHeight() > Display.getInstance().getDisplayHeight() / 2) {
-            img = img.scaledHeight(Display.getInstance().getDisplayHeight() / 2);
-        }
-        ScaleImageLabel image = new ScaleImageLabel(img);
-        image.setUIID("Container");
-        image.setBackgroundType(Style.BACKGROUND_IMAGE_SCALED_FILL);
-        Label overlay = new Label(" ", "ImageOverlay");
-
-        Container page1
-                = LayeredLayout.encloseIn(
-                        image,
-                        overlay,
-                        BorderLayout.south(
-                                BoxLayout.encloseY(
-                                        new SpanLabel(text, "LargeWhiteText"),
-                                        FlowLayout.encloseIn(likes, comments),
-                                        spacer
-                                )
-                        )
-                );
-
-        swipe.addTab("", page1);
     }
 
     private void addauction(Auction auction, Resources res) {
@@ -183,7 +115,7 @@ public class AuctionDisplay extends BaseForm {
         int placeholderHeight = Display.getInstance().getDisplayHeight() / 4; // one quarter of the screen height
         EncodedImage placeholderImage = EncodedImage.createFromImage(Image.createImage(placeholderWidth, placeholderHeight), false);
         ArrayList images = AuctionServices.getInstance().getArtworkImages(auction.getId_artwork());
-        String imageURL = images.isEmpty() ? "http://127.0.0.1:8000/uploads/noimage.jpg" : Static.BASE_URL + "uploads/" + images.get(0);
+        String imageURL = images.isEmpty() ? "http://127.0.0.1:8000/uploads/Empty.jpeg" : Static.BASE_URL + "uploads/" + images.get(0);
         Image img = URLImage.createToStorage(placeholderImage, imageURL, imageURL, URLImage.RESIZE_SCALE_TO_FILL);
 
         ScaleImageLabel imageLabel = new ScaleImageLabel(img);
@@ -197,6 +129,11 @@ public class AuctionDisplay extends BaseForm {
 
         Button more_info = new Button("more information");
         more_info.setUIID("Button2");
+
+        more_info.addActionListener(e -> {
+            Static.previous = this;
+            new showAuction(res, auction).show();
+        });
 
         EncodedImage placeholderImageseparator = EncodedImage.createFromImage(Image.createImage(placeholderWidth, 100), false);
         String separURL = "http://127.0.0.1:8000/uploads/pngegg.png";
