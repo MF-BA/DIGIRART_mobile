@@ -89,12 +89,12 @@ public class SignUpForm extends BaseForm {
          birthDateField.setHidden(true); 
         
          // add a listener to the date picker to set the value of the text field
-datePicker.addActionListener(e -> {
+    datePicker.addActionListener(e -> {
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     String dateString = dateFormat.format(datePicker.getDate());
     birthDateField.setText(dateString);
     birthDateField.setHidden(false);
-});
+    });
 
 
         cin.setSingleLineTextArea(false);

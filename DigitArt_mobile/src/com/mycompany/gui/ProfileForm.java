@@ -23,6 +23,7 @@ import com.codename1.components.InfiniteProgress;
 import com.codename1.components.ScaleImageLabel;
 import com.codename1.ui.Button;
 import com.codename1.ui.CheckBox;
+import com.codename1.ui.ComboBox;
 import com.codename1.ui.Component;
 import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
@@ -39,6 +40,7 @@ import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
 import com.mycompany.services.ServiceUsers;
+import java.util.Vector;
 
 /**
  * The user profile form
@@ -53,6 +55,7 @@ public class ProfileForm extends BaseForm {
         setToolbar(tb);
         getTitleArea().setUIID("Container");
         setTitle("Profile");
+        
         getContentPane().setScrollVisible(false);
         
         super.addSideMenu(res);
@@ -120,13 +123,40 @@ public class ProfileForm extends BaseForm {
         phone.setUIID("TextFieldBlack");
         addStringValue("Phone number", phone);
         
+        //Role 
+        //Vector 3ibara ala array 7atit fiha roles ta3na ba3d nzidouhom lel comboBox
+        Vector<String> vectorRole;
+        vectorRole = new Vector();
         
-        float Cin;
-        Cin = Float.parseFloat(cin.getText());
+        vectorRole.add("Artist");
+        vectorRole.add("Subscriber");
+        
+        ComboBox<String>roles = new ComboBox<>(vectorRole);
+        roles.setSelectedItem(SessionUser.getRole());
+        addStringValue("Your role", roles);
+        
+        //gender
+        Vector<String> vectorGender;
+        vectorGender = new Vector();
+        
+        vectorGender.add("Male");
+        vectorGender.add("Female");
+        
+        ComboBox<String> gender = new ComboBox<>(vectorGender);
+        
+        gender.setSelectedItem(SessionUser.getGender());
+        addStringValue("Gender", gender);
+         
+        TextField birthdate = new TextField(SessionUser.getBirthDate());
+        birthdate.setUIID("TextFieldBlack");
+        addStringValue("Birth Date", birthdate);
+        
+       /* float Cin;
+        Cin = Integer.parseInteger(cin.getText());
         float Phone;
-        Phone = Float.parseFloat(phone.getText());
-        Supprimer.setUIID("Update");
-        modiff.setUIID("Edit");
+        Phone = Float.parseFloat(phone.getText());*/
+        Supprimer.setUIID("SignIn");
+        modiff.setUIID("SignIn");
         addStringValue("",Supprimer);
         addStringValue("",modiff);
         
@@ -134,13 +164,15 @@ public class ProfileForm extends BaseForm {
         InfiniteProgress ip = new InfiniteProgress();
         
         //final Dialog ipDlg = ip.showInifinieteBlooking();
-        ServiceUsers.EditUser(SessionUser.getId(),(int)Cin,firstname.getText(),lastname.getText());
-        SessionUser.setCin((int)Cin);
+        ServiceUsers.EditUser(SessionUser.getId(),cin.getText(),phone.getText(),firstname.getText(),lastname.getText(),address.getText(),gender,roles,birthdate.getText());
+        SessionUser.setCin(Integer.valueOf(cin.getText()));
         SessionUser.setFirstname(firstname.getText());
         SessionUser.setLastname(lastname.getText());
         SessionUser.setAddress(address.getText());
-        SessionUser.setPhonenum((int)Phone);
-        //SessionUser.set
+        SessionUser.setPhonenum(Integer.valueOf(phone.getText()));
+        SessionUser.setGender(gender.getSelectedItem());
+        SessionUser.setRole(roles.getSelectedItem());
+        SessionUser.setBirthDate(birthdate.getText());
         //SessionUser.setPassword(Password.getText());
         //SessionUser.setEmail(Email.getText());
         Dialog.show("Succes","your profile has been updated successfully! ","OK",null);
@@ -153,7 +185,7 @@ public class ProfileForm extends BaseForm {
             
             Dialog dig = new Dialog("Deletion");
             
-            if(dig.show("Deletion","Do you want to delete your account?","Annuler","Oui")) {
+            if(dig.show("Deletion","Do you want to delete your account?","Cancel","Yes")) {
                 dig.dispose();
             }
             else {

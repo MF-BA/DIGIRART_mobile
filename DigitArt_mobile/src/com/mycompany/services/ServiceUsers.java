@@ -8,19 +8,20 @@ import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
 import com.codename1.ui.ComboBox;
 import com.codename1.ui.Dialog;
+import com.codename1.ui.Display;
 import com.codename1.ui.TextField;
 import com.codename1.ui.events.ActionListener;
+import com.codename1.ui.spinner.Picker;
 import com.codename1.ui.util.Resources;
 import com.mycompany.entities.users;
 import com.mycompany.gui.NewsfeedForm;
 import com.mycompany.gui.SessionUser;
 import com.mycompany.utils.Statics;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -178,7 +179,7 @@ public class ServiceUsers {
     
     //Delete 
     public boolean deleteUser(int id ) {
-        String url = Statics.BASE_URL +"/deleteUserJSON/id="+id;
+        String url = Statics.BASE_URL +"/deleteUserJSON/"+id;
         
         req.setUrl(url);
         
@@ -278,7 +279,20 @@ public class ServiceUsers {
                 System.out.println("data =="+json);
                 
                 Map<String,Object> user = j.parseJSON(new CharArrayReader(json.toCharArray()));
+                
+               
+        
+              // Get the user's timezone
+/*TimeZone userTimeZone = TimeZone.getDefault();
 
+// Create a formatter that uses the desired timezone
+DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        .withZone(userTimeZone.toZoneId());*/
+
+// Format the date value
+//String formattedDate = formatter.format(user.get("birthDate"));
+        
+        
                 //Session 
                 float id = Float.parseFloat(user.get("id").toString());
                 float cin = Float.parseFloat(user.get("cin").toString());
@@ -291,8 +305,9 @@ public class ServiceUsers {
                 SessionUser.setFirstname(user.get("firstname").toString());
                 SessionUser.setLastname(user.get("lastname").toString());
                 SessionUser.setAddress(user.get("address").toString());
-                //SessionUser.setGender(user.get("lastname").toString());
+                SessionUser.setGender(user.get("gender").toString());
                 SessionUser.setPhonenum((int)phone);
+                //SessionUser.setBirthDate(dateString.toString());
                 //photo 
                 
                 if(user.get("image") != null)
@@ -324,16 +339,27 @@ public class ServiceUsers {
         NetworkManager.getInstance().addToQueueAndWait(req);
     }
     
-public static void EditUser(int id, int cin, String firstname, String lastname) {      
+public static void EditUser(int id, String cin, String phoneNum,String firstname, String lastname, String address,ComboBox<String>  gender,ComboBox<String> roles,String birthDate ) {      
     
-       String url = Statics.BASE_URL+"/user/edituser?id="+id+"&cin="+cin+"&firstname="+firstname+"&lastname="+lastname;
+  
+       String url = Statics.BASE_URL+"/user/edituser?id="+id+"&cin="+cin+"&firstname="+firstname+"&lastname="+lastname+"&address="+address
+               +"&gender="+gender.getSelectedItem().toString()
+               +"&role="+roles.getSelectedItem().toString()
+               +"&phoneNum="+phoneNum
+               +"&birthDate="+birthDate;
+       
         MultipartRequest req = new MultipartRequest();
         req.setUrl(url);
         req.setPost(true);
         req.addArgument("id",String.valueOf(SessionUser.getId()));
         req.addArgument("cin",String.valueOf(SessionUser.getCin()));
+        req.addArgument("phoneNum",String.valueOf(SessionUser.getPhonenum()));
         req.addArgument("firstname",firstname);
         req.addArgument("lastname",lastname);
+        req.addArgument("address",address);
+        req.addArgument("gender",gender.getSelectedItem().toString());
+        req.addArgument("role",roles.getSelectedItem().toString());
+        req.addArgument("birthDate",birthDate);
         //req.addArgument("email",Email);
        // req.addArgument("password",Password);
         

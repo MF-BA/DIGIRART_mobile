@@ -12,7 +12,7 @@ import com.codename1.io.Preferences;
  * @author venom-1
  */
 public class SessionUser {
-     public static Preferences pref ; // 3ibara memoire sghira nsajlo fiha data 
+    public static Preferences pref ; // 3ibara memoire sghira nsajlo fiha data 
     
     
     
@@ -27,8 +27,9 @@ public class SessionUser {
     private static String email; 
     private static String address; 
     private static int phoneNum; 
-        private static String gender; 
-            private static String role; 
+    private static String gender; 
+    private static String role; 
+    private static String birthDate; 
 
 
     
@@ -118,5 +119,19 @@ public class SessionUser {
 
     public static void setGender(String gender) {
          pref.set("gender",gender);
+    }
+     public static String getRole() {
+        return pref.get("role",role);
+    }
+
+    public static void setRole(String role) {
+         pref.set("role",role);
+    }
+     public static String getBirthDate() {
+        return pref.get("birthDate",birthDate);
+    }
+
+    public static void setBirthDate(String birthDate) {
+         pref.set("birthDate",birthDate);
     }
 }
