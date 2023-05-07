@@ -5,12 +5,15 @@
  */
 package com.mycompany.myapp.entities;
 
+import com.codename1.ui.Form;
+
 /**
  *
  * @author fedi1
  */
 public class Static {
     public static final String BASE_URL = "http://127.0.0.1:8000/";
+    public static Form previous ;
 
     
     

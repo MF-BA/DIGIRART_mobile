@@ -28,6 +28,7 @@ import java.util.Map;
 public class AuctionServices {
 
     public ArrayList<Auction> auctions;
+    public ArrayList<String> images;
 
     public static AuctionServices instance = null;
     public boolean resultOK;
@@ -49,30 +50,15 @@ public class AuctionServices {
         int id_auction = Math.round(Float.parseFloat(obj.get("id_auction").toString()));
         int starting_price = Math.round(Float.parseFloat(obj.get("startingPrice").toString()));
         int increment = Math.round(Float.parseFloat(obj.get("increment").toString()));
-
-//        JSONParser parser = new JSONParser();
-//        System.out.println(obj.get("artwork").toString());
-//        int id_artwork = -10 ;
-//        Map<String, Object> jsonMap = parser.parseJSON(new CharArrayReader(obj.get("artwork").toString().toCharArray()));
-//        List<Map<String, Object>> artwork = (List<Map<String, Object>>) jsonMap.get("root");
-//        
-//        for (Map<String, Object> object : artwork) {
-//            System.out.println(object.get("idArt").toString());
-//            id_artwork=Math.round(Float.parseFloat(object.get("idArt").toString()));
-//        }
-               // Cast the "artwork" object to a Map<String, Object>
-    Map<String, Object> artwork = (Map<String, Object>) obj.get("artwork");
-    
-    // Extract the value of the "idArt" key as a string
-    String idArtStr = artwork.get("idArt").toString();
-    
-    // Convert the "idArt" string to an integer
-    int id_artwork = Math.round(Float.parseFloat(idArtStr));
-  
+        Map<String, Object> artwork = (Map<String, Object>) obj.get("artwork");
+        // Extract the value of the "idArt" key as a string
+        String idArtStr = artwork.get("idArt").toString();
+        // Convert the "idArt" string to an integer
+        int id_artwork = Math.round(Float.parseFloat(idArtStr));
         Date date = formatter.parse(obj.get("endingDate").toString());
         String description = obj.get("description").toString();
-
-        return new Auction(id_auction, starting_price, increment, id_artwork, date, description);
+        String artworkName = artwork.get("artworkName").toString();
+        return new Auction(id_auction, starting_price, increment, id_artwork, date, description, artworkName);
 
     }
 
@@ -88,6 +74,44 @@ public class AuctionServices {
             auctions.add(parseAuction(obj));
         }
         return auctions;
+    }
+
+    public ArrayList<String> parseArtworkImages(String jsonText) throws IOException, ParseException {
+        ArrayList<String> images = new ArrayList<>();
+        JSONParser parser = new JSONParser();
+
+        Map<String, Object> jsonMap = parser.parseJSON(new CharArrayReader(jsonText.toCharArray()));
+
+        List<Map<String, Object>> jsonArray = (List<Map<String, Object>>) jsonMap.get("root");
+        for (Map<String, Object> obj : jsonArray) {
+            String id_auction;
+            if (obj.get("imageName").toString().isEmpty()) {
+                id_auction = null;
+            } else {
+                id_auction = obj.get("imageName").toString();
+            }
+            images.add(id_auction);
+        }
+        return images;
+    }
+
+    public ArrayList<String> getArtworkImages(int id_artwork) {
+        String url = Static.BASE_URL + "auction/mobile/" + id_artwork + "/images";
+        req.setUrl(url);
+        req.setPost(false);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                try {
+                    images = parseArtworkImages(new String(req.getResponseData()));
+                } catch (IOException | ParseException e) {
+                    e.printStackTrace(); // or handle the exception in some other way
+                }
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return images;
     }
 
     public ArrayList<Auction> getAllAuctions() {

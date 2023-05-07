@@ -16,13 +16,31 @@ public class Auction {
 
     int id_auction, starting_price, increment, id_artwork;
     Date date;
-    String description;
+    String description, artworkName ;
+
+    public String getArtworkName() {
+        return artworkName;
+    }
+
+    public void setArtworkName(String artworkName) {
+        this.artworkName = artworkName;
+    }
+
+    public Auction(int id_auction, int starting_price, int increment, int id_artwork, Date date, String description, String artworkName) {
+        this.id_auction = id_auction;
+        this.starting_price = starting_price;
+        this.increment = increment;
+        this.id_artwork = id_artwork;
+        this.date = date;
+        this.description = description;
+        this.artworkName = artworkName;
+    }
 
     public Auction() {
     }
 
 //constructors
-    public Auction(int id_auction, int starting_price, int increment, int id_artwork, Date date, String description) {
+    public Auction(int id_auction, int starting_price, int increment, int id_artwork, Date date, String description ) {
         this.id_auction = id_auction;
         this.starting_price = starting_price;
         this.increment = increment;

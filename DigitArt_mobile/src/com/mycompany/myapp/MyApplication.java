@@ -48,11 +48,17 @@ public class MyApplication {
     }
     
     public void start() {
-       if(current != null){
+//        
+//       if(current != null){
+//            current.show();
+//            return;
+//        }
+//        new AuctionDisplay(current).show();
+if(current != null){
             current.show();
             return;
         }
-        new AuctionDisplay(current).show();
+        new AuctionDisplay(theme).show();
     }
 
     public void stop() {
