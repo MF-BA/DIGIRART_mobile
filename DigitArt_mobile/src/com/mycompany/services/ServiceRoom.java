@@ -68,6 +68,7 @@ public class ServiceRoom {
     
     // Displaying Rooms
     public ArrayList<Room> displayRooms() {
+    
         ArrayList<Room> result = new ArrayList<>();
         
         String url = Statics.BASE_URL + "/room/AllJson";

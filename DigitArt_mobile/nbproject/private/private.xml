@@ -4,23 +4,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/mobile/DigitArt_mobile/src/com/mycompany/gui/ListRoomForm.java</file>
-            <file>file:/E:/mobile/DigitArt_mobile/src/com/mycompany/entities/Auction.java</file>
-            <file>file:/E:/mobile/DigitArt_mobile/src/com/mycompany/utils/Statics.java</file>
-            <file>file:/E:/mobile/DigitArt_mobile/src/com/mycompany/gui/ModifierRoomForm.java</file>
-            <file>file:/E:/mobile/DigitArt_mobile/src/com/mycompany/gui/NewsfeedForm.java</file>
-            <file>file:/E:/mobile/DigitArt_mobile/src/com/mycompany/services/ServiceRoom.java</file>
-            <file>file:/E:/mobile/DigitArt_mobile/src/com/mycompany/gui/SignUpForm.java</file>
-            <file>file:/E:/mobile/DigitArt_mobile/src/com/mycompany/gui/WalkthruForm.java</file>
-            <file>file:/E:/mobile/DigitArt_mobile/src/com/mycompany/gui/AjoutRoomForm.java</file>
-            <file>file:/E:/mobile/DigitArt_mobile/src/com/mycompany/gui/SignInForm.java</file>
-            <file>file:/E:/mobile/DigitArt_mobile/src/com/mycompany/gui/ProfileForm.java</file>
-            <file>file:/E:/mobile/DigitArt_mobile/src/com/mycompany/gui/BaseForm.java</file>
-            <file>file:/E:/mobile/DigitArt_mobile/src/com/mycompany/entities/Room.java</file>
-            <file>file:/E:/mobile/DigitArt_mobile/src/com/mycompany/gui/ActivateForm.java</file>
-            <file>file:/E:/mobile/DigitArt_mobile/src/com/mycompany/entities/Artwork.java</file>
-            <file>file:/E:/mobile/DigitArt_mobile/src/com/mycompany/gui/AuctionAdd.java</file>
-            <file>file:/E:/mobile/DigitArt_mobile/src/com/mycompany/services/AuctionServices.java</file>
+            <file>file:/E:/github/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/gui/ModifierRoomForm.java</file>
+            <file>file:/E:/github/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/services/ServiceArtwork.java</file>
+            <file>file:/E:/github/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/entities/Artwork.java</file>
+            <file>file:/E:/github/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/services/ServiceRoom.java</file>
+            <file>file:/E:/github/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/gui/ListRoomForm.java</file>
+            <file>file:/E:/github/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/gui/AjoutRoomForm.java</file>
+            <file>file:/E:/github/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/gui/ListArtworkForm.java</file>
+            <file>file:/E:/github/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/gui/AjoutArtworkForm.java</file>
+            <file>file:/E:/github/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/gui/ModifierArtworkForm.java</file>
+            <file>file:/E:/github/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/entities/Room.java</file>
         </group>
     </open-files>
 </project-private>
