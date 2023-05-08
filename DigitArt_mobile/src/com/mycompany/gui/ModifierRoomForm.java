@@ -19,7 +19,8 @@ import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.util.Resources;
-import com.mycomany.entities.Room;
+import com.mycompany.entities.Room;
+
 import com.mycompany.services.ServiceRoom;
 
 /**

@@ -38,7 +38,8 @@ import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
-import com.mycomany.entities.Room;
+import com.mycompany.entities.Room;
+
 import com.mycompany.services.ServiceRoom;
 import java.text.SimpleDateFormat;
 import java.util.Date;

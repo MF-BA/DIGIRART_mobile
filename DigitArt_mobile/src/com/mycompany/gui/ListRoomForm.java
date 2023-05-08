@@ -36,7 +36,8 @@ import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.spinner.Picker;
 import com.codename1.ui.util.Resources;
-import com.mycomany.entities.Room;
+import com.mycompany.entities.Room;
+
 import com.mycompany.services.ServiceRoom;
 import java.util.ArrayList;
 /**

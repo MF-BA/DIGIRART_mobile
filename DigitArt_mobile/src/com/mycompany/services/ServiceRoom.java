@@ -12,8 +12,9 @@ import com.codename1.io.JSONParser;
 import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
 import com.codename1.ui.events.ActionListener;
-import com.mycomany.entities.Room;
-import com.mycomany.utils.Statics;
+import com.mycompany.entities.Room;
+import com.mycompany.utils.Statics;
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
