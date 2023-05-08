@@ -189,6 +189,9 @@ public class NewsfeedForm extends BaseForm {
         swipe.addTab("", page1);
     }
     
+    //removeAll()
+    //to remove composents from the conatainer
+    
    private void addButton(Image img, String title, boolean liked, int likeCount, int commentCount) {
        int height = Display.getInstance().convertToPixels(11.5f);
        int width = Display.getInstance().convertToPixels(14f);

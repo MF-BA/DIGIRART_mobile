@@ -31,8 +31,8 @@ import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.layouts.Layout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
-import com.mycompany.myapp.entities.Static;
-import com.mycompany.myapp.gui.AuctionDisplay;
+import com.mycompany.entities.Static;
+import com.mycompany.gui.AuctionDisplay;
 
 /**
  * Base class for the forms with common functionality

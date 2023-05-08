@@ -3,11 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.myapp.entities;
+package com.mycompany.entities;
 
 import java.util.Date;
-
-
 
 /**
  *
@@ -26,6 +24,13 @@ public class Bid {
         this.date = date;
     }
 
+    public Bid(int id_bid, int id_user, int offer, Date date) {
+        this.id_bid = id_bid;
+        this.id_user = id_user;
+        this.offer = offer;
+        this.date = date;
+    }
+
     public Bid(int id_bid, int id_user, int id_auction, int offer) {
         this.id_bid = id_bid;
         this.id_user = id_user;
@@ -39,10 +44,6 @@ public class Bid {
         this.id_auction = id_auction;
         this.offer = offer;
         this.date = new Date();
-    }
-
-    public Bid(int aInt, Date D, int aInt0, int aInt1, Date D0, String string) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public int getId_bid() {
@@ -76,6 +77,5 @@ public class Bid {
     public Date getDate() {
         return date;
     }
-
 
 }

@@ -3,30 +3,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.myapp.gui;
+package com.mycompany.gui;
 
 import com.codename1.components.ScaleImageLabel;
 import com.codename1.ui.Button;
-import com.codename1.ui.ButtonGroup;
 import com.codename1.ui.Container;
 import com.codename1.ui.Display;
 import com.codename1.ui.EncodedImage;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
-import com.codename1.ui.RadioButton;
 import com.codename1.ui.Toolbar;
 import com.codename1.ui.URLImage;
-import com.codename1.ui.geom.Dimension;
 import com.codename1.ui.layouts.BoxLayout;
-import com.codename1.ui.layouts.FlowLayout;
-import com.codename1.ui.layouts.GridLayout;
-import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.util.Resources;
 import com.mycompany.myapp.BaseForm;
-import com.mycompany.myapp.entities.Auction;
-import com.mycompany.myapp.entities.Static;
-import com.mycompany.myapp.services.AuctionServices;
+import com.mycompany.entities.Auction;
+import com.mycompany.entities.Bid;
+import com.mycompany.entities.Static;
+import com.mycompany.services.AuctionServices;
+import com.mycompany.services.BidServices;
 import java.util.ArrayList;
 
 /**
@@ -46,8 +42,18 @@ public class showAuction extends BaseForm {
         super.addSideMenu(res);
         tb.addSearchCommand(e -> {
         });
-        
-        addauction(auction,res);
+        EncodedImage placeholderImageseparator = EncodedImage.createFromImage(Image.createImage(1000, 110), false);
+        String separURL = "http://127.0.0.1:8000/uploads/pngegg.png";
+        Image separatorIMG = URLImage.createToStorage(placeholderImageseparator, separURL, separURL, URLImage.RESIZE_SCALE_TO_FILL);
+
+        ScaleImageLabel imageLab = new ScaleImageLabel(separatorIMG);
+        imageLab.setUIID("LogoLabel");
+
+        Container content = new Container();
+
+        content.add(imageLab);
+        add(content);
+        addauction(auction, res);
     }
 
     private void addauction(Auction auction, Resources res) {
@@ -75,12 +81,29 @@ public class showAuction extends BaseForm {
         Button backButton = new Button(FontImage.MATERIAL_ARROW_BACK);
         backButton.setUIID("Button2");
         backButton.addActionListener(e -> Static.previous.showBack());
+        ArrayList<Bid> bids;
+        bids = BidServices.getInstance().getBids(auction);
+        Bid highestBid = null;
+        int highestOffer = Integer.MIN_VALUE;
+        for (Bid bid : bids) {
+            if (bid.getOffer() > highestOffer) {
+                highestBid = bid;
+                highestOffer = bid.getOffer();
+            }
+        }
+        Label highest_bid;
+        if (highestBid != null) {
+            highest_bid = new Label("Highest Offer : " + String.valueOf(highestBid.getOffer())+"$");
+        } else {
+            highest_bid = new Label("No offers yet !");
+        }
 
         Container cnt = new Container(new BoxLayout(BoxLayout.Y_AXIS));
         cnt.add(title);
         cnt.add(imageLabel);
         cnt.add(Ending_date);
         cnt.add(description);
+        cnt.add(highest_bid);
         cnt.add(offer);
         cnt.add(backButton);
         add(cnt);

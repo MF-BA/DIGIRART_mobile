@@ -3,43 +3,29 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.myapp.gui;
+package com.mycompany.gui;
 
 import com.codename1.components.ScaleImageLabel;
-import com.codename1.components.SpanLabel;
-import com.codename1.components.ToastBar;
 import com.codename1.ui.Button;
 import com.codename1.ui.ButtonGroup;
-import com.codename1.ui.Component;
-import static com.codename1.ui.Component.BOTTOM;
-import static com.codename1.ui.Component.CENTER;
 import static com.codename1.ui.Component.LEFT;
-import static com.codename1.ui.Component.RIGHT;
 import com.codename1.ui.Container;
 import com.codename1.ui.Display;
 import com.codename1.ui.EncodedImage;
-import com.codename1.ui.FontImage;
-import com.codename1.ui.Form;
-import com.codename1.ui.Graphics;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
 import com.codename1.ui.RadioButton;
-import com.codename1.ui.Tabs;
-import com.codename1.ui.TextArea;
 import com.codename1.ui.Toolbar;
 import com.codename1.ui.URLImage;
-import com.codename1.ui.geom.Dimension;
-import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.layouts.LayeredLayout;
-import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
 import com.mycompany.myapp.BaseForm;
-import com.mycompany.myapp.entities.Auction;
-import com.mycompany.myapp.entities.Static;
-import com.mycompany.myapp.services.AuctionServices;
+import com.mycompany.entities.Auction;
+import com.mycompany.entities.Static;
+import com.mycompany.services.AuctionServices;
 import java.util.ArrayList;
 
 /**
@@ -117,7 +103,7 @@ public class AuctionDisplay extends BaseForm {
         ArrayList images = AuctionServices.getInstance().getArtworkImages(auction.getId_artwork());
         String imageURL = images.isEmpty() ? "http://127.0.0.1:8000/uploads/Empty.jpeg" : Static.BASE_URL + "uploads/" + images.get(0);
         Image img = URLImage.createToStorage(placeholderImage, imageURL, imageURL, URLImage.RESIZE_SCALE_TO_FILL);
-
+        
         ScaleImageLabel imageLabel = new ScaleImageLabel(img);
         imageLabel.setUIID("LogoLabel");
 
