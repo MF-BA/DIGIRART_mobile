@@ -1,4 +1,4 @@
-package com.mycompany.myapp.services;
+package com.mycompany.gui;
 
 import com.codename1.ui.Container;
 import com.codename1.ui.Form;

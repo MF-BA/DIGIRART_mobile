@@ -17,10 +17,9 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
  */
 
-package com.mycompany.myapp;
+package com.mycompany.gui;
 
 import com.codename1.components.FloatingHint;
-import com.codename1.components.SpanLabel;
 import com.codename1.ui.Button;
 import com.codename1.ui.Container;
 import com.codename1.ui.Display;
@@ -34,13 +33,13 @@ import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.util.Resources;
 
 /**
- * Account activation UI
+ * Signup UI
  *
  * @author Shai Almog
  */
-public class ActivateForm extends BaseForm {
+public class SignUpForm extends BaseForm {
 
-    public ActivateForm(Resources res) {
+    public SignUpForm(Resources res) {
         super(new BorderLayout());
         Toolbar tb = new Toolbar(true);
         setToolbar(tb);
@@ -48,38 +47,43 @@ public class ActivateForm extends BaseForm {
         getTitleArea().setUIID("Container");
         Form previous = Display.getInstance().getCurrent();
         tb.setBackCommand("", e -> previous.showBack());
-        setUIID("Activate");
+        setUIID("SignIn");
         
-        add(BorderLayout.NORTH, 
-                BoxLayout.encloseY(
-                        new Label(res.getImage("smily.png"), "LogoLabel"),
-                        new Label("Awsome Thanks!", "LogoLabel")
-                )
-        );
         
-        TextField code = new TextField("", "Enter Code", 20, TextField.PASSWORD);
-        code.setSingleLineTextArea(false);
         
-        Button signUp = new Button("Sign Up");
-        Button resend = new Button("Resend");
-        resend.setUIID("CenterLink");
-        Label alreadHaveAnAccount = new Label("Already have an account?");
+        TextField username = new TextField("", "Username", 5, TextField.ANY);
+        TextField email = new TextField("", "E-Mail", 20, TextField.EMAILADDR);
+        TextField password = new TextField("", "Password", 20, TextField.PASSWORD);
+        TextField confirmPassword = new TextField("", "Confirm Password", 20, TextField.PASSWORD);
+        username.setSingleLineTextArea(false);
+        email.setSingleLineTextArea(false);
+        password.setSingleLineTextArea(false);
+        confirmPassword.setSingleLineTextArea(false);
+        Button next = new Button("Next");
         Button signIn = new Button("Sign In");
         signIn.addActionListener(e -> previous.showBack());
-        signIn.setUIID("CenterLink");
+        signIn.setUIID("Link");
+        Label alreadHaveAnAccount = new Label("Already have an account?");
         
         Container content = BoxLayout.encloseY(
-                new FloatingHint(code),
+                new Label("Sign Up", "LogoLabel"),
+                new FloatingHint(username),
                 createLineSeparator(),
-                new SpanLabel("We've sent the confirmation code to your email. Please check your inbox", "CenterLabel"),
-                resend,
-                signUp,
-                FlowLayout.encloseCenter(alreadHaveAnAccount, signIn)
+                new FloatingHint(email),
+                createLineSeparator(),
+                new FloatingHint(password),
+                createLineSeparator(),
+                new FloatingHint(confirmPassword),
+                createLineSeparator()
         );
         content.setScrollableY(true);
-        add(BorderLayout.SOUTH, content);
-        signUp.requestFocus();
-        signUp.addActionListener(e -> new NewsfeedForm(res).show());
+        add(BorderLayout.CENTER, content);
+        add(BorderLayout.SOUTH, BoxLayout.encloseY(
+                next,
+                FlowLayout.encloseCenter(alreadHaveAnAccount, signIn)
+        ));
+        next.requestFocus();
+        next.addActionListener(e -> new ActivateForm(res).show());
     }
     
 }
