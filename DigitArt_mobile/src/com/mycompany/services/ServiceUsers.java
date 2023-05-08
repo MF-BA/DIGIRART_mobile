@@ -14,6 +14,7 @@ import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.spinner.Picker;
 import com.codename1.ui.util.Resources;
 import com.mycompany.entities.users;
+import com.mycompany.gui.BackuserForm;
 import com.mycompany.gui.NewsfeedForm;
 import com.mycompany.gui.SessionUser;
 import com.mycompany.utils.Statics;
@@ -306,6 +307,7 @@ DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
                 SessionUser.setLastname(user.get("lastname").toString());
                 SessionUser.setAddress(user.get("address").toString());
                 SessionUser.setGender(user.get("gender").toString());
+                SessionUser.setRole(user.get("role").toString());
                 SessionUser.setPhonenum((int)phone);
                 //SessionUser.setBirthDate(dateString.toString());
                 //photo 
@@ -320,7 +322,10 @@ DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
                     {
                        new NewsfeedForm(rs).show(); 
                     }
-                    
+                    if (user.get("role").toString().equals("Admin"))
+                    {
+                       new BackuserForm(rs).show(); 
+                    }
                 }
                    // new ListReclamationForm(rs).show();//yemchi lel list reclamation
                      /*new AjoutReclamationForm(rs).show();

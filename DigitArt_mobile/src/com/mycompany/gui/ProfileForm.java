@@ -155,8 +155,7 @@ public class ProfileForm extends BaseForm {
         Cin = Integer.parseInteger(cin.getText());
         float Phone;
         Phone = Float.parseFloat(phone.getText());*/
-        Supprimer.setUIID("SignIn");
-        modiff.setUIID("SignIn");
+       
         addStringValue("",Supprimer);
         addStringValue("",modiff);
         

@@ -101,6 +101,9 @@ public class SignUpForm extends BaseForm {
         firstname.setSingleLineTextArea(false);
         lastname.setSingleLineTextArea(false);
         Email.setSingleLineTextArea(false);
+        address.setSingleLineTextArea(false);
+        password.setSingleLineTextArea(false);
+        phonenum.setSingleLineTextArea(false);
         Button next = new Button("SignUp");
         Button signIn = new Button("Sign In");
         signIn.addActionListener(e -> new SignInForm(res).show());
