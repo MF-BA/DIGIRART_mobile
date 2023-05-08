@@ -4,11 +4,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/Esprit/3eme/sem2/PiDev/Primes/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/myapp/services/AuctionServices.java</file>
-            <file>file:/E:/Esprit/3eme/sem2/PiDev/Primes/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/myapp/gui/AuctionDisplay.java</file>
-            <file>file:/E:/Esprit/3eme/sem2/PiDev/Primes/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/myapp/MyApplication.java</file>
-            <file>file:/E:/Esprit/3eme/sem2/PiDev/Primes/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/myapp/entities/Auction.java</file>
-            <file>file:/E:/Esprit/3eme/sem2/PiDev/Primes/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/myapp/entities/Bid.java</file>
+            <file>file:/C:/Users/mohamed/Downloads/DigitArt_mobile/DigitArt_mobile/src/com/mycompany/myapp/MyApplication.java</file>
+            <file>file:/C:/Users/mohamed/Downloads/DigitArt_mobile/DigitArt_mobile/src/com/mycompany/myapp/BaseForm.java</file>
+            <file>file:/C:/Users/mohamed/Downloads/DigitArt_mobile/DigitArt_mobile/src/com/mycomany/entities/Room.java</file>
+            <file>file:/C:/Users/mohamed/Downloads/DigitArt_mobile/DigitArt_mobile/src/com/mycompany/services/ServiceRoom.java</file>
+            <file>file:/C:/Users/mohamed/Downloads/DigitArt_mobile/DigitArt_mobile/src/com/mycompany/myapp/AjoutRoomForm.java</file>
+            <file>file:/C:/Users/mohamed/Downloads/DigitArt_mobile/DigitArt_mobile/src/com/mycompany/myapp/ListRoomForm.java</file>
+            <file>file:/C:/Users/mohamed/Downloads/DigitArt_mobile/DigitArt_mobile/src/com/mycompany/myapp/ModifierRoomForm.java</file>
+            <file>file:/C:/Users/mohamed/Downloads/DigitArt_mobile/DigitArt_mobile/src/com/mycomany/entities/Artwork.java</file>
         </group>
     </open-files>
 </project-private>

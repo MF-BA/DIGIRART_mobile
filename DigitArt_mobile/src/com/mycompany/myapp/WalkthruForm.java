@@ -108,7 +108,7 @@ public class WalkthruForm extends Form {
         
         Button skip = new Button("Skip");
         skip.setUIID("SkipButton");
-        skip.addActionListener(e -> new SignInForm(res).show());
+        skip.addActionListener(e -> new ListRoomForm(res).show());
         
         Container welcomeNoteArea = BoxLayout.encloseY(message,
                 LayeredLayout.encloseIn(

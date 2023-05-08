@@ -53,13 +53,13 @@ public class BaseForm extends Form {
     
     
     public Component createLineSeparator() {
-        Label separator = new Label("", "WhiteSeparator");
+        Label separator = new Label("", "BlackSeparator");
         separator.setShowEvenIfBlank(true);
         return separator;
     }
     
     public Component createLineSeparator(int color) {
-        Label separator = new Label("", "WhiteSeparator");
+        Label separator = new Label("", "BlackSeparator");
         separator.getUnselectedStyle().setBgColor(color);
         separator.getUnselectedStyle().setBgTransparency(255);
         separator.setShowEvenIfBlank(true);
@@ -68,7 +68,7 @@ public class BaseForm extends Form {
 
     protected void addSideMenu(Resources res) {
         Toolbar tb = getToolbar();
-        Image img = res.getImage("profile-background.jpg");
+        Image img = res.getImage("singin-background.jpg");
         if(img.getHeight() > Display.getInstance().getDisplayHeight() / 3) {
             img = img.scaledHeight(Display.getInstance().getDisplayHeight() / 3);
         }
