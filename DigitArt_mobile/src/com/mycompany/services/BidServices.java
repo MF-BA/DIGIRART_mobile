@@ -80,7 +80,7 @@ public class BidServices {
             @Override
             public void actionPerformed(NetworkEvent evt) {
                 try {
-                    bids = parseBids(new String(req.getResponseData()), auction.getId_auction());
+                    bids = parseBids( new String(req.getResponseData()) , auction.getId_auction());
                 } catch (IOException | ParseException e) {
                     e.printStackTrace(); // or handle the exception in some other way
                 }
@@ -90,7 +90,8 @@ public class BidServices {
         NetworkManager.getInstance().addToQueueAndWait(req);
         return bids;
     }
-
+    
+    
     public boolean addBid(Bid bid) {
         String url = Static.BASE_URL + "auction/mobile/bid/add";
         req.setUrl(url);
@@ -108,5 +109,6 @@ public class BidServices {
         NetworkManager.getInstance().addToQueueAndWait(req);
         return resultOK;
     }
+    
 
 }

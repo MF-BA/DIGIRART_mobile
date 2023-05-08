@@ -8,31 +8,35 @@ package com.mycompany.gui;
 import com.codename1.components.ScaleImageLabel;
 import com.codename1.ui.Button;
 import com.codename1.ui.Container;
+import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
 import com.codename1.ui.EncodedImage;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
+import com.codename1.ui.TextField;
 import com.codename1.ui.Toolbar;
 import com.codename1.ui.URLImage;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.util.Resources;
-import com.mycompany.myapp.BaseForm;
 import com.mycompany.entities.Auction;
 import com.mycompany.entities.Bid;
 import com.mycompany.entities.Static;
+import com.mycompany.myapp.BaseForm;
 import com.mycompany.services.AuctionServices;
 import com.mycompany.services.BidServices;
 import java.util.ArrayList;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 
 /**
  *
  * @author fedi1
  */
-public class showAuction extends BaseForm {
+public class BidAdd extends BaseForm {
 
-    public showAuction(Resources res, Auction auction) {
+    public BidAdd(Resources res, Auction auction, ArrayList<Bid> bids) {
         super("Newsfeed", BoxLayout.y());
         Toolbar tb = new Toolbar(true);
         setToolbar(tb);
@@ -54,13 +58,7 @@ public class showAuction extends BaseForm {
 
         content.add(imageLab);
         add(content);
-        addauction(auction, res);
-    }
 
-    private void addauction(Auction auction, Resources res) {
-
-        ArrayList<Bid> bids;
-        bids = BidServices.getInstance().getBids(auction);
         int height = Display.getInstance().convertToPixels(11.5f);
         int width = Display.getInstance().convertToPixels(14f);
         int placeholderWidth = Display.getInstance().getDisplayWidth() / 2; // half the screen width
@@ -76,28 +74,13 @@ public class showAuction extends BaseForm {
         Label title = new Label(auction.getArtworkName());
         title.setUIID("CenterLabel");
 
-        Label Ending_date = new Label(auction.getDate().toString());
-        Ending_date.setUIID("CenterLabel");
-
         Button offer = new Button("Make an offer");
         offer.setUIID("Button2");
-        offer.addActionListener(e -> {
-            new BidAdd(res, auction, bids).showBack();
-        });
 
-        String description = auction.getDescription();
+        Button backButton = new Button("Cancel", FontImage.MATERIAL_ARROW_BACK, "Button2");
+        backButton.addActionListener(e -> new showAuction(res, auction).showBack());
 
-// Create a label to display the description
-        Label descriptionLabel = new Label(description);
-
-// Create a container to hold the label
-        Container container = new Container(new BorderLayout());
-        container.add(BorderLayout.CENTER, descriptionLabel);
-
-        Button backButton = new Button(FontImage.MATERIAL_ARROW_BACK);
-        backButton.setUIID("Button2");
-        backButton.addActionListener(e -> Static.previous.showBack());
-
+        bids = BidServices.getInstance().getBids(auction);
         Bid highestBid = null;
         int highestOffer = Integer.MIN_VALUE;
         for (Bid bid : bids) {
@@ -113,15 +96,45 @@ public class showAuction extends BaseForm {
             highest_bid = new Label("No offers yet !");
         }
 
+        int next_offer;
+        if (highestBid != null) {
+            next_offer = highestBid.getOffer() + auction.getIncrement();
+
+        } else {
+            next_offer = auction.getStarting_price();
+
+        }
+
+        TextField bid = new TextField(String.valueOf(next_offer));
+        bid.setUIID("TextFieldBlack");
         Container cnt = new Container(new BoxLayout(BoxLayout.Y_AXIS));
         cnt.add(title);
         cnt.add(imageLabel);
-        cnt.add(Ending_date);
-        cnt.add(description);
         cnt.add(highest_bid);
+        add(bid);
+        offer.addActionListener(e -> {
+            if (bid.getText().isEmpty()) {
+                Dialog.show("Offer is empty", "The offer should be filled !!", "OK", null);
+
+            } else {
+                if (Integer.parseInt(bid.getText()) >= next_offer) {
+                    if (BidServices.getInstance().addBid(new Bid(1, auction.getId_auction(), Integer.parseInt(bid.getText())))) {
+                        Dialog.show("Offer submitted", "The offer is submitted successfully !!", "OK", null);
+                    }
+                    new showAuction(res, auction).showBack();
+
+                } else {
+                    Dialog.show("Offer is too low", "The offer should be at least " + next_offer, "OK", null);
+
+                }
+
+            }
+
+        });
         cnt.add(offer);
         cnt.add(backButton);
         add(cnt);
+
     }
 
 }
