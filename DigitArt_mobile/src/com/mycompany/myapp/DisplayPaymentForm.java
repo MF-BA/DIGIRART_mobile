@@ -5,9 +5,6 @@
  */
 package com.mycompany.myapp;
 
-import com.codename1.ui.Form;
-import com.codename1.ui.util.Resources;
-import com.codename1.components.InfiniteProgress;
 import com.codename1.components.ScaleImageLabel;
 import com.codename1.components.SpanLabel;
 import com.codename1.ui.Button;
@@ -16,10 +13,10 @@ import com.codename1.ui.Component;
 import static com.codename1.ui.Component.BOTTOM;
 import static com.codename1.ui.Component.CENTER;
 import static com.codename1.ui.Component.LEFT;
+import static com.codename1.ui.Component.RIGHT;
 import com.codename1.ui.Container;
 import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
-import com.codename1.ui.EncodedImage;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Graphics;
@@ -27,18 +24,17 @@ import com.codename1.ui.Image;
 import com.codename1.ui.Label;
 import com.codename1.ui.RadioButton;
 import com.codename1.ui.Tabs;
-import com.codename1.ui.TextArea;
 import com.codename1.ui.Toolbar;
-import com.codename1.ui.URLImage;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.plaf.Style;
-import com.codename1.ui.spinner.Picker;
 import com.codename1.ui.util.Resources;
+import com.mycompany.entities.Payment;
 import com.mycompany.entities.Ticket;
+import com.mycompany.services.ServicePayment;
 import com.mycompany.services.ServiceTicket;
 import java.util.ArrayList;
 
@@ -46,11 +42,10 @@ import java.util.ArrayList;
  *
  * @author User
  */
-public class DisplayTicketForm extends Form {
+public class DisplayPaymentForm extends Form{
+     Form current;
 
-    Form current;
-
-    public DisplayTicketForm(Resources res) {
+    public DisplayPaymentForm(Resources res) {
         super("Newsfeed", BoxLayout.y()); //herigate men Newsfeed w l formulaire vertical
         setTitle("Ticket Add");
         Toolbar tb = new Toolbar(true);
@@ -95,11 +90,11 @@ public class DisplayTicketForm extends Form {
                 FlowLayout.encloseBottom(arrow)
         ));
 
-        mesListes.setSelected(true);
+        liste.setSelected(true);
         arrow.setVisible(false);
         addShowListener(e -> {
             arrow.setVisible(true);
-            updateArrowPosition(mesListes, arrow);
+            updateArrowPosition(liste, arrow);
         });
         bindButtonSelection(mesListes, arrow);
         bindButtonSelection(liste, arrow);
@@ -144,88 +139,42 @@ public class DisplayTicketForm extends Form {
                 rbs[ii].setSelected(true);
             }
         });
-
         Component.setSameSize(radioContainer, s1, s2);
-
         //  ListReclamationForm a = new ListReclamationForm(res);
         //  a.show();
         refreshTheme();
 
         //Appel affichage methode
-        ArrayList<Ticket> list = ServiceTicket.getInstance().DisplayTicket();
+        ArrayList<Payment> list = ServicePayment.getInstance().DisplayPayment();
         System.out.println(ServiceTicket.getInstance().DisplayTicket());
-        for (Ticket tick : list) {
-            addButton(tick, res);
+        for (Payment pay : list) {
+            addButton(pay, res);
 
         }
 
     }
 
-    private void addButton(Ticket rec, Resources res) {
+    private void addButton(Payment rec, Resources res) {
         Container newCnt = new Container();
         newCnt.setLayout(new BorderLayout());
 
         //kif nzidouh  ly3endo date mathbih fi codenamone y3adih string w y5alih f symfony dateTime w ytab3ni cha3mlt taw yjih
-        Label dateTxt = new Label("Start Date : " + rec.getTicket_date(), "NewsTopLine2");
-        Label edatetTxt = new Label("End Date : " + rec.getTicket_edate(), "NewsTopLine2");
-        Label priceTxt = new Label("Price : " + rec.getPrice(), "NewsTopLine2");
-        Label typeTxt = new Label("Type : " + rec.getTicket_type(), "NewsTopLine2");
-        //createLineSeparator();
-
-        /*if(rec.getEtat() == 0 ) {
-            etatTxt.setText("non Traitée");
-        }
-        else 
-            etatTxt.setText("Traitée");
-         */
-        //supprimer button
-        Label lSupprimer = new Label(" ");
-        lSupprimer.setUIID("NewsTopLine");
-        Style supprmierStyle = new Style(lSupprimer.getUnselectedStyle());
-        supprmierStyle.setFgColor(0xf21f1f);
-
-        FontImage suprrimerImage = FontImage.createMaterial(FontImage.MATERIAL_DELETE, supprmierStyle);
-        lSupprimer.setIcon(suprrimerImage);
-        lSupprimer.setTextPosition(RIGHT);
-
-        //click delete icon
-        lSupprimer.addPointerPressedListener(l -> {
-
-            Dialog dig = new Dialog("Delete");
-
-            if (dig.show("Delete", "Are you sure you want to delete ticket ?", "Cancel", "Yes")) {
-                dig.dispose();
-            } else {
-                dig.dispose();
-            }
-            //n3ayto l suuprimer men service Reclamation
-            if (ServiceTicket.getInstance().DeleteTicket(rec.getTicket_id())) {
-                new DisplayTicketForm(res).show();
-            }
-
-        });
-
-        //Update icon 
-        Label lModifier = new Label(" ");
-        lModifier.setUIID("NewsTopLine");
-        Style modifierStyle = new Style(lModifier.getUnselectedStyle());
-        modifierStyle.setFgColor(0xf7ad02);
-
-        FontImage mFontImage = FontImage.createMaterial(FontImage.MATERIAL_MODE_EDIT, modifierStyle);
-        lModifier.setIcon(mFontImage);
-        lModifier.setTextPosition(LEFT);
-
-        lModifier.addPointerPressedListener(l -> {
-            System.out.println("hello update");
-            new UpdateTicketForm(res, rec).show();
-        });
-
+        Label dateTxt = new Label("PurchaseDate : " + rec.getPurchaseDate(), "NewsTopLine2");
+        Label edatetTxt = new Label("Nb Adult: " + rec.getNbAdult(), "NewsTopLine2");
+        Label priceTxt = new Label("Nb Teenager : " + rec.getNbTeenager(), "NewsTopLine2");
+        Label typeTxt = new Label("Nb Student: " + rec.getNbStudent(), "NewsTopLine2");
+        Label typeTxt1 = new Label("Total Payment: " + rec.getTotalPayment(), "NewsTopLine2");
+      
+        Label typeTxt2 = new Label("Paid: " + (rec.isPaid() ? "Yes" : "No"), "NewsTopLine2");
+        
         newCnt.add(BorderLayout.CENTER, BoxLayout.encloseY(
                 BoxLayout.encloseX(dateTxt),
                 BoxLayout.encloseX(edatetTxt),
                 BoxLayout.encloseX(priceTxt),
                 BoxLayout.encloseX(typeTxt),
-                BoxLayout.encloseX(lSupprimer, lModifier)));
+                BoxLayout.encloseX(typeTxt1),
+                BoxLayout.encloseX(typeTxt2),
+                BoxLayout.encloseX()));
 
         add(newCnt);
     }
@@ -277,5 +226,4 @@ public class DisplayTicketForm extends Form {
         l.getUnselectedStyle().setMargin(LEFT, btn.getX() + btn.getWidth() / 2 - l.getWidth() / 2);
         l.getParent().repaint();
     }
-
 }

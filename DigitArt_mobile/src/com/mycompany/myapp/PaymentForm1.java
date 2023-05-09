@@ -92,7 +92,11 @@ public class PaymentForm1 extends Form {
         System.out.println(priceStudent);
         System.out.println(priceTeen);
         System.out.println(priceAdult);
-        add(new Label("Payment Form"));
+        Label PaymentForm = new Label("Payment Form");
+        PaymentForm.getAllStyles().setAlignment(Component.CENTER);
+        PaymentForm.getAllStyles().setFgColor(0x000000);
+        PaymentForm.getAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_BOLD, Font.SIZE_LARGE));
+        add(PaymentForm);
         // Add ComboBoxes and labels for each ticket type
         Label teenagerLabel = new Label("Adult ticket (price: $" + priceTeen + ")");
         
@@ -192,7 +196,8 @@ public class PaymentForm1 extends Form {
                     iDialog.dispose(); // dismiss the loading dialog after the data is added
 
                     // show the updated DisplayTicketForm with the new data
-                    new PaymentForm(res).show();
+                    PaymentForm2 form = new PaymentForm2(res);
+                    form.show();
 
                     refreshTheme(); // actualisation
 

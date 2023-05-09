@@ -33,6 +33,9 @@ public class Payment {
     private int userid;
   
     //private User user;
+    
+    public Payment(){
+    }
 
     
        public Payment(int paymentid, int userid, String purchaseDate, int nbAdult, int nbTeenager, int nbStudent, int totalPayment) {

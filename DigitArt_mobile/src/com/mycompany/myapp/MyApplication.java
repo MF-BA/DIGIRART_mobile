@@ -52,8 +52,8 @@ public class MyApplication {
             current.show();
             return;
         }
-        new PaymentForm(theme).show();
-        //new AddTicketForm(theme).show();
+        //new PaymentForm(theme).show();
+        new AddTicketForm(theme).show();
     }
 
     public void stop() {

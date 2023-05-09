@@ -16,7 +16,6 @@ import com.codename1.ui.Container;
 import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
 import com.codename1.ui.Form;
-import com.codename1.ui.Graphics;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
 import com.codename1.ui.RadioButton;
@@ -76,8 +75,8 @@ public class AddTicketForm extends BaseForm {
         });
 
         liste.addActionListener((e) -> {
-            //PaymentListForm paymentListForm = new PaymentListForm(current, res);
-            //paymentListForm.show();
+            DisplayPaymentForm paymentListForm = new DisplayPaymentForm(res);
+            paymentListForm.show();
         });
 
         partage.addActionListener((e) -> {
@@ -123,16 +122,24 @@ public class AddTicketForm extends BaseForm {
 
         Button btnAjouter = new Button("ADD");
         addStringValue("", btnAjouter);
-        
+
         Button btnReturn = new Button("Return");
         addStringValue("", btnReturn);
-        
-        
-        
+
         //onclick button event 
         btnAjouter.addActionListener((e) -> {
 
             try {
+                // Check if start date is before end date
+                if (startDatePicker.getDate().getTime() > endDatePicker.getDate().getTime()) {
+                    Dialog.show("Invalid date range", "Start date should be before end date", "Cancel", "OK");
+                }
+
+                // Check if price is greater than 0
+                if (Integer.parseInt(price.getText()) <= 0) {
+                    Dialog.show("Invalid price", "Price should be greater than 0", "Cancel", "OK");
+                    return;
+                }
 
                 if (startDatePicker.getDate() == null || endDatePicker.getDate() == null || price.getText().equals("")) {
                     Dialog.show("Please check the data", "", "Cancel", "OK");
@@ -168,6 +175,8 @@ public class AddTicketForm extends BaseForm {
 
                 }
 
+            } catch (NumberFormatException ex) {
+                Dialog.show("Invalid input", "Please enter a valid number for price", "Cancel", "OK");
             } catch (Exception ex) {
                 ex.printStackTrace();
             }

@@ -6,10 +6,14 @@
 package com.mycompany.myapp;
 
 import com.codename1.components.FloatingHint;
+import com.codename1.l10n.ParseException;
+import com.codename1.l10n.SimpleDateFormat;
 import com.codename1.ui.Button;
 import com.codename1.ui.ComboBox;
+import com.codename1.ui.Component;
 import com.codename1.ui.Container;
 import com.codename1.ui.Dialog;
+import com.codename1.ui.Font;
 import com.codename1.ui.Form;
 import com.codename1.ui.Label;
 import com.codename1.ui.TextField;
@@ -18,6 +22,7 @@ import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.util.Resources;
 import com.mycompany.entities.Ticket;
 import com.mycompany.services.ServiceTicket;
+import java.util.Date;
 
 /**
  *
@@ -39,10 +44,9 @@ public class UpdateTicketForm extends BaseForm{
         
         super.addSideMenu(res);
         
-        TextField date = new TextField(t.getTicket_date() , "Start Date" , 20 , TextField.ANY);
-        TextField edate = new TextField(t.getTicket_edate() , "End Date" , 20 , TextField.ANY);
-        TextField price = new TextField(String.valueOf(t.getPrice()) , "Price" , 20 , TextField.ANY);
- 
+        TextField date = new TextField(t.getTicket_date() , "Start Date" , 32 , TextField.ANY);
+        TextField edate = new TextField(t.getTicket_edate() , "End Date" , 32 , TextField.ANY);
+        TextField price = new TextField(String.valueOf(t.getPrice()) , "Price" , 32 , TextField.ANY);
         TextField type = new TextField(String.valueOf(t.getTicket_type()) , "Type" , 20 , TextField.ANY);
         //etat bch na3mlo comobbox bon lazm admin ya3mlleha approuver mais just chnwarikom ComboBox
         
@@ -75,27 +79,32 @@ public class UpdateTicketForm extends BaseForm{
        
        //Event onclick btnModifer
        
-       btnModifier.addPointerPressedListener(l ->   { 
-           
-           t.setTicket_date(date.getText());
-           t.setTicket_edate(edate.getText());
-           t.setPrice(Integer.parseInt(price.getText()));
+    btnModifier.addPointerPressedListener(l -> { 
 
-           
-           if (typeCombo.getSelectedIndex() == 0) {
-                t.setTicket_type("Teen");
-            } else if (typeCombo.getSelectedIndex() == 1) {
-                t.setTicket_type("Student");
-            } else {
-                t.setTicket_type("Adult");
-            }
- 
-       //appel fonction modfier reclamation men service
-       
-       if(ServiceTicket.getInstance().updateTicket(t)) { // if true
-           new DisplayTicketForm(res).show();
-       }
-        });
+        // Check if price is greater than 0
+        if (Integer.parseInt(price.getText()) <= 0) {
+            Dialog.show("Invalid price", "Price should be greater than 0", "Cancel", "OK");
+            return;
+        }
+
+        t.setTicket_date(date.getText());
+        t.setTicket_edate(edate.getText());
+        t.setPrice(Integer.parseInt(price.getText()));
+
+        if (typeCombo.getSelectedIndex() == 0) {
+            t.setTicket_type("Teen");
+        } else if (typeCombo.getSelectedIndex() == 1) {
+            t.setTicket_type("Student");
+        } else {
+            t.setTicket_type("Adult");
+        }
+
+        // Call the updateTicket method from the Ticket service to update the data in the database
+        if(ServiceTicket.getInstance().updateTicket(t)) { // if true
+            new DisplayTicketForm(res).show();
+        }
+    });
+
        
        Button btnDelete = new Button("Delete");
        btnDelete.addActionListener(e -> {
