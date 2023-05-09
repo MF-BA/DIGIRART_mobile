@@ -14,10 +14,13 @@ import com.codename1.io.NetworkManager;
 import com.codename1.l10n.ParseException;
 import com.codename1.l10n.SimpleDateFormat;
 import com.codename1.ui.events.ActionListener;
-import com.mycompany.entities.Static;
+import com.mycompany.utils.Static;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,6 +32,7 @@ public class AuctionServices {
 
     public ArrayList<Auction> auctions;
     public ArrayList<String> images;
+//    public ArrayList<Map<Integer, String>> artworks;
 
     public static AuctionServices instance = null;
     public boolean resultOK;
@@ -55,9 +59,10 @@ public class AuctionServices {
         String idArtStr = artwork.get("idArt").toString();
         // Convert the "idArt" string to an integer
         int id_artwork = Math.round(Float.parseFloat(idArtStr));
+        String artworkName = artwork.get("artworkName").toString();
         Date date = formatter.parse(obj.get("endingDate").toString());
         String description = obj.get("description").toString();
-        String artworkName = artwork.get("artworkName").toString();
+
         return new Auction(id_auction, starting_price, increment, id_artwork, date, description, artworkName);
     }
 
@@ -131,5 +136,70 @@ public class AuctionServices {
         NetworkManager.getInstance().addToQueueAndWait(req);
         return auctions;
     }
+
+//    public ArrayList<Map<Integer, String>> parseArtworks(String jsonText) throws IOException, ParseException {
+//        JSONParser parser = new JSONParser();
+//
+//        Map<String, Object> jsonMap = parser.parseJSON(new CharArrayReader(jsonText.toCharArray()));
+//
+//        List<Map<String, Object>> jsonArray = (List<Map<String, Object>>) jsonMap.get("root");
+//        // System.out.println("--------jsonArray size: " + jsonArray.size());
+//        for (Map<String, Object> obj : jsonArray) {
+//            // Extract the value of the "idArt" key as a string
+//            String idArtStr = obj.get("idArt").toString();
+//
+////            String idArtistStr = null;
+////            if (obj.get("idArtist") == null) {
+////            } else {
+////                idArtistStr = obj.get("idArtist").toString();
+////            }
+//            // Convert the "idArt" string to an integer
+//            int id_artwork = Math.round(Float.parseFloat(idArtStr));
+//            int id_Artist;
+////            if (obj.get("idArtist") == null) {
+////                id_Artist=0;
+////            } else {
+////                 id_Artist = Math.round(Float.parseFloat(idArtistStr));
+////            }
+//            String artworkName = obj.get("artworkName").toString();
+//            System.out.println(id_artwork + " " + artworkName);
+//
+//            // Create a map for the artwork and add it to the ArrayList
+//            Map<Integer, String> artworkMap = new HashMap<Integer, String>();
+//            artworkMap.put(id_artwork, artworkName);
+//            artworks.add(artworkMap);
+//        }
+//
+//        // Sort the ArrayList by id_artwork
+//        Collections.sort(artworks, new Comparator<Map<Integer, String>>() {
+//            @Override
+//            public int compare(Map<Integer, String> o1, Map<Integer, String> o2) {
+//                Integer id1 = o1.keySet().iterator().next();
+//                Integer id2 = o2.keySet().iterator().next();
+//                return id1.compareTo(id2);
+//            }
+//        });
+//        return artworks;
+//    }
+//
+//    public ArrayList<Map<Integer, String>> getArtworkNames() {
+//        String url = Static.BASE_URL + "auction/mobile/artwork";
+//        req.setUrl(url);
+//        req.setPost(false);
+//        req.addResponseListener(new ActionListener<NetworkEvent>() {
+//            @Override
+//            public void actionPerformed(NetworkEvent evt) {
+//                try {
+//                    artworks = parseArtworks(new String(req.getResponseData()));
+//                } catch (IOException | ParseException e) {
+//                    e.printStackTrace(); // or handle the exception in some other way
+//                }
+//                req.removeResponseListener(this);
+//            }
+//        });
+//        NetworkManager.getInstance().addToQueueAndWait(req);
+//
+//        return artworks;
+//    }
 
 }

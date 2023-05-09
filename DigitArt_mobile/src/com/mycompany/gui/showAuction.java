@@ -21,7 +21,7 @@ import com.codename1.ui.util.Resources;
 import com.mycompany.myapp.BaseForm;
 import com.mycompany.entities.Auction;
 import com.mycompany.entities.Bid;
-import com.mycompany.entities.Static;
+import com.mycompany.utils.Static;
 import com.mycompany.services.AuctionServices;
 import com.mycompany.services.BidServices;
 import java.util.ArrayList;
@@ -41,8 +41,7 @@ public class showAuction extends BaseForm {
         getContentPane().setScrollVisible(false);
 
         super.addSideMenu(res);
-        tb.addSearchCommand(e -> {
-        });
+        
         EncodedImage placeholderImageseparator = EncodedImage.createFromImage(Image.createImage(1000, 110), false);
         String separURL = "http://127.0.0.1:8000/uploads/pngegg.png";
         Image separatorIMG = URLImage.createToStorage(placeholderImageseparator, separURL, separURL, URLImage.RESIZE_SCALE_TO_FILL);

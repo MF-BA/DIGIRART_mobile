@@ -15,7 +15,7 @@ import com.codename1.l10n.SimpleDateFormat;
 import com.codename1.ui.events.ActionListener;
 import com.mycompany.entities.Auction;
 import com.mycompany.entities.Bid;
-import com.mycompany.entities.Static;
+import com.mycompany.utils.Static;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;

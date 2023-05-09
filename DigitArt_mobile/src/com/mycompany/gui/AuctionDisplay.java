@@ -8,6 +8,7 @@ package com.mycompany.gui;
 import com.codename1.components.ScaleImageLabel;
 import com.codename1.ui.Button;
 import com.codename1.ui.ButtonGroup;
+import com.codename1.ui.Component;
 import static com.codename1.ui.Component.LEFT;
 import com.codename1.ui.Container;
 import com.codename1.ui.Display;
@@ -24,7 +25,7 @@ import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.util.Resources;
 import com.mycompany.myapp.BaseForm;
 import com.mycompany.entities.Auction;
-import com.mycompany.entities.Static;
+import com.mycompany.utils.Static;
 import com.mycompany.services.AuctionServices;
 import java.util.ArrayList;
 
@@ -43,8 +44,7 @@ public class AuctionDisplay extends BaseForm {
         getContentPane().setScrollVisible(false);
 
         super.addSideMenu(res);
-        tb.addSearchCommand(e -> {
-        });
+
         ButtonGroup barGroup = new ButtonGroup();
         RadioButton Display = RadioButton.createToggle("Auction", barGroup);
         Display.setUIID("SelectBar");
@@ -82,10 +82,86 @@ public class AuctionDisplay extends BaseForm {
         addOrientationListener(e -> {
             updateArrowPosition(barGroup.getRadioButton(barGroup.getSelectedIndex()), arrow);
         });
+
+        System.out.println("before");
         ArrayList<Auction> auctions = AuctionServices.getInstance().getAllAuctions();
         for (int i = 0; i < auctions.size(); i++) {
             addauction(auctions.get(i), res);
         }
+        System.out.println("after");
+
+        add.addActionListener(e -> {
+            Static.previous = this;
+            new AuctionAdd(res).show();
+        });
+    }
+
+    public AuctionDisplay(Resources res, ArrayList<Container> cnt) {
+        super("Auction", BoxLayout.y());
+        Toolbar tb = new Toolbar(true);
+        setToolbar(tb);
+        getTitleArea().setUIID("Welcome");
+        setTitle("Auction");
+        getContentPane().setScrollVisible(false);
+
+        super.addSideMenu(res);
+
+        ButtonGroup barGroup = new ButtonGroup();
+        RadioButton Display = RadioButton.createToggle("Auction", barGroup);
+        Display.setUIID("SelectBar");
+        RadioButton add = RadioButton.createToggle("Add to Auction", barGroup);
+        add.setUIID("SelectBar");
+        Label arrow = new Label(res.getImage("news-tab-down-arrow.png"), "Container");
+
+        EncodedImage placeholderImageseparator = EncodedImage.createFromImage(Image.createImage(1000, 110), false);
+        String separURL = "http://127.0.0.1:8000/uploads/pngegg.png";
+        Image separatorIMG = URLImage.createToStorage(placeholderImageseparator, separURL, separURL, URLImage.RESIZE_SCALE_TO_FILL);
+
+        ScaleImageLabel imageLab = new ScaleImageLabel(separatorIMG);
+        imageLab.setUIID("LogoLabel");
+
+        Container content = new Container();
+
+        content.add(imageLab);
+
+        add(content);
+        add(LayeredLayout.encloseIn(
+                GridLayout.encloseIn(2, Display, add),
+                FlowLayout.encloseBottom(arrow)
+        ));
+        Display.setSelected(true);
+        arrow.setVisible(false);
+        addShowListener(e -> {
+            arrow.setVisible(true);
+            updateArrowPosition(Display, arrow);
+        });
+
+        bindButtonSelection(Display, arrow);
+        bindButtonSelection(add, arrow);
+
+        // special case for rotation
+        addOrientationListener(e -> {
+            updateArrowPosition(barGroup.getRadioButton(barGroup.getSelectedIndex()), arrow);
+        });
+
+        System.out.println("before");
+        //ArrayList<Auction> auctions = AuctionServices.getInstance().getAllAuctions();
+        for (int i = 0; i < cnt.size(); i++) {
+            Container container = cnt.get(i);
+        // Check if the container is already added to a parent container
+        if (container.getParent() != null) {
+            // Remove the container from its parent container
+            container.getParent().removeComponent(container);
+        }
+        // Add the container to the AuctionDisplay
+        add(container);
+        }
+        System.out.println("after");
+
+        add.addActionListener(e -> {
+            Static.previous = this;
+            new AuctionAdd(res).show();
+        });
     }
 
     private void updateArrowPosition(Button b, Label arrow) {
@@ -101,9 +177,9 @@ public class AuctionDisplay extends BaseForm {
         int placeholderHeight = Display.getInstance().getDisplayHeight() / 4; // one quarter of the screen height
         EncodedImage placeholderImage = EncodedImage.createFromImage(Image.createImage(placeholderWidth, placeholderHeight), false);
         ArrayList images = AuctionServices.getInstance().getArtworkImages(auction.getId_artwork());
-        String imageURL = images.isEmpty() ? "http://127.0.0.1:8000/uploads/Empty.jpeg" : Static.BASE_URL + "uploads/" + images.get(0);
+        String imageURL = images.isEmpty() ? Static.BASE_URL + "uploads/Empty.jpeg" : Static.BASE_URL + "uploads/" + images.get(0);
         Image img = URLImage.createToStorage(placeholderImage, imageURL, imageURL, URLImage.RESIZE_SCALE_TO_FILL);
-        
+
         ScaleImageLabel imageLabel = new ScaleImageLabel(img);
         imageLabel.setUIID("LogoLabel");
 
@@ -122,7 +198,7 @@ public class AuctionDisplay extends BaseForm {
         });
 
         EncodedImage placeholderImageseparator = EncodedImage.createFromImage(Image.createImage(placeholderWidth, 100), false);
-        String separURL = "http://127.0.0.1:8000/uploads/pngegg.png";
+        String separURL = Static.BASE_URL + "uploads/pngegg.png";
         Image separatorIMG = URLImage.createToStorage(placeholderImageseparator, separURL, separURL, URLImage.RESIZE_SCALE_TO_FILL);
 
         ScaleImageLabel imageLab = new ScaleImageLabel(separatorIMG);
@@ -134,16 +210,9 @@ public class AuctionDisplay extends BaseForm {
         cnt.add(Ending_date);
         cnt.add(more_info);
         cnt.add(imageLab);
+        
+        Static.cnt.add(cnt);
         add(cnt);
-
-//        Label title = new Label(auction.getArtworkName());
-//        title.setUIID("CenterLabel");
-//        cnt.addComponent(BorderLayout.NORTH, title);
-//        String description = auction.getDescription();
-//        if (description.length() > 50) {
-//            description = description.substring(0, 50) + "...";
-//        }
-//        cnt.addComponent(BorderLayout.CENTER, new Label(description));
     }
 
     private void bindButtonSelection(Button b, Label arrow) {

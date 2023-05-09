@@ -11,6 +11,7 @@ import com.codename1.ui.Container;
 import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
 import com.codename1.ui.EncodedImage;
+import com.codename1.ui.Font;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
@@ -22,7 +23,7 @@ import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.util.Resources;
 import com.mycompany.entities.Auction;
 import com.mycompany.entities.Bid;
-import com.mycompany.entities.Static;
+import com.mycompany.utils.Static;
 import com.mycompany.myapp.BaseForm;
 import com.mycompany.services.AuctionServices;
 import com.mycompany.services.BidServices;
@@ -45,8 +46,7 @@ public class BidAdd extends BaseForm {
         getContentPane().setScrollVisible(false);
 
         super.addSideMenu(res);
-        tb.addSearchCommand(e -> {
-        });
+     
         EncodedImage placeholderImageseparator = EncodedImage.createFromImage(Image.createImage(1000, 110), false);
         String separURL = "http://127.0.0.1:8000/uploads/pngegg.png";
         Image separatorIMG = URLImage.createToStorage(placeholderImageseparator, separURL, separURL, URLImage.RESIZE_SCALE_TO_FILL);
@@ -89,13 +89,18 @@ public class BidAdd extends BaseForm {
                 highestOffer = bid.getOffer();
             }
         }
+        
         Label highest_bid;
         if (highestBid != null) {
             highest_bid = new Label("Highest Offer : " + String.valueOf(highestBid.getOffer()) + "$");
         } else {
             highest_bid = new Label("No offers yet !");
         }
-
+        Font mediumBoldSystemFont = Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_BOLD, Font.SIZE_MEDIUM);
+        highest_bid.setVerticalAlignment(CENTER);
+        highest_bid.getUnselectedStyle().setFont(mediumBoldSystemFont);
+        
+        
         int next_offer;
         if (highestBid != null) {
             next_offer = highestBid.getOffer() + auction.getIncrement();
@@ -107,11 +112,13 @@ public class BidAdd extends BaseForm {
 
         TextField bid = new TextField(String.valueOf(next_offer));
         bid.setUIID("TextFieldBlack");
+        bid.setConstraint(TextField.NUMERIC);
+
         Container cnt = new Container(new BoxLayout(BoxLayout.Y_AXIS));
         cnt.add(title);
         cnt.add(imageLabel);
         cnt.add(highest_bid);
-        add(bid);
+        cnt.add(bid);
         offer.addActionListener(e -> {
             if (bid.getText().isEmpty()) {
                 Dialog.show("Offer is empty", "The offer should be filled !!", "OK", null);
@@ -136,5 +143,4 @@ public class BidAdd extends BaseForm {
         add(cnt);
 
     }
-
 }
