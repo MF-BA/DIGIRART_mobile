@@ -20,9 +20,12 @@
 package com.mycompany.gui;
 
 import com.codename1.components.FloatingHint;
+import com.codename1.components.InfiniteProgress;
 import com.codename1.components.SpanLabel;
 import com.codename1.ui.Button;
+import com.codename1.ui.Command;
 import com.codename1.ui.Container;
+import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
 import com.codename1.ui.Form;
 import com.codename1.ui.Label;
@@ -32,6 +35,14 @@ import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.util.Resources;
+import com.mycompany.services.ServiceUsers;
+import com.sun.mail.smtp.SMTPTransport;
+import java.util.Date;
+import java.util.Properties;
+import javax.mail.Message;
+import javax.mail.Session;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 /**
  * Account activation UI
@@ -39,7 +50,8 @@ import com.codename1.ui.util.Resources;
  * @author Shai Almog
  */
 public class ActivateForm extends BaseForm {
-
+    
+    TextField Email;
     public ActivateForm(Resources res) {
         super(new BorderLayout());
         Toolbar tb = new Toolbar(true);
@@ -57,29 +69,83 @@ public class ActivateForm extends BaseForm {
                 )
         );
         
-        TextField code = new TextField("", "Enter Code", 20, TextField.PASSWORD);
-        code.setSingleLineTextArea(false);
+        Email = new TextField("","saisir votre email",20,TextField.ANY);
+        Email.setSingleLineTextArea(false);
         
-        Button signUp = new Button("Sign Up");
-        Button resend = new Button("Resend");
-        resend.setUIID("CenterLink");
-        Label alreadHaveAnAccount = new Label("Already have an account?");
-        Button signIn = new Button("Sign In");
-        signIn.addActionListener(e -> previous.showBack());
+        Button valider = new Button("Valider");
+        
+        Button signIn = new Button("Return to sign in");
+        signIn.addActionListener( e-> previous.showBack());//yarja3 lel window ely9ablha
         signIn.setUIID("CenterLink");
         
         Container content = BoxLayout.encloseY(
-                new FloatingHint(code),
+        
+                new FloatingHint(Email),
                 createLineSeparator(),
-                new SpanLabel("We've sent the confirmation code to your email. Please check your inbox", "CenterLabel"),
-                resend,
-                signUp,
-                FlowLayout.encloseCenter(alreadHaveAnAccount, signIn)
+                valider,
+                
+                signIn
         );
+        
         content.setScrollableY(true);
-        add(BorderLayout.SOUTH, content);
-        signUp.requestFocus();
-        signUp.addActionListener(e -> new NewsfeedForm(res).show());
+        
+        add(BorderLayout.CENTER,content);
+        
+        valider.requestFocus();
+        
+        valider.addActionListener(e -> {
+            
+            InfiniteProgress ip = new InfiniteProgress();
+            
+            final Dialog ipDialog =  ip.showInfiniteBlocking();
+            
+            //houni bch nzido API SEND MAIL autrement bch n3ayto lel function ta3o mais 9bal njibo image oublier.png
+            
+            sendMail(res);
+            ipDialog.dispose();
+            Dialog.show("Password","Nous avons envoyé le mot de passe a votre e-mail. Veuillez vérifier votre boite de réception",new Command("OK"));
+            new SignInForm(res).show();
+            refreshTheme();
+            
+        });
+    }
+    //sendMail
+    
+    public void sendMail(Resources res) {
+        try {
+            
+            Properties props = new Properties();
+                props.put("mail.transport.protocol", "smtp"); //SMTP protocol
+                props.put("mail.smtps.host", "smtp.gmail.com"); //SMTP Host
+		props.put("mail.smtps.auth", "true"); //enable authentication
+             
+           Session session = Session.getInstance(props,null); // aleh 9rahach 5ater mazlna masabinach javax.mail .jar
+            
+            
+            MimeMessage msg = new MimeMessage(session);
+            
+            msg.setFrom(new InternetAddress("Reintialisation mot de passe <monEmail@domaine.com>"));
+            msg.setRecipients(Message.RecipientType.TO, Email.getText().toString());
+            msg.setSubject("Application nom  : Confirmation du ");
+            msg.setSentDate(new Date(System.currentTimeMillis()));
+            
+           String mp = ServiceUsers.getInstance().getPasswordByEmail(Email.getText().toString(), res);//mp taw narj3lo
+           String txt = "Bienvenue sur AppNom : Tapez ce mot de passe : "+mp+" dans le champs requis et appuiez sur confirmer";
+           
+           
+           msg.setText(txt);
+           
+          SMTPTransport  st = (SMTPTransport)session.getTransport("smtps") ;
+            
+          st.connect("smtp.gmail.com",587,"digitart.primes@gmail.com","ktknrunncnveaidz");
+           
+          st.sendMessage(msg, msg.getAllRecipients());
+            
+          System.out.println("server response : "+st.getLastServerResponse());
+          
+        }catch(Exception e ) {
+            e.printStackTrace();
+        }
     }
     
 }

@@ -27,10 +27,12 @@ import com.codename1.ui.ComboBox;
 import com.codename1.ui.Component;
 import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
+import com.codename1.ui.EncodedImage;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
 import com.codename1.ui.TextField;
 import com.codename1.ui.Toolbar;
+import com.codename1.ui.URLImage;
 import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
@@ -40,6 +42,7 @@ import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
 import com.mycompany.services.ServiceUsers;
+import com.mycompany.utils.Statics;
 import java.util.Vector;
 
 /**
@@ -75,16 +78,21 @@ public class ProfileForm extends BaseForm {
         Button modiff = new Button("Edit");
         Button Supprimer = new Button("Delete Account");
         
-        add(LayeredLayout.encloseIn(
-                sl,
-                BorderLayout.south(
-                    GridLayout.encloseIn(3, 
-                            
-                            FlowLayout.encloseCenter(
-                                new Label(res.getImage("profile-pic.jpg"), "PictureWhiteBackgrond"))
-                    )
-                )
-        ));
+        int placeholderWidth = Display.getInstance().getDisplayWidth() / 6; // one third of the screen width
+int placeholderHeight = Display.getInstance().getDisplayHeight() / 12; // one eighth of the screen height
+EncodedImage placeholderImage = EncodedImage.createFromImage(Image.createImage(placeholderWidth, placeholderHeight),false); 
+String imageURL = Statics.BASE_URL+"/uploads/"+SessionUser.getImage();
+Image x = URLImage.createToStorage(placeholderImage, imageURL, imageURL, URLImage.RESIZE_SCALE_TO_FILL);
+add(LayeredLayout.encloseIn(
+    sl,
+    BorderLayout.south(
+        GridLayout.encloseIn(3, 
+            FlowLayout.encloseCenter(
+                new Label(x, "PictureWhiteBackgrond"))
+        )
+    )
+));
+
 
         int cn = SessionUser.getCin();
         int ph_num = SessionUser.getPhonenum();

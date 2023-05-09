@@ -44,11 +44,11 @@ import java.util.ArrayList;
  * @author Islem
  */
 public class ListUsersForm extends BaseForm {
-    Form current;
+   // Form current;
     public ListUsersForm(Resources res ) {
-          super("Newsfeed",BoxLayout.y()); //herigate men Newsfeed w l formulaire vertical
+         super("Newsfeed",BoxLayout.y()); //herigate men Newsfeed w l formulaire vertical
         Toolbar tb = new Toolbar(true);
-        current = this ;
+        //current = this ;
         setToolbar(tb);
         getTitleArea().setUIID("Container");
         setTitle("List of Users");
@@ -58,7 +58,7 @@ public class ListUsersForm extends BaseForm {
         tb.addSearchCommand(e ->  {
             
         });
-        
+        addSideMenu(res);
         Tabs swipe = new Tabs();
         
         Label s1 = new Label();
@@ -132,8 +132,8 @@ public class ListUsersForm extends BaseForm {
                InfiniteProgress ip = new InfiniteProgress();
         final Dialog ipDlg = ip.showInifiniteBlocking();
         
-          //ListReclamationForm a = new ListReclamationForm(res);
-          //  a.show();
+          ListUsersForm a = new ListUsersForm(res);
+            a.show();
             refreshTheme();
         });
 

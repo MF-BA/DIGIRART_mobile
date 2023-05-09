@@ -41,7 +41,7 @@ public class ServiceUsers {
     public static ServiceUsers instance = null ;
     
     public static boolean resultOk = true;
-
+    String json;
     //initilisation connection request 
     private ConnectionRequest req;
     
@@ -125,6 +125,7 @@ public class ServiceUsers {
                         usr.setStatus(status);
                         usr.setRole(role);
                         usr.setPhone_number((int)phone_num);
+                        
                         //usr.setBirth_date(BirthDate);     
                         //Date 
                         System.out.println(obj.get("birthDate").toString());
@@ -133,7 +134,8 @@ public class ServiceUsers {
                       Date birthDate = format.parse(dateString); // Parse the date string into a Date object
                       String formattedDate = format.format(birthDate); // Format the Date object into a String using the SimpleDateFormat object
                       usr.setBirth_date(formattedDate);
-                        
+                 
+                   
                         //insert data into ArrayList result
                         result.add(usr);
                        
@@ -434,5 +436,41 @@ DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
     NetworkManager.getInstance().addToQueueAndWait(req);//execution ta3 request sinon yet3ada chy dima nal9awha
     return resultOk;
         
+    }
+      public String getPasswordByEmail(String email, Resources rs ) {
+        
+        
+        String url = Statics.BASE_URL+"/user/getPasswordByEmail?email="+email;
+        req = new ConnectionRequest(url, false); 
+        req.setUrl(url);
+        
+        req.addResponseListener((e) ->{
+            
+            JSONParser j = new JSONParser();
+            
+             json = new String(req.getResponseData()) + "";
+            
+            
+            try {
+            
+          
+                System.out.println("data =="+json);
+                
+                Map<String,Object> password = j.parseJSON(new CharArrayReader(json.toCharArray()));
+                
+                
+            
+            
+            }catch(Exception ex) {
+                ex.printStackTrace();
+            }
+            
+            
+            
+        });
+    
+        
+        NetworkManager.getInstance().addToQueueAndWait(req);
+    return json;
     }
 }

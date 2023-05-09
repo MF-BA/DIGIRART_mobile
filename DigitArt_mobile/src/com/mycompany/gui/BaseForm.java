@@ -20,19 +20,23 @@
 package com.mycompany.gui;
 
 import com.codename1.components.ScaleImageLabel;
+import com.codename1.io.Storage;
 import com.codename1.ui.Component;
 import com.codename1.ui.Display;
+import com.codename1.ui.EncodedImage;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
 import com.codename1.ui.Toolbar;
+import com.codename1.ui.URLImage;
 import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.layouts.Layout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
 import com.mycompany.gui.SessionUser;
+import com.mycompany.utils.Statics;
 /**
  * Base class for the forms with common functionality
  *
@@ -76,17 +80,39 @@ public class BaseForm extends Form {
         sl.setUIID("BottomPad");
         sl.setBackgroundType(Style.BACKGROUND_IMAGE_SCALED_FILL);
         
+        
+        int placeholderWidth = Display.getInstance().getDisplayWidth() / 2; // half the screen width
+        int placeholderHeight = Display.getInstance().getDisplayHeight() / 4; // one quarter of the screen height
+        EncodedImage placeholderImage = EncodedImage.createFromImage(Image.createImage(placeholderWidth, placeholderHeight),false); 
+        String imageURL = Statics.BASE_URL+"/uploads/"+SessionUser.getImage();
+        
+        Image x = URLImage.createToStorage(placeholderImage, imageURL, imageURL, URLImage.RESIZE_SCALE_TO_FILL);
+        
+        
+        
         tb.addComponentToSideMenu(LayeredLayout.encloseIn(
                 sl,
                 FlowLayout.encloseCenterBottom(
-                        new Label(res.getImage("profile-pic.jpg"), "PictureWhiteBackgrond"))
+                        new Label(x, "PictureWhiteBackgrond"))
         ));
         
-        tb.addMaterialCommandToSideMenu("Newsfeed", FontImage.MATERIAL_UPDATE, e -> new NewsfeedForm(res).show());
-        if(SessionUser.getRole().equals("Admin")){
-            tb.addMaterialCommandToSideMenu("Users Management", FontImage.MATERIAL_VERIFIED_USER, e -> new AddUserForm(res).show());
+        if(SessionUser.getRole().equals("Artist") || SessionUser.getRole().equals("Suscriber"))
+        {
+           tb.addMaterialCommandToSideMenu("Newsfeed", FontImage.MATERIAL_UPDATE, e -> new NewsfeedForm(res).show()); 
         }
+        
+        if(SessionUser.getRole().equals("Admin")){
+            tb.addMaterialCommandToSideMenu("Users Management", FontImage.MATERIAL_VERIFIED_USER, e -> new ListUsersForm(res).show());
+        }
+        
         tb.addMaterialCommandToSideMenu("Profile", FontImage.MATERIAL_SETTINGS, e -> new ProfileForm(res).show());
-        tb.addMaterialCommandToSideMenu("Logout", FontImage.MATERIAL_EXIT_TO_APP, e -> new WalkthruForm(res).show());
+        tb.addMaterialCommandToSideMenu("Logout", FontImage.MATERIAL_EXIT_TO_APP, e -> {
+            new SignInForm(res).show();
+            SessionUser.pref.clearAll();
+            Storage.getInstance().clearStorage();
+            Storage.getInstance().clearCache();
+        });
+        
+        refreshTheme();
     }
 }

@@ -13,7 +13,11 @@ import com.codename1.ui.Toolbar;
 import java.io.IOException;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.io.NetworkEvent;
+import com.mycompany.gui.BackuserForm;
 import com.mycompany.gui.ListUsersForm;
+import com.mycompany.gui.NewsfeedForm;
+import com.mycompany.gui.SessionUser;
+import com.mycompany.gui.SignInForm;
 import com.mycompany.gui.WalkthruForm;
 
 /**
@@ -53,8 +57,24 @@ public class MyApplication {
             current.show();
             return;
         }
-        new WalkthruForm(theme).show();
-      // new ListUsersForm(theme).show();
+       if (SessionUser.getEmail() == null)
+       {
+           new SignInForm(theme).show();
+       }
+       else
+       {
+            if (SessionUser.getRole().equals("Artist") || SessionUser.getRole().equals("Subscriber"))
+                    {
+                       new NewsfeedForm(theme).show(); 
+                    }
+                    if (SessionUser.getRole().equals("Admin"))
+                    {
+                       new BackuserForm(theme).show(); 
+                    }
+          //new WalkthruForm(theme).show();
+       //new ListUsersForm(theme).show();  
+       }
+       
     }
 
     public void stop() {

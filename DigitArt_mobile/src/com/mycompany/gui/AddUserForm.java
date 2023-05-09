@@ -61,7 +61,7 @@ public class AddUserForm extends BaseForm{
         tb.addSearchCommand(e ->  {
             
         });
-        
+        addSideMenu(res);
         Tabs swipe = new Tabs();
         
         Label s1 = new Label();
@@ -127,6 +127,15 @@ public class AddUserForm extends BaseForm{
             refreshTheme();
         });
 
+        adduser.addActionListener((e) -> {
+               InfiniteProgress ip = new InfiniteProgress();
+        final Dialog ipDlg = ip.showInifiniteBlocking();
+        
+          AddUserForm a = new AddUserForm(res);
+            a.show();
+            refreshTheme();
+        });
+        
         add(LayeredLayout.encloseIn(
                 GridLayout.encloseIn(2, Listeusers, adduser)
                 
@@ -250,7 +259,7 @@ public class AddUserForm extends BaseForm{
                     iDialog.dispose(); //na7io loading ba3d ma3mlna ajout
                     
                     //ba3d ajout net3adaw lel ListREclamationForm
-                    //new ListUsersForm(res).show();
+                    new ListUsersForm(res).show();
                     
                     
                     refreshTheme();//Actualisation
