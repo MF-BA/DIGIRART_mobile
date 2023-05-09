@@ -12,14 +12,21 @@ import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
 import com.codename1.l10n.ParseException;
 import com.codename1.l10n.SimpleDateFormat;
+import static com.codename1.ui.events.ActionEvent.Type.Log;
 import com.codename1.ui.events.ActionListener;
 import com.mycompany.entities.Ticket;
 import com.mycompany.utils.Statics;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.lang.String;
+import java.util.Arrays;
+import java.util.StringTokenizer;
 
 /**
  *
@@ -47,16 +54,16 @@ public class ServiceTicket {
     }
     
     public void addTicket(Ticket ticket) {
-        
+
         String url =Statics.BASE_URL+"/ticketAdd?ticketdate="+ticket.getTicket_date()+"&ticketEdate="+ticket.getTicket_edate()+"&ticketType="+ticket.getTicket_type()+"&price="+ticket.getPrice();  
-        
+
         req.setUrl(url);
         req.addResponseListener((e) -> {
-            
+
             String str = new String(req.getResponseData());//Reponse json 
             System.out.println("data == "+str);
         });
-        
+
         NetworkManager.getInstance().addToQueueAndWait(req);//execution request
     }
      
@@ -150,5 +157,48 @@ public class ServiceTicket {
     NetworkManager.getInstance().addToQueueAndWait(req);//execution ta3 request sinon yet3ada chy dima nal9awha
     return resultOk;
 }
+    
+    private int priceStudent;
+    private int priceTeen;
+    private int priceAdult;
+
+    public int getPriceStudent() {
+        return priceStudent;
+    }
+
+    public int getPriceTeen() {
+        return priceTeen;
+    }
+
+    public int getPriceAdult() {
+        return priceAdult;
+    }
+    
+public boolean getPrices(Date date) {
+    String url = Statics.BASE_URL + "/ticket/priceJSON/" + new SimpleDateFormat("dd-MM-yyyy").format(date);
+    req.setUrl(url);
+    
+    req.addResponseListener((e) -> {
+        String str = new String(req.getResponseData());
+        System.out.println("data == "+str);
+        str = str.substring(1, str.length()-1); // remove the brackets from the string
+        StringTokenizer tokenizer = new StringTokenizer(str, ",");
+        priceStudent = Integer.parseInt(tokenizer.nextToken());
+        priceAdult = Integer.parseInt(tokenizer.nextToken());
+        priceTeen = Integer.parseInt(tokenizer.nextToken());
+        
+
+    });
+    
+    NetworkManager.getInstance().addToQueueAndWait(req);
+
+    return true;
+}
+
+
+
+
+
+
 
 }

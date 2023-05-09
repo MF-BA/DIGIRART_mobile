@@ -121,9 +121,14 @@ public class AddTicketForm extends BaseForm {
         price.setUIID("TextFieldBlack");
         addStringValue("price", price);
 
-        Button btnAjouter = new Button("Ajouter");
+        Button btnAjouter = new Button("ADD");
         addStringValue("", btnAjouter);
-
+        
+        Button btnReturn = new Button("Return");
+        addStringValue("", btnReturn);
+        
+        
+        
         //onclick button event 
         btnAjouter.addActionListener((e) -> {
 

@@ -45,13 +45,14 @@ public class Payment {
         this.totalPayment = totalPayment;
     }
 
-    public Payment(int userid, String purchaseDate, int nbAdult, int nbTeenager, int nbStudent, int totalPayment) {
+    public Payment(int userid, String purchaseDate, int nbAdult, int nbTeenager, int nbStudent, int totalPayment,boolean paid) {
         this.userid = userid;
         this.purchaseDate = purchaseDate;
         this.nbAdult = nbAdult;
         this.nbTeenager = nbTeenager;
         this.nbStudent = nbStudent;
         this.totalPayment = totalPayment;
+        this.paid = paid;
     }
     
     public int getPaymentId() {

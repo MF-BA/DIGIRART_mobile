@@ -6,6 +6,10 @@
 package com.mycompany.services;
 
 import com.codename1.io.ConnectionRequest;
+import com.codename1.io.NetworkManager;
+import com.mycompany.entities.Payment;
+import com.mycompany.entities.Ticket;
+import com.mycompany.utils.Statics;
 
 /**
  *
@@ -30,6 +34,24 @@ public class ServicePayment {
         req = new ConnectionRequest();
     }
     
-    
+     public void addPayment(Payment payment) {
+        
+        String url =Statics.BASE_URL+"/paymentAddJSON?purchaseDate="
+                +payment.getPurchaseDate()
+                +"&nbAdult="+payment.getNbAdult()
+                +"&nbTeenager=" +payment.getNbTeenager()
+                +"&nbStudent="+payment.getNbStudent()
+                +"&TotalPayment="+payment.getTotalPayment()
+                +"&paid="+payment.isPaid();  
+        
+        req.setUrl(url);
+        req.addResponseListener((e) -> {
+            
+            String str = new String(req.getResponseData());//Reponse json 
+            System.out.println("data == "+str);
+        });
+        
+        NetworkManager.getInstance().addToQueueAndWait(req);//execution request
+    }
     
 }
