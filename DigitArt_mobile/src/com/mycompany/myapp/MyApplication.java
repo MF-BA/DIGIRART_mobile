@@ -13,6 +13,7 @@ import com.codename1.ui.Toolbar;
 import java.io.IOException;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.io.NetworkEvent;
+import com.mycompany.gui.ListUsersForm;
 import com.mycompany.gui.WalkthruForm;
 
 /**
@@ -52,7 +53,8 @@ public class MyApplication {
             current.show();
             return;
         }
-        new WalkthruForm(theme).show();
+       // new WalkthruForm(theme).show();
+       new ListUsersForm(theme).show();
     }
 
     public void stop() {

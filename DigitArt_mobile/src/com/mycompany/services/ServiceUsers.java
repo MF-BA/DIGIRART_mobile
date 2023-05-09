@@ -19,7 +19,9 @@ import com.mycompany.gui.NewsfeedForm;
 import com.mycompany.gui.SessionUser;
 import com.mycompany.utils.Statics;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -61,11 +63,16 @@ public class ServiceUsers {
     //ajout 
     public void addusers(users user) {
         
-        String url =Statics.BASE_URL+"/addUserJSON/new?cin="+user.getCin()+"&firstname="+user.getFirstname()+"&lastname="+user.getLastname()+"&email="+user.getEmail(); 
+        String url =Statics.BASE_URL+"/addUserJSON/new?cin="+user.getCin()+"&firstname="+user.getFirstname()+"&lastname="+user.getLastname()+"&email="+user.getEmail()
+                +"&password="+user.getPwd()
+                +"&address="+user.getAddress()
+                +"&phoneNum="+user.getPhone_number()
+                +"&role="+user.getRole()
+                +"&gender="+user.getGender()
+                +"&birthDate="+user.getBirth_date(); 
         
         req.setUrl(url);
         req.addResponseListener((e) -> {
-            
             String str = new String(req.getResponseData());
             System.out.println("data == "+str);
         });
@@ -97,28 +104,35 @@ public class ServiceUsers {
                         
                         float id = Float.parseFloat(obj.get("id").toString());
                         
-                        float cin = Float.parseFloat(obj.get("cin").toString());
-                        
+                        double cin = Double.parseDouble(obj.get("cin").toString());
                         String firstname = obj.get("firstname").toString();
-                        
                         String lastname = obj.get("lastname").toString();
                         String email = obj.get("email").toString();
-                        
+                        String address = obj.get("address").toString();
+                        //String BirthDate = obj.get("birthDate").toString();
+                        double phone_num = Double.parseDouble(obj.get("phoneNum").toString());
+                        String gender = obj.get("gender").toString();
+                        String role = obj.get("role").toString();
+                        String status = obj.get("status").toString();
                         
                         usr.setId((int)id);
                         usr.setCin((int)cin);
                         usr.setFirstname(firstname);
                         usr.setLastname(lastname);
                         usr.setEmail(email);
-                        
+                        usr.setGender(gender);
+                        usr.setAddress(address);
+                        usr.setStatus(status);
+                        usr.setRole(role);
+                        usr.setPhone_number((int)phone_num);
+                        //usr.setBirth_date(BirthDate);     
                         //Date 
-                       /* String DateConverter =  obj.get("date").toString().substring(obj.get("date").toString().indexOf("timestamp") + 10 , obj.get("date").toString().lastIndexOf("}"));
-                        
-                        Date currentTime = new Date(Double.valueOf(DateConverter).longValue() * 1000);
-                        
-                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-                        String dateString = formatter.format(currentTime);
-                        usr.setDate(dateString);*/
+                        System.out.println(obj.get("birthDate").toString());
+                      String dateString = obj.get("birthDate").toString().substring(0, 10); // Extract the date string from the full string
+                      SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd"); // Create a SimpleDateFormat object with the expected date format
+                      Date birthDate = format.parse(dateString); // Parse the date string into a Date object
+                      String formattedDate = format.format(birthDate); // Format the Date object into a String using the SimpleDateFormat object
+                      usr.setBirth_date(formattedDate);
                         
                         //insert data into ArrayList result
                         result.add(usr);
@@ -296,8 +310,8 @@ DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
         
                 //Session 
                 float id = Float.parseFloat(user.get("id").toString());
-                float cin = Float.parseFloat(user.get("cin").toString());
-                float phone = Float.parseFloat(user.get("phoneNum").toString());
+                double cin = Double.parseDouble(user.get("cin").toString());
+                double phone_num = Double.parseDouble(user.get("phoneNum").toString());
                 SessionUser.setId((int)id);//jibt id ta3 user ly3ml login w sajltha fi session ta3i
                 
                 SessionUser.setPassword(user.get("password").toString());
@@ -308,8 +322,18 @@ DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
                 SessionUser.setAddress(user.get("address").toString());
                 SessionUser.setGender(user.get("gender").toString());
                 SessionUser.setRole(user.get("role").toString());
-                SessionUser.setPhonenum((int)phone);
-                //SessionUser.setBirthDate(dateString.toString());
+                SessionUser.setStatus(user.get("status").toString());
+                SessionUser.setPhonenum((int)phone_num);
+                //SessionUser.setBirthDate(user.get("birthDate").toString());
+                
+                 //Date 
+                      String DateConverter =  user.get("birthDate").toString().substring(user.get("birthDate").toString().indexOf("timestamp") + 10 , user.get("birthDate").toString().lastIndexOf("}"));
+                        
+                        Date currentTime = new Date(Double.valueOf(DateConverter).longValue() * 1000);
+                        
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                        String dateString = formatter.format(currentTime);
+                        SessionUser.setBirthDate(dateString);
                 //photo 
                 
                 if(user.get("image") != null)
@@ -344,7 +368,7 @@ DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
         NetworkManager.getInstance().addToQueueAndWait(req);
     }
     
-public static void EditUser(int id, String cin, String phoneNum,String firstname, String lastname, String address,ComboBox<String>  gender,ComboBox<String> roles,String birthDate ) {      
+     public static void EditUser(int id, String cin, String phoneNum,String firstname, String lastname, String address,ComboBox<String>  gender,ComboBox<String> roles,String birthDate ) {      
     
   
        String url = Statics.BASE_URL+"/user/edituser?id="+id+"&cin="+cin+"&firstname="+firstname+"&lastname="+lastname+"&address="+address
@@ -383,41 +407,28 @@ public static void EditUser(int id, String cin, String phoneNum,String firstname
     
     
     }
-  //heki 5dmtha taw nhabtha ala description
-   /* public String getPasswordByEmail(String email, Resources rs ) {
-        
-        
-        String url = Statics.BASE_URL+"/user/getPasswordByEmail?email="+email;
-        req = new ConnectionRequest(url, false); //false ya3ni url mazlt matba3thtich lel server
+  
+     public boolean UpdateUser(users usr) {
+         //http://127.0.0.1:8000/updateUserJSON?id=75&cin=12056889&firstname=Amine&lastname=Tlili&email=aminemehdi999@gmail.com&address=soukra&gender=Male&role=Users Manager&birthDate=2001-07-26&phoneNum=99717964
+        String url = Statics.BASE_URL +"/updateUserJSON?id="+usr.getId()+"&cin="+usr.getCin()+"&firstname="+usr.getFirstname()+"&lastname="+usr.getLastname()+"&email="+usr.getEmail()
+                +"&address="+usr.getAddress()
+                +"&gender="+usr.getGender()
+                +"&role="+usr.getRole()
+                +"&phoneNum="+usr.getPhone_number()
+                +"&birthDate="+usr.getBirth_date()
+                +"&status="+usr.getStatus();
         req.setUrl(url);
         
-        req.addResponseListener((e) ->{
-            
-            JSONParser j = new JSONParser();
-            
-             json = new String(req.getResponseData()) + "";
-            
-            
-            try {
-            
-          
-                System.out.println("data =="+json);
-                
-                Map<String,Object> password = j.parseJSON(new CharArrayReader(json.toCharArray()));
-                
-                
-            
-            
-            }catch(Exception ex) {
-                ex.printStackTrace();
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                resultOk = req.getResponseCode() == 200 ;  // Code response Http 200 ok
+                req.removeResponseListener(this);
             }
-            
-            
-            
         });
-    
-         //ba3d execution ta3 requete ely heya url nestanaw response ta3 server.
-        NetworkManager.getInstance().addToQueueAndWait(req);
-    return json;
-    }*/
+        
+    NetworkManager.getInstance().addToQueueAndWait(req);//execution ta3 request sinon yet3ada chy dima nal9awha
+    return resultOk;
+        
+    }
 }

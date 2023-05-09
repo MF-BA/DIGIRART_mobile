@@ -5,6 +5,7 @@
  */
 package com.mycompany.gui;
 
+import com.codename1.components.FloatingHint;
 import com.codename1.components.InfiniteProgress;
 import com.codename1.components.ScaleImageLabel;
 import com.codename1.components.SpanLabel;
@@ -121,8 +122,8 @@ public class AddUserForm extends BaseForm{
                InfiniteProgress ip = new InfiniteProgress();
         final Dialog ipDlg = ip.showInifiniteBlocking();
         
-        //  ListReclamationForm a = new ListReclamationForm(res);
-          //  a.show();
+          ListUsersForm a = new ListUsersForm(res);
+            a.show();
             refreshTheme();
         });
 
@@ -140,12 +141,26 @@ public class AddUserForm extends BaseForm{
         
       
          TextField cin = new TextField("", "Cin", 20, TextField.ANY);
+         cin.setUIID("TextFieldBlack");
+        addStringValue("Cin", cin);
         TextField firstname = new TextField("", "First Name", 20, TextField.ANY);
+        firstname.setUIID("TextFieldBlack");
+        addStringValue("First Name", firstname);
         TextField lastname = new TextField("", "Last Name", 20, TextField.ANY);
+        lastname.setUIID("TextFieldBlack");
+        addStringValue("Last Name", lastname);
         TextField Email = new TextField("", "Email", 20, TextField.EMAILADDR);
+        Email.setUIID("TextFieldBlack");
+        addStringValue("E-Mail", Email);
         TextField password = new TextField("", "Password", 20, TextField.PASSWORD);
+        password.setUIID("TextFieldBlack");
+        addStringValue("Password", password);
         TextField address = new TextField("", "Address", 20, TextField.ANY);
+        address.setUIID("TextFieldBlack");
+        addStringValue("Address", address);
         TextField phonenum = new TextField("", "Phone number", 20, TextField.ANY);
+        phonenum.setUIID("TextFieldBlack");
+        addStringValue("Phone number", phonenum);
            //Role 
         //Vector 3ibara ala array 7atit fiha roles ta3na ba3d nzidouhom lel comboBox
         Vector<String> vectorRole;
@@ -153,9 +168,17 @@ public class AddUserForm extends BaseForm{
         
         vectorRole.add("Artist");
         vectorRole.add("Subscriber");
+        vectorRole.add("Gallery Manager");
+        vectorRole.add("Auction Manager");
+        vectorRole.add("Events Manager");
+        vectorRole.add("Tickets Manager");
+        vectorRole.add("Users Manager");
+        vectorRole.add("Admin");
+        
+        
         
         ComboBox<String>roles = new ComboBox<>(vectorRole);
-        
+        addStringValue("choose a role", roles);
         //gender
         Vector<String> vectorGender;
         vectorGender = new Vector();
@@ -164,19 +187,23 @@ public class AddUserForm extends BaseForm{
         vectorGender.add("Female");
         
         ComboBox<String> gender = new ComboBox<>(vectorGender);
+        addStringValue("Gender", gender);
         
         Picker datePicker = new Picker();
         datePicker.setType(Display.PICKER_TYPE_DATE);
+        addStringValue("Birth Date", datePicker);
         
         TextField birthDateField = new TextField("", "Birth Date", 20, TextField.ANY);
-         birthDateField.setHidden(true); 
+        birthDateField.setUIID("TextFieldBlack");
+        addStringValue("Birth Date", birthDateField);
+         
         
          // add a listener to the date picker to set the value of the text field
     datePicker.addActionListener(e -> {
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     String dateString = dateFormat.format(datePicker.getDate());
     birthDateField.setText(dateString);
-    birthDateField.setHidden(false);
+    
     });
 
 
@@ -188,7 +215,7 @@ public class AddUserForm extends BaseForm{
         password.setSingleLineTextArea(false);
         phonenum.setSingleLineTextArea(false);
         
-        
+      
         Button btnAjouter = new Button("Add User");
         addStringValue("", btnAjouter);
         
@@ -212,7 +239,7 @@ public class AddUserForm extends BaseForm{
                     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                     
                     //njibo iduser men session (current user)
-                    users u = new users(Integer.valueOf(cin.getText()),firstname.getText(),lastname.getText(),Email.getText(),password.getText(),address.getText(),Integer.valueOf(phonenum.getText()),birthDateField.getText(),gender.getSelectedItem().toString(),roles.getSelectedItem().toString());
+                    users u = new users(Integer.parseInt(cin.getText()),firstname.getText(),lastname.getText(),Email.getText(),password.getText(),address.getText(),Integer.parseInt(phonenum.getText()),birthDateField.getText(),gender.getSelectedItem().toString(),roles.getSelectedItem().toString());
                     
                     System.out.println("data  user == "+u);
                     
@@ -223,7 +250,7 @@ public class AddUserForm extends BaseForm{
                     iDialog.dispose(); //na7io loading ba3d ma3mlna ajout
                     
                     //ba3d ajout net3adaw lel ListREclamationForm
-                    new ListUsersForm(res).show();
+                    //new ListUsersForm(res).show();
                     
                     
                     refreshTheme();//Actualisation

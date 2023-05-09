@@ -35,6 +35,8 @@ import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
+import com.mycompany.entities.users;
+import com.mycompany.services.ServiceUsers;
 import java.util.ArrayList;
 
 /**
@@ -66,15 +68,15 @@ public class ListUsersForm extends BaseForm {
         
         // Welcome current user
         
-        System.out.println("user connecté id ="+ SessionManager.getId());
+        System.out.println("user connecté id ="+ SessionUser.getId());
         
         
         
-        System.out.println("user connecté username ="+ SessionManager.getUserName());
+        System.out.println("user connecté first name ="+ SessionUser.getFirstname());
         
-        System.out.println("user connecté password ="+ SessionManager.getPassowrd());
+        System.out.println("user connecté last name ="+ SessionUser.getLastname());
         
-        System.out.println("user connecté email ="+ SessionManager.getEmail());
+        System.out.println("user connecté email ="+ SessionUser.getEmail());
         
         
         
@@ -118,48 +120,42 @@ public class ListUsersForm extends BaseForm {
         add(LayeredLayout.encloseIn(swipe, radioContainer));
 
         ButtonGroup barGroup = new ButtonGroup();
-        RadioButton mesListes = RadioButton.createToggle("Mes Reclamations", barGroup);
-        mesListes.setUIID("SelectBar");
-        RadioButton liste = RadioButton.createToggle("Autres", barGroup);
-        liste.setUIID("SelectBar");
-        RadioButton partage = RadioButton.createToggle("Reclamer", barGroup);
-        partage.setUIID("SelectBar");
+        
+        RadioButton Listeusers = RadioButton.createToggle("Liste Of Users", barGroup);
+        Listeusers.setUIID("SelectBar");
+        RadioButton adduser = RadioButton.createToggle("Add User", barGroup);
+        adduser.setUIID("SelectBar");
         Label arrow = new Label(res.getImage("news-tab-down-arrow.png"), "Container");
 
 
-        mesListes.addActionListener((e) -> {
+        Listeusers.addActionListener((e) -> {
                InfiniteProgress ip = new InfiniteProgress();
         final Dialog ipDlg = ip.showInifiniteBlocking();
         
-        //  ListReclamationForm a = new ListReclamationForm(res);
+          //ListReclamationForm a = new ListReclamationForm(res);
           //  a.show();
             refreshTheme();
         });
 
+        adduser.addActionListener((e) -> {
+               InfiniteProgress ip = new InfiniteProgress();
+        final Dialog ipDlg = ip.showInifiniteBlocking();
+        
+          AddUserForm a = new AddUserForm(res);
+            a.show();
+            refreshTheme();
+        });
         add(LayeredLayout.encloseIn(
-                GridLayout.encloseIn(3, mesListes, liste, partage),
-                FlowLayout.encloseBottom(arrow)
+                GridLayout.encloseIn(2, Listeusers, adduser)
+                
         ));
 
-        partage.setSelected(true);
-        arrow.setVisible(false);
-        addShowListener(e -> {
-            arrow.setVisible(true);
-            updateArrowPosition(partage, arrow);
-        });
-        bindButtonSelection(mesListes, arrow);
-        bindButtonSelection(liste, arrow);
-        bindButtonSelection(partage, arrow);
-        // special case for rotation
-        addOrientationListener(e -> {
-            updateArrowPosition(barGroup.getRadioButton(barGroup.getSelectedIndex()), arrow);
-        });
-        
+      
       
         //Appel affichage methode
-        ArrayList<Reclamation>list = ServiceReclamation.getInstance().affichageReclamations();
+        ArrayList<users>list = ServiceUsers.getInstance().Displayusers();
         
-        for(Reclamation rec : list ) {
+        for(users rec : list ) {
              String urlImage ="back-logo.jpeg";//image statique pour le moment ba3d taw fi  videos jayin nwarikom image 
             
              Image placeHolder = Image.createImage(120, 90);
@@ -242,7 +238,7 @@ public class ListUsersForm extends BaseForm {
         l.getParent().repaint();
     }
 
-    private void addButton(Image img,Reclamation rec , Resources res) {
+    private void addButton(Image img,users rec , Resources res) {
         
         int height = Display.getInstance().convertToPixels(11.5f);
         int width = Display.getInstance().convertToPixels(14f);
@@ -253,18 +249,25 @@ public class ListUsersForm extends BaseForm {
         
         
         //kif nzidouh  ly3endo date mathbih fi codenamone y3adih string w y5alih f symfony dateTime w ytab3ni cha3mlt taw yjih
-        Label objetTxt = new Label("Date : "+rec.getDate(),"NewsTopLine2");
-        Label dateTxt = new Label("objet : "+rec.getObjet(),"NewsTopLine2");
-        Label etatTxt = new Label("etat : "+rec.getEtat(),"NewsTopLine2" );
+        Label cintxt = new Label("Cin : "+rec.getCin(),"NewsTopLine2");
+        Label firstnameTxt = new Label("First Name : "+rec.getFirstname(),"NewsTopLine2");
+        Label lastnameTxt = new Label("Last Name : "+rec.getLastname(),"NewsTopLine2" );
+        Label EmailTxt = new Label("Email : "+rec.getEmail(),"NewsTopLine2" );
+        Label addressTxt = new Label("Address : "+rec.getAddress(),"NewsTopLine2" );
+        Label PhonenumTxt = new Label("Phone number : "+rec.getPhone_number(),"NewsTopLine2" );
+        Label BirthDateTxt = new Label("Birth Date : "+rec.getBirth_date().toString(),"NewsTopLine2" );
+        Label GenderTxt = new Label("Gender : "+rec.getGender(),"NewsTopLine2" );
+        Label roleTxt = new Label("Role : "+rec.getRole(),"NewsTopLine2" );
+        Label statusTxt = new Label("Status : "+rec.getStatus(),"NewsTopLine2" );
         
         createLineSeparator();
         
-        if(rec.getEtat() == 0 ) {
+       /* if(rec.getEtat() == 0 ) {
             etatTxt.setText("non Traitée");
         }
         else 
             etatTxt.setText("Traitée");
-       
+       */
         
         //supprimer button
         Label lSupprimer = new Label(" ");
@@ -288,8 +291,8 @@ public class ListUsersForm extends BaseForm {
                 dig.dispose();
                  }
                 //n3ayto l suuprimer men service Reclamation
-                if(ServiceReclamation.getInstance().deleteReclamation(rec.getId())) {
-                    new ListReclamationForm(res).show();
+                if(ServiceUsers.getInstance().deleteUser(rec.getId())) {
+                    new ListUsersForm(res).show();
                 }
            
         });
@@ -307,15 +310,24 @@ public class ListUsersForm extends BaseForm {
         
         lModifier.addPointerPressedListener(l -> {
             //System.out.println("hello update");
-            new ModifierReclamationForm(res,rec).show();
+            new UpdateUserForm(res,rec).show();
         });
         
         
         cnt.add(BorderLayout.CENTER,BoxLayout.encloseY(
                 
-                BoxLayout.encloseX(objetTxt),
-                BoxLayout.encloseX(dateTxt),
-                BoxLayout.encloseX(etatTxt,lModifier,lSupprimer)));
+                BoxLayout.encloseX(cintxt),
+                BoxLayout.encloseX(firstnameTxt),
+                BoxLayout.encloseX(lastnameTxt),
+                BoxLayout.encloseX(EmailTxt),
+                BoxLayout.encloseX(addressTxt),
+                BoxLayout.encloseX(PhonenumTxt),
+                BoxLayout.encloseX(BirthDateTxt),
+                BoxLayout.encloseX(GenderTxt),
+                BoxLayout.encloseX(roleTxt),
+                BoxLayout.encloseX(statusTxt),
+                BoxLayout.encloseX(lModifier,lSupprimer),
+                BoxLayout.encloseX(createLineSeparator())));
         
         
         

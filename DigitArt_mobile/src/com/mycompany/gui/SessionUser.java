@@ -30,7 +30,7 @@ public class SessionUser {
     private static String gender; 
     private static String role; 
     private static String birthDate; 
-
+    private static String status;
 
     
    /*
@@ -133,5 +133,12 @@ public class SessionUser {
 
     public static void setBirthDate(String birthDate) {
          pref.set("birthDate",birthDate);
+    }
+     public static String getStatus() {
+        return pref.get("status",status);
+    }
+
+    public static void setStatus(String status) {
+         pref.set("status",status);
     }
 }
