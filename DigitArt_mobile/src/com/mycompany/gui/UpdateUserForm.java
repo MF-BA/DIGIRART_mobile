@@ -38,7 +38,7 @@ public class UpdateUserForm extends BaseForm{
         current = this ;
         setToolbar(tb);
         getTitleArea().setUIID("Container");
-        setTitle("Ajout Reclamation");
+        setTitle("Edit User");
         getContentPane().setScrollVisible(false);
         
         
@@ -54,7 +54,7 @@ public class UpdateUserForm extends BaseForm{
 
         
         //Role 
-        //Vector 3ibara ala array 7atit fiha roles ta3na ba3d nzidouhom lel comboBox
+        
         Vector<String> vectorRole;
         vectorRole = new Vector();
         
@@ -69,7 +69,7 @@ public class UpdateUserForm extends BaseForm{
         
         ComboBox<String>roles = new ComboBox<>(vectorRole);
         roles.setSelectedItem(u.getRole());
-       // addStringValue("Your role", roles);
+     
         
         //gender
         Vector<String> vectorGender;
@@ -81,7 +81,7 @@ public class UpdateUserForm extends BaseForm{
         ComboBox<String> gender = new ComboBox<>(vectorGender);
         
         gender.setSelectedItem(u.getGender());
-       // addStringValue("Gender", gender);
+      
         
         //status
         Vector<String> vectorStatus;
@@ -93,7 +93,7 @@ public class UpdateUserForm extends BaseForm{
         ComboBox<String> status = new ComboBox<>(vectorStatus);
         
         status.setSelectedItem(u.getStatus());
-       // addStringValue("Status", status);
+   
         
        
         
@@ -129,8 +129,9 @@ public class UpdateUserForm extends BaseForm{
                  SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd"); // Create a SimpleDateFormat object with the expected date format
                  Date birthDate = format.parse(dateString); // Parse the date string into a Date object
                  String formattedDate = format.format(birthDate); // Format the Date object into a String using the SimpleDateFormat object*/
+                  
                  System.out.println(Integer.parseInt(cin.getText()));
-                
+                System.out.println(birth_date.getText());
                  
                  u.setCin(Integer.parseInt(cin.getText()));
                  u.setFirstname(firstname.getText());
@@ -141,7 +142,7 @@ public class UpdateUserForm extends BaseForm{
                  u.setStatus(status.getSelectedItem());
                  u.setRole(roles.getSelectedItem());
                  u.setPhone_number(Integer.parseInt(phone_num.getText()));
-                  u.setBirth_date(birth_date.getText());
+                 u.setBirth_date(birth_date.getText());
                
                  //appel fonction modfier reclamation men service
                  

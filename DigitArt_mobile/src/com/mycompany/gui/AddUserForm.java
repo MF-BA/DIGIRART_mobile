@@ -54,7 +54,7 @@ public class AddUserForm extends BaseForm{
         current = this ;
         setToolbar(tb);
         getTitleArea().setUIID("Container");
-        setTitle("Ajout Reclamation");
+        setTitle("Add user");
         getContentPane().setScrollVisible(false);
         
         
@@ -67,7 +67,7 @@ public class AddUserForm extends BaseForm{
         Label s1 = new Label();
         Label s2 = new Label();
         
-        addTab(swipe,s1, res.getImage("back-logo.jpeg"),"","",res);
+        addTab(swipe,s1, res.getImage("back-logo.jpg"),"","",res);
         
         //
         

@@ -51,7 +51,7 @@ public class ListUsersForm extends BaseForm {
         current = this ;
         setToolbar(tb);
         getTitleArea().setUIID("Container");
-        setTitle("Ajout Reclamation");
+        setTitle("List of Users");
         getContentPane().setScrollVisible(false);
         
         
@@ -64,7 +64,7 @@ public class ListUsersForm extends BaseForm {
         Label s1 = new Label();
         Label s2 = new Label();
         
-        addTab(swipe,s1, res.getImage("back-logo.jpeg"),"","",res);
+        addTab(swipe,s1, res.getImage("back-logo.jpg"),"","",res);
         
         // Welcome current user
         
@@ -282,9 +282,9 @@ public class ListUsersForm extends BaseForm {
         //click delete icon
         lSupprimer.addPointerPressedListener(l -> {
             
-            Dialog dig = new Dialog("Suppression");
+            Dialog dig = new Dialog("Deletion");
             
-            if(dig.show("Suppression","Vous voulez supprimer ce reclamation ?","Annuler","Oui")) {
+            if(dig.show("Deletion","Do you want to delete this user ?","Cancel","Yes")) {
                 dig.dispose();
             }
             else {

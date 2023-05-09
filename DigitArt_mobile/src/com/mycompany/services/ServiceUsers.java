@@ -350,6 +350,10 @@ DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
                     {
                        new BackuserForm(rs).show(); 
                     }
+                    if (user.get("status").toString().equals("blocked"))
+                    {
+                       Dialog.show("Failed to login","your account is blocked","OK",null); 
+                    }
                 }
                    // new ListReclamationForm(rs).show();//yemchi lel list reclamation
                      /*new AjoutReclamationForm(rs).show();
