@@ -46,7 +46,7 @@ public class BidAdd extends BaseForm {
         getContentPane().setScrollVisible(false);
 
         super.addSideMenu(res);
-     
+
         EncodedImage placeholderImageseparator = EncodedImage.createFromImage(Image.createImage(1000, 110), false);
         String separURL = "http://127.0.0.1:8000/uploads/pngegg.png";
         Image separatorIMG = URLImage.createToStorage(placeholderImageseparator, separURL, separURL, URLImage.RESIZE_SCALE_TO_FILL);
@@ -89,7 +89,7 @@ public class BidAdd extends BaseForm {
                 highestOffer = bid.getOffer();
             }
         }
-        
+
         Label highest_bid;
         if (highestBid != null) {
             highest_bid = new Label("Highest Offer : " + String.valueOf(highestBid.getOffer()) + "$");
@@ -99,8 +99,7 @@ public class BidAdd extends BaseForm {
         Font mediumBoldSystemFont = Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_BOLD, Font.SIZE_MEDIUM);
         highest_bid.setVerticalAlignment(CENTER);
         highest_bid.getUnselectedStyle().setFont(mediumBoldSystemFont);
-        
-        
+
         int next_offer;
         if (highestBid != null) {
             next_offer = highestBid.getOffer() + auction.getIncrement();
@@ -127,8 +126,11 @@ public class BidAdd extends BaseForm {
                 if (Integer.parseInt(bid.getText()) >= next_offer) {
                     if (BidServices.getInstance().addBid(new Bid(1, auction.getId_auction(), Integer.parseInt(bid.getText())))) {
                         Dialog.show("Offer submitted", "The offer is submitted successfully !!", "OK", null);
+                        new showAuction(res, auction).showBack();
+                    } else {
+                        Dialog.show("Error while submitted", "Error submitting offer. Please try again later !!", "OK", null);
+                        updateNativeOverlay();
                     }
-                    new showAuction(res, auction).showBack();
 
                 } else {
                     Dialog.show("Offer is too low", "The offer should be at least " + next_offer, "OK", null);

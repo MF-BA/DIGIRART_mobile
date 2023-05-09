@@ -12,6 +12,7 @@ import com.codename1.ui.Calendar;
 import com.codename1.ui.ComboBox;
 import static com.codename1.ui.Component.LEFT;
 import com.codename1.ui.Container;
+import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
 import com.codename1.ui.EncodedImage;
 import com.codename1.ui.Form;
@@ -29,6 +30,9 @@ import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.spinner.Picker;
 import com.codename1.ui.util.Resources;
+import com.codename1.util.DateUtil;
+import com.mycompany.entities.Artwork;
+import com.mycompany.entities.Auction;
 import com.mycompany.myapp.BaseForm;
 import com.mycompany.services.AuctionServices;
 import com.mycompany.utils.Static;
@@ -139,41 +143,65 @@ public class AuctionAdd extends BaseForm {
 
         ComboBox<String> artworks = new ComboBox<>();
 
-//        ArrayList<Map<Integer, String>> artworks_map = AuctionServices.getInstance().getArtworkNames();
-//
-////        if(user is admin )
-////        else 
-////        extractedMap = new HashMap<>();
-////        for (Map.Entry<Integer, String> entry : artworks_map.entrySet()) {
-////            if (entry.getKey() == user.id ) {
-////                extractedMap.put(entry.getKey(), entry.getValue());
-////            }
-////        }
-//        ArrayList<String> artworksName = new ArrayList<String>();
-//        for (Map<Integer, String> map : artworks_map) {
-//            for (String artworkName : map.values()) {
-//                artworksName.add(artworkName);
-//            }
-//        }
-//        for(int i=0;i<artworksName.size();i++)
-//        {
-//             artworks.addItem(artworksName.get(i));
-//        }
+        ArrayList<Artwork> artworks_array = AuctionServices.getInstance().getArtworkNames();
+        ArrayList<Artwork> matchingArtworks = new ArrayList<Artwork>();
+//        if(user is not admin )
+// Create a new ArrayList to hold the matching Artwork objects
+
+// Iterate through the artworks_array list and check each Artwork object for a match
+        for (Artwork artwork : artworks_array) {
+            if (artwork.getIdArtist() == 1) {
+                // If the Artwork object matches the criteria, add it to the matchingArtworks list
+                matchingArtworks.add(artwork);
+            }
+        }
+
+        // else matchingArtworks = artworks_array ;
+        for (int i = 0; i < matchingArtworks.size(); i++) {
+            artworks.addItem(matchingArtworks.get(i).getArtworkName());
+        }
 //        //artworks
 
         Container cnt = new Container(new BoxLayout(BoxLayout.Y_AXIS));
+        cnt.add("datePicker");
         cnt.add(datePicker);
+        cnt.add("Starting_Price");
         cnt.add(Starting_Price);
+        cnt.add("Increment");
         cnt.add(Increment);
+        cnt.add("Description");
         cnt.add(Description);
+        cnt.add("artworks");
         cnt.add(artworks);
 
-        Button save = new Button("Sve");
+        Button save = new Button("Save");
         save.setUIID("Button2");
         save.addActionListener(e -> {
-        });
+
+            if (Starting_Price.getText().isEmpty()) {
+                Dialog.show("Starting Price", "Starting Price is empty !!", "OK", null);
+            } else if (DateUtil.compare(datePicker.getDate(), new Date())< 0) {
+                Dialog.show("Ending Date", "Ending Date must after today's date!!", "OK", null);
+            } else {
+                Artwork choisen = matchingArtworks.get(artworks.getSelectedIndex());
+                Auction add = new Auction( Integer.valueOf(Starting_Price.getText()), Integer.valueOf(Increment.getText()),choisen.getIdArt(), datePicker.getDate(), Description.getText());
+                //        public Auction(int starting_price, int increment, int id_artwork, Date date, String description) {
+
+                if (AuctionServices.getInstance().addAuction(add)) {
+                    Dialog.show("Auction submitted", "The Auction is saved successfully !!", "OK", null);
+                    new AuctionDisplay(res).showBack();
+
+                } else {
+                    Dialog.show("Error while saving ", "Error submitting auction. Please try again later!!", "OK", null);
+                    updateNativeOverlay();
+                }
+            }
+            //System.out.println(choisen.getIdArt());
+        }
+        );
 
         cnt.add(save);
+
         add(cnt);
 
     }

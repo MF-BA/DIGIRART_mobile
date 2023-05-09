@@ -18,8 +18,5 @@ import java.util.ArrayList;
 public class Static {
     public static final String BASE_URL = "http://127.0.0.1:8000/";
     public static Form previous ;
-    public static ArrayList<Container> cnt = new ArrayList<>(); ;
-
-    
-    
+    public static ArrayList<Container> cnt = new ArrayList<>(); ;   
 }
