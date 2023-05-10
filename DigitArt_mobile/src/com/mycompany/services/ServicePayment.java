@@ -13,10 +13,12 @@ import com.codename1.io.NetworkManager;
 import com.codename1.ui.events.ActionListener;
 import com.mycompany.entities.Payment;
 import com.mycompany.entities.Ticket;
+import static com.mycompany.services.ServiceTicket.resultOk;
 import com.mycompany.utils.Statics;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 /**
  *
@@ -125,5 +127,6 @@ public class ServicePayment {
 
         return result;
     }
+
     
 }

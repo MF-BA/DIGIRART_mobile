@@ -46,6 +46,7 @@ public class PaymentForm extends Form {
         getTitleArea().setUIID("Container");
         getContentPane().setScrollVisible(false);
 
+        
         ButtonGroup barGroup = new ButtonGroup();
         RadioButton mesListes = RadioButton.createToggle("Step 1", barGroup);
         mesListes.setUIID("SelectBar");
@@ -77,7 +78,11 @@ public class PaymentForm extends Form {
         //
         Picker DatePicker = new Picker();
         DatePicker.setType(Display.PICKER_TYPE_DATE);
-        DatePicker.setDate(new java.util.Date());
+        DatePicker.setUIID("TextFieldBlack");
+        DatePicker.getAllStyles().setAlignment(Component.CENTER);
+        DatePicker.getAllStyles().setFgColor(0xff0000);
+        DatePicker.getAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_BOLD, Font.SIZE_LARGE));
+//        DatePicker.setDate(new java.util.Date());
         
         DatePicker.addActionListener(evt -> {
             if (evt.getSource() instanceof Picker) {
@@ -99,12 +104,16 @@ public class PaymentForm extends Form {
 
         addStringValue("", DatePicker);
 
+       for (Component cmp : getContentPane()) {
+        cmp.getAllStyles().setAlignment(Component.CENTER);
+        cmp.getAllStyles().setPadding(50, 0, 0, 0);
+    }
     }
 
     private void addStringValue(String s, Component v) {
 
-        add(BorderLayout.west(new Label(s, "PaddedLabel"))
-                .add(BorderLayout.CENTER, v));
+  add(BorderLayout.west(new Label(s, "PaddedLabel"))
+            .add(BorderLayout.CENTER, v));
     }
 
     public void bindButtonSelection(Button btn, Label l) {
@@ -122,3 +131,4 @@ public class PaymentForm extends Form {
         l.getParent().repaint();
     }
 }
+ 

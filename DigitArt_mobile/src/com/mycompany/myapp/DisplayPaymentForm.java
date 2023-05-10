@@ -17,6 +17,7 @@ import static com.codename1.ui.Component.RIGHT;
 import com.codename1.ui.Container;
 import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
+import com.codename1.ui.EncodedImage;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Graphics;
@@ -25,6 +26,7 @@ import com.codename1.ui.Label;
 import com.codename1.ui.RadioButton;
 import com.codename1.ui.Tabs;
 import com.codename1.ui.Toolbar;
+import com.codename1.ui.URLImage;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
@@ -42,7 +44,7 @@ import java.util.ArrayList;
  *
  * @author User
  */
-public class DisplayPaymentForm extends Form{
+public class DisplayPaymentForm extends BaseForm{
      Form current;
 
     public DisplayPaymentForm(Resources res) {
@@ -53,40 +55,42 @@ public class DisplayPaymentForm extends Form{
         setToolbar(tb);
         getTitleArea().setUIID("Container");
         getContentPane().setScrollVisible(false);
+        super.addSideMenu(res);
+        
         Tabs swipe = new Tabs();
 
         Label s1 = new Label();
         Label s2 = new Label();
+        
+        int placeholderWidth = Display.getInstance().getDisplayWidth(); 
+        int placeholderHeight = Display.getInstance().getDisplayHeight();
+         EncodedImage placeholderImageseparator = EncodedImage.createFromImage(Image.createImage(placeholderHeight, placeholderWidth), false);
+        String separURL = "http://127.0.0.1:8000/uploads/fa012ba78055ee27aeaa1130de51ab86.jpg";
+        Image separatorIMG = URLImage.createToStorage(placeholderImageseparator, separURL, separURL, URLImage.RESIZE_SCALE_TO_FILL);
 
+        ScaleImageLabel imageLab = new ScaleImageLabel(separatorIMG);
+        imageLab.setUIID("LogoLabel");
+
+        Container content = new Container();
+        content.add(imageLab);
+        
+        add(content);
         addTab(swipe, s1, res.getImage("profile-background.jpg"), "", "", res);
         ButtonGroup barGroup = new ButtonGroup();
-        RadioButton mesListes = RadioButton.createToggle("Ticket List", barGroup);
-        mesListes.setUIID("SelectBar");
         RadioButton liste = RadioButton.createToggle("Payment List", barGroup);
         liste.setUIID("SelectBar");
-        RadioButton partage = RadioButton.createToggle("Add Ticket", barGroup);
-        partage.setUIID("SelectBar");
+
         Label arrow = new Label(res.getImage("news-tab-down-arrow.png"), "Container");
 
-        mesListes.addActionListener((e) -> {
-
-            DisplayTicketForm a = new DisplayTicketForm(res);
-            a.show();
-            refreshTheme();
-        });
 
         liste.addActionListener((e) -> {
             DisplayPaymentForm paymentListForm = new DisplayPaymentForm(res);
             paymentListForm.show();
         });
 
-        partage.addActionListener((e) -> {
-            AddTicketForm b = new AddTicketForm(res);
-            b.show();
-        });
 
         add(LayeredLayout.encloseIn(
-                GridLayout.encloseIn(3, mesListes, liste, partage),
+                GridLayout.encloseIn(1,liste),
                 FlowLayout.encloseBottom(arrow)
         ));
 
@@ -96,9 +100,7 @@ public class DisplayPaymentForm extends Form{
             arrow.setVisible(true);
             updateArrowPosition(liste, arrow);
         });
-        bindButtonSelection(mesListes, arrow);
         bindButtonSelection(liste, arrow);
-        bindButtonSelection(partage, arrow);
         // special case for rotation
         addOrientationListener(e -> {
             updateArrowPosition(barGroup.getRadioButton(barGroup.getSelectedIndex()), arrow);
@@ -167,6 +169,7 @@ public class DisplayPaymentForm extends Form{
       
         Label typeTxt2 = new Label("Paid: " + (rec.isPaid() ? "Yes" : "No"), "NewsTopLine2");
         
+        Label typeTxt3 = new Label(" ");
         newCnt.add(BorderLayout.CENTER, BoxLayout.encloseY(
                 BoxLayout.encloseX(dateTxt),
                 BoxLayout.encloseX(edatetTxt),
@@ -174,8 +177,11 @@ public class DisplayPaymentForm extends Form{
                 BoxLayout.encloseX(typeTxt),
                 BoxLayout.encloseX(typeTxt1),
                 BoxLayout.encloseX(typeTxt2),
+                BoxLayout.encloseX(typeTxt3),
                 BoxLayout.encloseX()));
-
+                
+         
+            
         add(newCnt);
     }
 

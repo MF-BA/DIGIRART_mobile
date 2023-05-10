@@ -40,13 +40,15 @@ import com.codename1.ui.spinner.Picker;
 import com.codename1.ui.util.Resources;
 import com.mycompany.entities.Ticket;
 import com.mycompany.services.ServiceTicket;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  *
  * @author User
  */
-public class DisplayTicketForm extends Form {
+public class DisplayTicketForm extends BaseForm {
 
     Form current;
 
@@ -58,17 +60,29 @@ public class DisplayTicketForm extends Form {
         setToolbar(tb);
         getTitleArea().setUIID("Container");
         getContentPane().setScrollVisible(false);
+           super.addSideMenu(res);
         Tabs swipe = new Tabs();
 
         Label s1 = new Label();
         Label s2 = new Label();
 
+        int placeholderWidth = Display.getInstance().getDisplayWidth(); 
+        int placeholderHeight = Display.getInstance().getDisplayHeight();
+         EncodedImage placeholderImageseparator = EncodedImage.createFromImage(Image.createImage(placeholderHeight, placeholderWidth), false);
+        String separURL = "http://127.0.0.1:8000/uploads/bc53385fe56f95467c51bbcb40b16412.jpg";
+        Image separatorIMG = URLImage.createToStorage(placeholderImageseparator, separURL, separURL, URLImage.RESIZE_SCALE_TO_FILL);
+
+        ScaleImageLabel imageLab = new ScaleImageLabel(separatorIMG);
+        imageLab.setUIID("LogoLabel");
+
+        Container content = new Container();
+        content.add(imageLab);
+        
+        add(content);
         addTab(swipe, s1, res.getImage("profile-background.jpg"), "", "", res);
         ButtonGroup barGroup = new ButtonGroup();
         RadioButton mesListes = RadioButton.createToggle("Ticket List", barGroup);
         mesListes.setUIID("SelectBar");
-        RadioButton liste = RadioButton.createToggle("Payment List", barGroup);
-        liste.setUIID("SelectBar");
         RadioButton partage = RadioButton.createToggle("Add Ticket", barGroup);
         partage.setUIID("SelectBar");
         Label arrow = new Label(res.getImage("news-tab-down-arrow.png"), "Container");
@@ -80,18 +94,13 @@ public class DisplayTicketForm extends Form {
             refreshTheme();
         });
 
-        liste.addActionListener((e) -> {
-            DisplayPaymentForm paymentListForm = new DisplayPaymentForm(res);
-            paymentListForm.show();
-        });
-
         partage.addActionListener((e) -> {
             AddTicketForm b = new AddTicketForm(res);
             b.show();
         });
 
         add(LayeredLayout.encloseIn(
-                GridLayout.encloseIn(3, mesListes, liste, partage),
+                GridLayout.encloseIn(2, mesListes,partage),
                 FlowLayout.encloseBottom(arrow)
         ));
 
@@ -102,7 +111,6 @@ public class DisplayTicketForm extends Form {
             updateArrowPosition(mesListes, arrow);
         });
         bindButtonSelection(mesListes, arrow);
-        bindButtonSelection(liste, arrow);
         bindButtonSelection(partage, arrow);
         // special case for rotation
         addOrientationListener(e -> {
@@ -151,6 +159,15 @@ public class DisplayTicketForm extends Form {
         //  a.show();
         refreshTheme();
 
+        Button btnAjouter = new Button("Statistics");
+        addStringValue("", btnAjouter);
+
+        //onclick button event 
+        btnAjouter.addActionListener((e) -> {
+            
+             StatisticsTicket a = new StatisticsTicket(res);
+         a.show();
+        });
         //Appel affichage methode
         ArrayList<Ticket> list = ServiceTicket.getInstance().DisplayTicket();
         System.out.println(ServiceTicket.getInstance().DisplayTicket());
@@ -161,6 +178,14 @@ public class DisplayTicketForm extends Form {
 
     }
 
+    
+    private void addStringValue(String s, Component v) {
+
+        add(BorderLayout.west(new Label(s, "PaddedLabel"))
+                .add(BorderLayout.CENTER, v));
+        add(createLineSeparator(0xeeeeee));
+    }
+    
     private void addButton(Ticket rec, Resources res) {
         Container newCnt = new Container();
         newCnt.setLayout(new BorderLayout());

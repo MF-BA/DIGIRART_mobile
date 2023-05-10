@@ -98,7 +98,7 @@ public class PaymentForm1 extends Form {
         PaymentForm.getAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_BOLD, Font.SIZE_LARGE));
         add(PaymentForm);
         // Add ComboBoxes and labels for each ticket type
-        Label teenagerLabel = new Label("Adult ticket (price: $" + priceTeen + ")");
+        Label teenagerLabel = new Label("Adult(price: $" + priceTeen + "/per Ticket)");
         
         ComboBox<Integer> comboBoxS = new ComboBox<>();
         for (int i = 0; i <= 10; i++) {
@@ -114,7 +114,7 @@ public class PaymentForm1 extends Form {
         }
 
 
-        Label studentLabel = new Label("Student ticket (price: $" + priceStudent + ")");
+        Label studentLabel = new Label("Student(price: $" + priceStudent + "/per Ticket)");
         ComboBox<Integer> comboBoxA = new ComboBox<>();
         for (int i = 0; i <= 10; i++) {
             comboBoxA.addItem(i);
@@ -129,7 +129,7 @@ public class PaymentForm1 extends Form {
         }
  
 
-        Label adultLabel = new Label("Teenager ticket (price: $" + priceAdult + ")");
+        Label adultLabel = new Label("Teenager (price: $" + priceAdult + "/per Ticket)");
         ComboBox<Integer> comboBoxT = new ComboBox<>();
         for (int i = 0; i <= 10; i++) {
             comboBoxT.addItem(i);

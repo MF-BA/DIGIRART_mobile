@@ -15,6 +15,7 @@ import com.codename1.ui.Component;
 import com.codename1.ui.Container;
 import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
+import com.codename1.ui.EncodedImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
@@ -22,6 +23,7 @@ import com.codename1.ui.RadioButton;
 import com.codename1.ui.Tabs;
 import com.codename1.ui.TextField;
 import com.codename1.ui.Toolbar;
+import com.codename1.ui.URLImage;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
@@ -53,16 +55,28 @@ public class AddTicketForm extends BaseForm {
         getTitleArea().setUIID("Container");
         getContentPane().setScrollVisible(false);
 
+        super.addSideMenu(res);
+        
         Tabs swipe = new Tabs();
 
         Label s1 = new Label();
         Label s2 = new Label();
+         int placeholderWidth = Display.getInstance().getDisplayWidth(); 
+        int placeholderHeight = Display.getInstance().getDisplayHeight();
+         EncodedImage placeholderImageseparator = EncodedImage.createFromImage(Image.createImage(placeholderHeight, placeholderWidth), false);
+        String separURL = "http://127.0.0.1:8000/uploads/bc53385fe56f95467c51bbcb40b16412.jpg";
+        Image separatorIMG = URLImage.createToStorage(placeholderImageseparator, separURL, separURL, URLImage.RESIZE_SCALE_TO_FILL);
 
+        ScaleImageLabel imageLab = new ScaleImageLabel(separatorIMG);
+        imageLab.setUIID("LogoLabel");
+
+        Container content = new Container();
+        content.add(imageLab);
+        
+        add(content);
         ButtonGroup barGroup = new ButtonGroup();
         RadioButton mesListes = RadioButton.createToggle("Ticket List", barGroup);
         mesListes.setUIID("SelectBar");
-        RadioButton liste = RadioButton.createToggle("Payment List", barGroup);
-        liste.setUIID("SelectBar");
         RadioButton partage = RadioButton.createToggle("Add Ticket", barGroup);
         partage.setUIID("SelectBar");
         Label arrow = new Label(res.getImage("news-tab-down-arrow.png"), "Container");
@@ -74,10 +88,6 @@ public class AddTicketForm extends BaseForm {
             refreshTheme();
         });
 
-        liste.addActionListener((e) -> {
-            DisplayPaymentForm paymentListForm = new DisplayPaymentForm(res);
-            paymentListForm.show();
-        });
 
         partage.addActionListener((e) -> {
             AddTicketForm b = new AddTicketForm(res);
@@ -85,7 +95,7 @@ public class AddTicketForm extends BaseForm {
         });
 
         add(LayeredLayout.encloseIn(
-                GridLayout.encloseIn(3, mesListes, liste, partage),
+                GridLayout.encloseIn(2, mesListes, partage),
                 FlowLayout.encloseBottom(arrow)
         ));
 
@@ -96,7 +106,7 @@ public class AddTicketForm extends BaseForm {
             updateArrowPosition(partage, arrow);
         });
         bindButtonSelection(mesListes, arrow);
-        bindButtonSelection(liste, arrow);
+
         bindButtonSelection(partage, arrow);
         // special case for rotation
         addOrientationListener(e -> {
@@ -106,10 +116,12 @@ public class AddTicketForm extends BaseForm {
         //
         Picker startDatePicker = new Picker();
         startDatePicker.setType(Display.PICKER_TYPE_DATE);
+        startDatePicker.setUIID("TextFieldBlack");
         addStringValue("Start Date", startDatePicker);
 
         Picker endDatePicker = new Picker();
         endDatePicker.setType(Display.PICKER_TYPE_DATE);
+        endDatePicker.setUIID("TextFieldBlack");
         addStringValue("End Date", endDatePicker);
 
         // create the combo box component for ticket type

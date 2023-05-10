@@ -67,24 +67,11 @@ public class BaseForm extends Form {
     }
 
     protected void addSideMenu(Resources res) {
-        Toolbar tb = getToolbar();
-        Image img = res.getImage("profile-background.jpg");
-        if(img.getHeight() > Display.getInstance().getDisplayHeight() / 3) {
-            img = img.scaledHeight(Display.getInstance().getDisplayHeight() / 3);
-        }
-        ScaleImageLabel sl = new ScaleImageLabel(img);
-        sl.setUIID("BottomPad");
-        sl.setBackgroundType(Style.BACKGROUND_IMAGE_SCALED_FILL);
-        
-        tb.addComponentToSideMenu(LayeredLayout.encloseIn(
-                sl,
-                FlowLayout.encloseCenterBottom(
-                        new Label(res.getImage("profile-pic.jpg"), "PictureWhiteBackgrond"))
-        ));
-        
-        tb.addMaterialCommandToSideMenu("Newsfeed", FontImage.MATERIAL_UPDATE, e -> new NewsfeedForm(res).show());
-        tb.addMaterialCommandToSideMenu("Ticket", FontImage.MATERIAL_INFO, e -> new PaymentForm(res).show());
-        tb.addMaterialCommandToSideMenu("Profile", FontImage.MATERIAL_HOME, e -> new ProfileForm(res).show());
-        tb.addMaterialCommandToSideMenu("Logout", FontImage.MATERIAL_EXIT_TO_APP, e -> new WalkthruForm(res).show());
+     Toolbar tb = getToolbar();
+     // tb.addMaterialCommandToSideMenu("Home", FontImage.MATERIAL_HOME, e -> new NewsfeedForm(res).show());
+    tb.addMaterialCommandToSideMenu("Ticket", FontImage.MATERIAL_MONEY, e -> new DisplayTicketForm(res).show());
+    tb.addMaterialCommandToSideMenu("Payment List", FontImage.MATERIAL_CREDIT_CARD, e -> new DisplayPaymentForm(res).show());
+   // tb.addMaterialCommandToSideMenu("Statics", FontImage.MATERIAL_ADD_CHART, e -> new StatisticsTicket(res).show());
+    tb.addMaterialCommandToSideMenu("Ticket Purchase", FontImage.MATERIAL_EXIT_TO_APP, e -> new PaymentForm(res).show());
     }
 }
