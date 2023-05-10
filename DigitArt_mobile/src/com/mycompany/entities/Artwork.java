@@ -22,6 +22,15 @@ public class Artwork {
     private String dateArt;
     private String description;
     private int idRoom;
+    private String nameRoom;
+
+    public String getNameRoom() {
+        return nameRoom;
+    }
+
+    public void setNameRoom(String nameRoom) {
+        this.nameRoom = nameRoom;
+    }
     
 
     public Artwork() {

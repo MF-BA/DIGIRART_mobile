@@ -10,6 +10,7 @@ import com.codename1.io.ConnectionRequest;
 import com.codename1.io.JSONParser;
 import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
+import com.codename1.l10n.ParseException;
 import com.codename1.l10n.SimpleDateFormat;
 import com.codename1.ui.events.ActionListener;
 import com.mycompany.entities.Artwork;
@@ -34,7 +35,7 @@ public class ServiceArtwork {
 
     // Initialization of the connection request
     private ConnectionRequest req;
-    
+     public ArrayList<String> images;
     
     public static ServiceArtwork getInstance() {
         if(instance == null)
@@ -74,7 +75,7 @@ public class ServiceArtwork {
  public ArrayList<Artwork> displayArtworks() {
     ArrayList<Artwork> result = new ArrayList<>();
     
-    String url = Statics.BASE_URL + "/artwork/AllJson";
+    String url = Statics.BASE_URL + "/AllArtwork";
     req.setUrl(url);
     
     req.addResponseListener(new ActionListener<NetworkEvent>() {
@@ -91,31 +92,38 @@ public class ServiceArtwork {
                 for (Map<String, Object> obj : listOfMaps) {
                     Artwork artwork = new Artwork();
                     
+                   
+                    int idArtwork = Math.round(Float.parseFloat(obj.get("idArt").toString()));
                     
-                    int idArtwork = Math.round(Float.parseFloat(obj.get("idArtwork").toString()));
+                    String nameArtwork = obj.get("artworkName").toString();
                     
-                    String nameArtwork = obj.get("nameArtwork").toString();
+                    //int idArtist = Math.round(Float.parseFloat(obj.get("idArtist").toString()));
                     
-                    int idArtist = Math.round(Float.parseFloat(obj.get("idArtist").toString()));
-                    
-                    String artistName = obj.get("artistName").toString();
+                    String artistName ;
+                    if(obj.get("artistName")!=null)
+                    artistName =obj.get("artistName").toString();
+                    else{artistName ="pasdenom";}
                     
                     // Parse the date from the string representation
                     String dateString = obj.get("dateArt").toString();
-                    
-                    
                     String description = obj.get("description").toString();
                     
-                    int idRoom = Math.round(Float.parseFloat(obj.get("idRoom").toString()));
-                    
+//                    Map<String, Object> room = (Map<String, Object>) obj.get("idRoom");
+//                    // Extract the value of the "idArt" key as a string
+//                    String idRoomStr = room.get("idRoom").toString();
+//                    // Convert the "idArt" string to an integer
+//                    int id_room = Math.round(Float.parseFloat(idRoomStr));
+//                    String nameRoom = room.get("nameRoom").toString();
+//                    
                     artwork.setIdArt(idArtwork);
                     artwork.setArtworkName(nameArtwork);
-                    artwork.setIdArtist(idArtist);
+                  // artwork.setIdArtist(idArtist);
                     artwork.setArtistName(artistName);
                     artwork.setDateArt(dateString);
                     artwork.setDescription(description);
-                    artwork.setIdRoom(idRoom);
-                    
+//                    artwork.setIdRoom(id_room);
+//                    artwork.setNameRoom(nameRoom);
+//                    
                     result.add(artwork);
                 }
                 
@@ -177,7 +185,7 @@ public Artwork getArtworkDetails(int id, Artwork artwork) {
 
 // Delete Artwork
 public boolean deleteArtwork(int id) {
-    String url = Statics.BASE_URL + "/artwork/deleteArtworkJSON/"+id;
+    String url = Statics.BASE_URL + "/deleteArtworkJSON/"+id;
 
     req.setUrl(url);
 
@@ -212,6 +220,44 @@ public boolean updateArtwork(int id,Artwork artwork) {
     NetworkManager.getInstance().addToQueueAndWait(req); // Execution of the request
     return resultOk;
 }
+
+ public ArrayList<String> parseArtworkImages(String jsonText) throws IOException, ParseException {
+        ArrayList<String> images = new ArrayList<>();
+        JSONParser parser = new JSONParser();
+
+        Map<String, Object> jsonMap = parser.parseJSON(new CharArrayReader(jsonText.toCharArray()));
+
+        List<Map<String, Object>> jsonArray = (List<Map<String, Object>>) jsonMap.get("root");
+        for (Map<String, Object> obj : jsonArray) {
+            String id_auction;
+            if (obj.get("imageName").toString().isEmpty()) {
+                id_auction = null;
+            } else {
+                id_auction = obj.get("imageName").toString();
+            }
+            images.add(id_auction);
+        }
+        return images;
+    }
+
+ public ArrayList<String> getArtworkImages(int idArt) {
+        String url = Statics.BASE_URL + "/mobile/" + idArt + "/images";
+        req.setUrl(url);
+        req.setPost(false);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                try {
+                    images = parseArtworkImages(new String(req.getResponseData()));
+                } catch (IOException | ParseException e) {
+                    e.printStackTrace(); // or handle the exception in some other way
+                }
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return images;
+    }
 
 
 }

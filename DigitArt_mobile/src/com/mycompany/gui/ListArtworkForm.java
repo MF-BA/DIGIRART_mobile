@@ -7,6 +7,7 @@ package com.mycompany.gui;
 
 import com.codename1.components.ScaleImageLabel;
 import com.codename1.components.SpanLabel;
+import com.codename1.l10n.SimpleDateFormat;
 import com.codename1.ui.Button;
 import com.codename1.ui.ButtonGroup;
 import com.codename1.ui.Component;
@@ -17,6 +18,7 @@ import static com.codename1.ui.Component.RIGHT;
 import com.codename1.ui.Container;
 import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
+import com.codename1.ui.EncodedImage;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Graphics;
@@ -25,6 +27,7 @@ import com.codename1.ui.Label;
 import com.codename1.ui.RadioButton;
 import com.codename1.ui.Tabs;
 import com.codename1.ui.Toolbar;
+import com.codename1.ui.URLImage;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
@@ -53,56 +56,24 @@ public class ListArtworkForm extends BaseForm{
         getContentPane().setScrollVisible(false);
         
         
-        tb.addSearchCommand(e ->  {
-            
-        });
+          super.addSideMenu(res);
         
-        Tabs swipe = new Tabs();
-        
-        Label s1 = new Label();
-        Label s2 = new Label();
-        
-        addTab(swipe,s1, res.getImage("activation-background.jpg"),"","",res);
-        
- 
-        
-         swipe.setUIID("Container");
-        swipe.getContentPane().setUIID("Container");
-        swipe.hideTabs();
 
-        ButtonGroup bg = new ButtonGroup();
-        int size = Display.getInstance().convertToPixels(1);
-        Image unselectedWalkthru = Image.createImage(size, size, 0);
-        Graphics g = unselectedWalkthru.getGraphics();
-        g.setColor(0xffffff);
-        g.setAlpha(100);
-        g.setAntiAliased(true);
-        g.fillArc(0, 0, size, size, 0, 360);
-        Image selectedWalkthru = Image.createImage(size, size, 0);
-        g = selectedWalkthru.getGraphics();
-        g.setColor(0xffffff);
-        g.setAntiAliased(true);
-        g.fillArc(0, 0, size, size, 0, 360);
-        RadioButton[] rbs = new RadioButton[swipe.getTabCount()];
-        FlowLayout flow = new FlowLayout(CENTER);
-        flow.setValign(BOTTOM);
-        Container radioContainer = new Container(flow);
-        for (int iter = 0; iter < rbs.length; iter++) {
-            rbs[iter] = RadioButton.createToggle(unselectedWalkthru, bg);
-            rbs[iter].setPressedIcon(selectedWalkthru);
-            rbs[iter].setUIID("Label");
-            radioContainer.add(rbs[iter]);
-        }
+        int placeholderWidth = Display.getInstance().getDisplayWidth(); 
+        int placeholderHeight = Display.getInstance().getDisplayHeight();
+         EncodedImage placeholderImageseparator = EncodedImage.createFromImage(Image.createImage(placeholderHeight, placeholderWidth), false);
+        String separURL = "http://127.0.0.1:8000/uploads/04c65335d567a6c9a3fbd0c6a42b3f7d.jpg";
+        Image separatorIMG = URLImage.createToStorage(placeholderImageseparator, separURL, separURL, URLImage.RESIZE_SCALE_TO_FILL);
 
-        rbs[0].setSelected(true);
-        swipe.addSelectionListener((i, ii) -> {
-            if (!rbs[ii].isSelected()) {
-                rbs[ii].setSelected(true);
-            }
-        });
+        ScaleImageLabel imageLab = new ScaleImageLabel(separatorIMG);
+        imageLab.setUIID("LogoLabel");
 
-        Component.setSameSize(radioContainer, s1, s2);
-        add(LayeredLayout.encloseIn(swipe, radioContainer));
+        Container content = new Container();
+
+        content.add(imageLab);
+        add(content);
+      
+
 
         ButtonGroup barGroup = new ButtonGroup();
         RadioButton mesListes = RadioButton.createToggle("Add a new Artwork", barGroup);
@@ -135,15 +106,9 @@ public class ListArtworkForm extends BaseForm{
         ArrayList<Artwork>list = ServiceArtwork.getInstance().displayArtworks();
         
         for(Artwork rec : list ) {
-         
-            
-           
-           
-             
+
                addButton(rec,res);
-        
-              
-                
+
                 Container containerImg = new Container();
                 
              
@@ -154,67 +119,6 @@ public class ListArtworkForm extends BaseForm{
     }
     
     
-    
-    
-    
-    
-    
-    
-       private void addTab(Tabs swipe, Label spacer , Image image, String string, String text, Resources res) {
-        int size = Math.min(Display.getInstance().getDisplayWidth(), Display.getInstance().getDisplayHeight());
-        
-        if(image.getHeight() < size) {
-            image = image.scaledHeight(size);
-        }
-        
-        
-        
-        if(image.getHeight() > Display.getInstance().getDisplayHeight() / 2 ) {
-            image = image.scaledHeight(Display.getInstance().getDisplayHeight() / 2);
-        }
-        
-        ScaleImageLabel imageScale = new ScaleImageLabel(image);
-        imageScale.setUIID("Container");
-        imageScale.setBackgroundType(Style.BACKGROUND_IMAGE_SCALED_FILL);
-        
-        Label overLay = new Label("","ImageOverlay");
-        
-        
-        Container page1 = 
-                LayeredLayout.encloseIn(
-                imageScale,
-                        overLay,
-                        BorderLayout.south(
-                        BoxLayout.encloseY(
-                        new SpanLabel(text, "LargeWhiteText"),
-                                        spacer
-                        )
-                    )
-                );
-        
-        swipe.addTab("",res.getImage("back-logo.jpeg"), page1);
-        
-        
-        
-        
-    }
-    
-    
-    
-    public void bindButtonSelection(Button btn , Label l ) {
-        
-        btn.addActionListener(e-> {
-        if(btn.isSelected()) {
-            updateArrowPosition(btn,l);
-        }
-    });
-    }
-
-    private void updateArrowPosition(Button btn, Label l) {
-        
-        l.getUnselectedStyle().setMargin(LEFT, btn.getX() + btn.getWidth()  / 2  - l.getWidth() / 2 );
-        l.getParent().repaint();
-    }
 
     private void addButton(Artwork rec , Resources res) {
         
@@ -228,14 +132,25 @@ public class ListArtworkForm extends BaseForm{
         
         
         //kif nzidouh  ly3endo date mathbih fi codenamone y3adih string w y5alih f symfony dateTime w ytab3ni cha3mlt taw yjih
-        Label Name = new Label("Name : "+rec.getNameArtwork(),"NewsTopLine2");
-        Label dateTxt = new Label("Area : "+rec.getArea(),"NewsTopLine2");
-        Label state = new Label("State : "+rec.getState(),"NewsTopLine2");
-        Label etatTxt = new Label("Description : "+rec.getDescription(),"NewsTopLine2" );
+        Label nameArtwork = new Label("Name : "+rec.getArtworkName(),"NewsTopLine2");
+        Label ArtistName = new Label("","NewsTopLine2");
+        if(!rec.getArtistName().isEmpty())
+           ArtistName.setText("ArtistName :"+rec.getArtistName());
+        
+        else{ArtistName.setText("ArtistName : User");
+        }
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedDate = formatter.format(rec.getDateArt());
+        Label dateTxt = new Label("reation date :"+formattedDate);
+        dateTxt.setUIID("NewsTopLine2");
+
+        
+        Label nameRoom = new Label("Room name : "+rec.getIdRoom(),"NewsTopLine2");// nom depuis l id room
+        Label DescriptionTxt = new Label("Description : "+rec.getDescription(),"NewsTopLine2" );
         
         createLineSeparator();
         
-      
+
        
         
         //supprimer button
@@ -259,7 +174,7 @@ public class ListArtworkForm extends BaseForm{
             else {
                 dig.dispose();
                  }
-                //n3ayto l suuprimer men service Reclamation
+                //n3ayto l suuprimer men service 
                 if(ServiceArtwork.getInstance().deleteArtwork(rec.getIdArt())) {
                     new ListArtworkForm(res).show();
                 }
@@ -275,24 +190,38 @@ public class ListArtworkForm extends BaseForm{
         FontImage mFontImage = FontImage.createMaterial(FontImage.MATERIAL_MODE_EDIT, modifierStyle);
         lModifier.setIcon(mFontImage);
         lModifier.setTextPosition(LEFT);
-        
-        
         lModifier.addPointerPressedListener(l -> {
             //System.out.println("hello update");
             new ModifierArtworkForm(res,rec).show();
         });
         
         
+        
+        Button more_info = new Button("more information");
+         more_info.addPointerPressedListener(l -> {
+            //System.out.println("hello update");
+            new ShowArtwork(res,rec).show();
+            refreshTheme();
+        });  
+        
+       
+        
+        
         cnt.add(BorderLayout.WEST,BoxLayout.encloseY(
                 
-                BoxLayout.encloseX(Name),
+                BoxLayout.encloseX(nameArtwork),
                 BoxLayout.encloseX(dateTxt),
-                BoxLayout.encloseX(state),
-                BoxLayout.encloseX(etatTxt),
-                BoxLayout.encloseX(lModifier,lSupprimer)));
+                BoxLayout.encloseX(ArtistName),
+                BoxLayout.encloseX(DescriptionTxt),
+                BoxLayout.encloseX(nameRoom),
+                BoxLayout.encloseX(lModifier,lSupprimer)
+               
+        
+        ));
         
         
         add(cnt);
+        add(more_info);
     }
     
    

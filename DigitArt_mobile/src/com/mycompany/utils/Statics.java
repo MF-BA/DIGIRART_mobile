@@ -5,6 +5,8 @@
  */
 package com.mycompany.utils;
 
+import com.codename1.ui.Form;
+
 /**
  *
  * @author Lenovo
@@ -12,5 +14,6 @@ package com.mycompany.utils;
 public class Statics {
     
     
-    public static final String BASE_URL="http://127.0.0.1:8000";//hathi url mt3 symfony 
+    public static final String BASE_URL="http://127.0.0.1:8000";
+    public static Form previous ;
 }
