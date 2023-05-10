@@ -5,11 +5,13 @@
  */
 package com.mycompany.gui;
 
+import com.codename1.components.InfiniteProgress;
 import com.codename1.components.ScaleImageLabel;
 import com.codename1.ui.Button;
 import com.codename1.ui.ButtonGroup;
 import com.codename1.ui.Calendar;
 import com.codename1.ui.ComboBox;
+import com.codename1.ui.Component;
 import static com.codename1.ui.Component.LEFT;
 import com.codename1.ui.Container;
 import com.codename1.ui.Dialog;
@@ -24,6 +26,7 @@ import com.codename1.ui.TextField;
 import com.codename1.ui.Toolbar;
 import com.codename1.ui.URLImage;
 import static com.codename1.ui.events.ActionEvent.Type.Calendar;
+import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.layouts.GridLayout;
@@ -35,10 +38,11 @@ import com.mycompany.entities.Artwork;
 import com.mycompany.entities.Auction;
 import com.mycompany.myapp.BaseForm;
 import com.mycompany.services.AuctionServices;
-import com.mycompany.utils.Static;
+import com.mycompany.utils.Statics;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 import javafx.scene.control.DatePicker;
@@ -54,70 +58,49 @@ public class AuctionAdd extends BaseForm {
         super("Auction", BoxLayout.y());
         Toolbar tb = new Toolbar(true);
         setToolbar(tb);
-        getTitleArea().setUIID("Welcome");
+        
         setTitle("Auction");
         getContentPane().setScrollVisible(false);
 
         super.addSideMenu(res);
+        InfiniteProgress ip = new InfiniteProgress();
+        final Dialog ipDlg = ip.showInifiniteBlocking();
 
+        //  ListReclamationForm a = new ListReclamationForm(res);
+        //  a.show();
+        //refreshTheme();
+        int placeholderWidthh = Display.getInstance().getDisplayWidth();
+        int placeholderHeightt = Display.getInstance().getDisplayHeight();
+        EncodedImage placeholderImageseparatorr = EncodedImage.createFromImage(Image.createImage(placeholderHeightt, placeholderWidthh), false);
+        String separURLL = "http://127.0.0.1:8000/uploads/cf0e6d8a486debf84483cc5caaf34552.jpg";
+        Image separatorIMGG = URLImage.createToStorage(placeholderImageseparatorr, separURLL, separURLL, URLImage.RESIZE_SCALE_TO_FILL);
+
+        ScaleImageLabel imageLabb = new ScaleImageLabel(separatorIMGG);
+        imageLabb.setUIID("LogoLabel");
+
+        Container contentt = new Container();
+
+        contentt.add(imageLabb);
+        add(contentt);
         ButtonGroup barGroup = new ButtonGroup();
         RadioButton Display = RadioButton.createToggle("Auction", barGroup);
         Display.setUIID("SelectBar");
         RadioButton add = RadioButton.createToggle("Add to Auction", barGroup);
         add.setUIID("SelectBar");
         Label arrow = new Label(res.getImage("news-tab-down-arrow.png"), "Container");
-
-        EncodedImage placeholderImageseparator = EncodedImage.createFromImage(Image.createImage(1000, 110), false);
-        String separURL = "http://127.0.0.1:8000/uploads/pngegg.png";
-        Image separatorIMG = URLImage.createToStorage(placeholderImageseparator, separURL, separURL, URLImage.RESIZE_SCALE_TO_FILL);
-
-        ScaleImageLabel imageLab = new ScaleImageLabel(separatorIMG);
-        imageLab.setUIID("LogoLabel");
-
-        Container content = new Container();
-
-        content.add(imageLab);
-
-        add(content);
         add(LayeredLayout.encloseIn(
                 GridLayout.encloseIn(2, Display, add),
                 FlowLayout.encloseBottom(arrow)
         ));
-        Display.setSelected(true);
+        add.setSelected(true);
         arrow.setVisible(false);
-        addShowListener(e -> {
-            arrow.setVisible(true);
-            updateArrowPosition(add, arrow);
-        });
-
-        bindButtonSelection(Display, arrow);
-        bindButtonSelection(add, arrow);
-
-        // special case for rotation
-        addOrientationListener(e -> {
-            updateArrowPosition(barGroup.getRadioButton(barGroup.getSelectedIndex()), arrow);
-        });
 
         Display.addActionListener(e -> {
-            new AuctionDisplay(res, Static.cnt).showBack();
+            new AuctionDisplay(res).showBack();
         });
 
         addForm(res);
 
-    }
-
-    private void updateArrowPosition(Button b, Label arrow) {
-        arrow.getUnselectedStyle().setMargin(LEFT, b.getX() + b.getWidth() / 2 - arrow.getWidth() / 2);
-        arrow.getParent().repaint();
-
-    }
-
-    private void bindButtonSelection(Button b, Label arrow) {
-        b.addActionListener(e -> {
-            if (b.isSelected()) {
-                updateArrowPosition(b, arrow);
-            }
-        });
     }
 
     public void addForm(Resources res) {
@@ -125,6 +108,7 @@ public class AuctionAdd extends BaseForm {
         Picker datePicker = new Picker();
         datePicker.setType(Display.PICKER_TYPE_DATE);
         datePicker.setDate(new Date());
+        datePicker.setUIID("TextFieldBlack");
         //datePicker
 
         TextField Starting_Price = new TextField("", "Starting Price", 20, TextArea.ANY);
@@ -144,35 +128,34 @@ public class AuctionAdd extends BaseForm {
         ComboBox<String> artworks = new ComboBox<>();
 
         ArrayList<Artwork> artworks_array = AuctionServices.getInstance().getArtworkNames();
-        ArrayList<Artwork> matchingArtworks = new ArrayList<Artwork>();
-//        if(user is not admin )
-// Create a new ArrayList to hold the matching Artwork objects
 
-// Iterate through the artworks_array list and check each Artwork object for a match
-        for (Artwork artwork : artworks_array) {
-            if (artwork.getIdArtist() == 1) {
-                // If the Artwork object matches the criteria, add it to the matchingArtworks list
-                matchingArtworks.add(artwork);
+        if (!Statics.back_end) {
+            // Iterate through the artworks_array list and check each Artwork object for a match
+            Iterator<Artwork> iterator = artworks_array.iterator();
+            while (iterator.hasNext()) {
+                Artwork artwork = iterator.next();
+                if (artwork.getIdArtist() != 1) {
+                    // Remove the Artwork object from the artworks_array list
+                    iterator.remove();
+                }
             }
         }
 
         // else matchingArtworks = artworks_array ;
-        for (int i = 0; i < matchingArtworks.size(); i++) {
-            artworks.addItem(matchingArtworks.get(i).getArtworkName());
+        for (int i = 0; i < artworks_array.size(); i++) {
+            artworks.addItem(artworks_array.get(i).getArtworkName());
         }
 //        //artworks
 
-        Container cnt = new Container(new BoxLayout(BoxLayout.Y_AXIS));
-        cnt.add("datePicker");
-        cnt.add(datePicker);
-        cnt.add("Starting_Price");
-        cnt.add(Starting_Price);
-        cnt.add("Increment");
-        cnt.add(Increment);
-        cnt.add("Description");
-        cnt.add(Description);
-        cnt.add("artworks");
-        cnt.add(artworks);
+        addStringValue("Ending Date", datePicker);
+
+        addStringValue("Starting Price", Starting_Price);
+        
+        addStringValue("Increment", Increment);
+
+        addStringValue("Description", Description);
+
+        addStringValue("artworks", artworks);
 
         Button save = new Button("Save");
         save.setUIID("Button2");
@@ -180,11 +163,11 @@ public class AuctionAdd extends BaseForm {
 
             if (Starting_Price.getText().isEmpty()) {
                 Dialog.show("Starting Price", "Starting Price is empty !!", "OK", null);
-            } else if (DateUtil.compare(datePicker.getDate(), new Date())< 0) {
-                Dialog.show("Ending Date", "Ending Date must after today's date!!", "OK", null);
+            } else if (DateUtil.compare(datePicker.getDate(), new Date()) < 0) {
+                Dialog.show("Ending Date", "Ending Date must be after today's date!!", "OK", null);
             } else {
-                Artwork choisen = matchingArtworks.get(artworks.getSelectedIndex());
-                Auction add = new Auction( Integer.valueOf(Starting_Price.getText()), Integer.valueOf(Increment.getText()),choisen.getIdArt(), datePicker.getDate(), Description.getText());
+                Artwork choisen = artworks_array.get(artworks.getSelectedIndex());
+                Auction add = new Auction(Integer.valueOf(Starting_Price.getText()), Integer.valueOf(Increment.getText()), choisen.getIdArt(), datePicker.getDate(), Description.getText());
                 //        public Auction(int starting_price, int increment, int id_artwork, Date date, String description) {
 
                 if (AuctionServices.getInstance().addAuction(add)) {
@@ -200,10 +183,16 @@ public class AuctionAdd extends BaseForm {
         }
         );
 
-        cnt.add(save);
+        add(save);
 
-        add(cnt);
 
+    }
+
+    private void addStringValue(String s, Component v) {
+
+        add(BorderLayout.west(new Label(s, "PaddedLabel"))
+                .add(BorderLayout.CENTER, v));
+        add(createLineSeparator(0xeeeeee));
     }
 
 }

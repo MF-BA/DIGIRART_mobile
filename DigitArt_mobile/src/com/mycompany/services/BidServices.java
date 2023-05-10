@@ -15,7 +15,7 @@ import com.codename1.l10n.SimpleDateFormat;
 import com.codename1.ui.events.ActionListener;
 import com.mycompany.entities.Auction;
 import com.mycompany.entities.Bid;
-import com.mycompany.utils.Static;
+import com.mycompany.utils.Statics;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -73,7 +73,7 @@ public class BidServices {
     }
 
     public ArrayList<Bid> getBids(Auction auction) {
-        String url = Static.BASE_URL + "auction/mobile/" + auction.getId_auction() + "/bid";
+        String url = Statics.BASE_URL + "auction/mobile/" + auction.getId_auction() + "/bid";
         req.setUrl(url);
         req.setPost(false);
         req.addResponseListener(new ActionListener<NetworkEvent>() {
@@ -93,7 +93,7 @@ public class BidServices {
     
     
     public boolean addBid(Bid bid) {
-        String url = Static.BASE_URL + "auction/mobile/bid/add";
+        String url = Statics.BASE_URL + "auction/mobile/bid/add";
         req.setUrl(url);
         req.addArgument("offer", String.valueOf(bid.getOffer()));
         req.addArgument("id_auction", String.valueOf(bid.getId_auction()));

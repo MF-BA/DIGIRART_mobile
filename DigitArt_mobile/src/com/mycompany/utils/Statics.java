@@ -5,18 +5,20 @@
  */
 package com.mycompany.utils;
 
-import com.codename1.ui.Component;
 import com.codename1.ui.Container;
 import com.codename1.ui.Form;
-import com.mycompany.entities.Auction;
 import java.util.ArrayList;
 
 /**
  *
  * @author fedi1
  */
-public class Static {
+public class Statics {
     public static final String BASE_URL = "http://127.0.0.1:8000/";
     public static Form previous ;
-    public static ArrayList<Container> cnt = new ArrayList<>(); ;   
+    public static boolean back_end = false ;
+    public static boolean artist = false ;
+    
+    
+    
 }

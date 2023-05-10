@@ -16,7 +16,7 @@ import com.codename1.l10n.SimpleDateFormat;
 import com.codename1.ui.events.ActionListener;
 import com.mycompany.entities.Artwork;
 import com.mycompany.entities.Bid;
-import com.mycompany.utils.Static;
+import com.mycompany.utils.Statics;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -93,6 +93,7 @@ public class AuctionServices {
             String id_auction;
             if (obj.get("imageName").toString().isEmpty()) {
                 id_auction = null;
+                
             } else {
                 id_auction = obj.get("imageName").toString();
             }
@@ -102,7 +103,7 @@ public class AuctionServices {
     }
 
     public ArrayList<String> getArtworkImages(int id_artwork) {
-        String url = Static.BASE_URL + "auction/mobile/" + id_artwork + "/images";
+        String url = Statics.BASE_URL + "auction/mobile/" + id_artwork + "/images";
         req.setUrl(url);
         req.setPost(false);
         req.addResponseListener(new ActionListener<NetworkEvent>() {
@@ -121,7 +122,7 @@ public class AuctionServices {
     }
 
     public ArrayList<Auction> getAllAuctions() {
-        String url = Static.BASE_URL + "auction/mobile/Display";
+        String url = Statics.BASE_URL + "auction/mobile/Display";
         req.setUrl(url);
         req.setPost(false);
         req.addResponseListener(new ActionListener<NetworkEvent>() {
@@ -183,7 +184,7 @@ public class AuctionServices {
     }
 
     public ArrayList<Artwork> getArtworkNames() {
-        String url = Static.BASE_URL + "auction/mobile/artwork";
+        String url = Statics.BASE_URL + "auction/mobile/artwork";
         req.setUrl(url);
         req.setPost(false);
         req.addResponseListener(new ActionListener<NetworkEvent>() {
@@ -204,7 +205,7 @@ public class AuctionServices {
     
     
      public boolean addAuction(Auction auction) {
-        String url = Static.BASE_URL + "auction/mobile/add";
+        String url = Statics.BASE_URL + "auction/mobile/add";
         req.setUrl(url);
          System.out.println(String.valueOf(auction.getDate()));
         req.addArgument("StartingPrice", String.valueOf(auction.getStarting_price()));

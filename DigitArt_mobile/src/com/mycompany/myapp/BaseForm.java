@@ -31,7 +31,7 @@ import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.layouts.Layout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
-import com.mycompany.utils.Static;
+import com.mycompany.utils.Statics;
 import com.mycompany.gui.AuctionDisplay;
 
 /**
@@ -60,7 +60,7 @@ public class BaseForm extends Form {
     }
 
     public Component createLineSeparator(int color) {
-        Label separator = new Label("", "WhiteSeparator");
+        Label separator = new Label("", "BlackSeparator");
         separator.getUnselectedStyle().setBgColor(color);
         separator.getUnselectedStyle().setBgTransparency(255);
         separator.setShowEvenIfBlank(true);
@@ -82,18 +82,18 @@ public class BaseForm extends Form {
                         new Label(res.getImage("profile-pic.jpg"), "PictureWhiteBackgrond"))
         ));
         tb.addMaterialCommandToSideMenu("Auction List", FontImage.MATERIAL_UPDATE, e -> {
-            Static.previous = this;
+            Statics.previous = this;
             new AuctionDisplay(res).show();
         });
         tb.addMaterialCommandToSideMenu("Profile", FontImage.MATERIAL_SETTINGS, e -> {
-            Static.previous = this;
+            Statics.previous = this;
             new NewsfeedForm(res).show();
         });
-        if (Static.previous != null) {
-            tb.addMaterialCommandToSideMenu("", FontImage.MATERIAL_ARROW_BACK, e -> Static.previous.showBack());
+        if (Statics.previous != null) {
+            tb.addMaterialCommandToSideMenu("", FontImage.MATERIAL_ARROW_BACK, e -> Statics.previous.showBack());
         }
         tb.addMaterialCommandToSideMenu("Logout", FontImage.MATERIAL_EXIT_TO_APP, e -> {
-            Static.previous = this;
+            Statics.previous = this;
             new NewsfeedForm(res).show();
         });
     }

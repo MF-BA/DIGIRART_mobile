@@ -5,6 +5,7 @@
  */
 package com.mycompany.gui;
 
+import com.codename1.components.InfiniteProgress;
 import com.codename1.components.ScaleImageLabel;
 import com.codename1.ui.Button;
 import com.codename1.ui.Container;
@@ -23,7 +24,7 @@ import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.util.Resources;
 import com.mycompany.entities.Auction;
 import com.mycompany.entities.Bid;
-import com.mycompany.utils.Static;
+import com.mycompany.utils.Statics;
 import com.mycompany.myapp.BaseForm;
 import com.mycompany.services.AuctionServices;
 import com.mycompany.services.BidServices;
@@ -46,6 +47,12 @@ public class BidAdd extends BaseForm {
         getContentPane().setScrollVisible(false);
 
         super.addSideMenu(res);
+         InfiniteProgress ip = new InfiniteProgress();
+        final Dialog ipDlg = ip.showInifiniteBlocking();
+
+        //  ListReclamationForm a = new ListReclamationForm(res);
+        //  a.show();
+//            refreshTheme();
 
         EncodedImage placeholderImageseparator = EncodedImage.createFromImage(Image.createImage(1000, 110), false);
         String separURL = "http://127.0.0.1:8000/uploads/pngegg.png";
@@ -65,7 +72,7 @@ public class BidAdd extends BaseForm {
         int placeholderHeight = Display.getInstance().getDisplayHeight() / 4; // one quarter of the screen height
         EncodedImage placeholderImage = EncodedImage.createFromImage(Image.createImage(placeholderWidth, placeholderHeight), false);
         ArrayList images = AuctionServices.getInstance().getArtworkImages(auction.getId_artwork());
-        String imageURL = images.isEmpty() ? "http://127.0.0.1:8000/uploads/Empty.jpeg" : Static.BASE_URL + "uploads/" + images.get(0);
+        String imageURL = images.isEmpty() ? "http://127.0.0.1:8000/uploads/Empty.jpeg" : Statics.BASE_URL + "uploads/" + images.get(0);
         Image img = URLImage.createToStorage(placeholderImage, imageURL, imageURL, URLImage.RESIZE_SCALE_TO_FILL);
 
         ScaleImageLabel imageLabel = new ScaleImageLabel(img);
