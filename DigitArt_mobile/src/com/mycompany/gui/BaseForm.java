@@ -81,20 +81,30 @@ public class BaseForm extends Form {
         sl.setBackgroundType(Style.BACKGROUND_IMAGE_SCALED_FILL);
         
         
-        int placeholderWidth = Display.getInstance().getDisplayWidth() / 2; // half the screen width
-        int placeholderHeight = Display.getInstance().getDisplayHeight() / 4; // one quarter of the screen height
+        int placeholderWidth = Display.getInstance().getDisplayWidth() / 6; // half the screen width
+        int placeholderHeight = Display.getInstance().getDisplayHeight() / 12; // one quarter of the screen height
         EncodedImage placeholderImage = EncodedImage.createFromImage(Image.createImage(placeholderWidth, placeholderHeight),false); 
-        String imageURL = Statics.BASE_URL+"/uploads/"+SessionUser.getImage();
-        
-        Image x = URLImage.createToStorage(placeholderImage, imageURL, imageURL, URLImage.RESIZE_SCALE_TO_FILL);
-        
-        
-        
-        tb.addComponentToSideMenu(LayeredLayout.encloseIn(
+        if(SessionUser.getImage() != null)
+{
+    String imageURL = Statics.BASE_URL+"/uploads/"+SessionUser.getImage();
+Image x = URLImage.createToStorage(placeholderImage, imageURL, imageURL, URLImage.RESIZE_SCALE_TO_FILL);
+ tb.addComponentToSideMenu(LayeredLayout.encloseIn(
                 sl,
                 FlowLayout.encloseCenterBottom(
                         new Label(x, "PictureWhiteBackgrond"))
         ));
+}
+if(SessionUser.getImage() == null)
+{
+    String imageURL = Statics.BASE_URL+"/Back/images/icon-profile.png";
+Image x = URLImage.createToStorage(placeholderImage, imageURL, imageURL, URLImage.RESIZE_SCALE_TO_FILL);
+   tb.addComponentToSideMenu(LayeredLayout.encloseIn(
+                sl,
+                FlowLayout.encloseCenterBottom(
+                        new Label(x, "PictureWhiteBackgrond"))
+        )); 
+}
+       
         
         if(SessionUser.getRole().equals("Artist") || SessionUser.getRole().equals("Suscriber"))
         {

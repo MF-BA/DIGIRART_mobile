@@ -81,7 +81,11 @@ public class ProfileForm extends BaseForm {
         int placeholderWidth = Display.getInstance().getDisplayWidth() / 6; // one third of the screen width
 int placeholderHeight = Display.getInstance().getDisplayHeight() / 12; // one eighth of the screen height
 EncodedImage placeholderImage = EncodedImage.createFromImage(Image.createImage(placeholderWidth, placeholderHeight),false); 
-String imageURL = Statics.BASE_URL+"/uploads/"+SessionUser.getImage();
+
+
+if(SessionUser.getImage() != null)
+{
+    String imageURL = Statics.BASE_URL+"/uploads/"+SessionUser.getImage();
 Image x = URLImage.createToStorage(placeholderImage, imageURL, imageURL, URLImage.RESIZE_SCALE_TO_FILL);
 add(LayeredLayout.encloseIn(
     sl,
@@ -92,7 +96,21 @@ add(LayeredLayout.encloseIn(
         )
     )
 ));
-
+}
+if(SessionUser.getImage() == null)
+{
+    String imageURL = Statics.BASE_URL+"/Back/images/icon-profile.png";
+Image x = URLImage.createToStorage(placeholderImage, imageURL, imageURL, URLImage.RESIZE_SCALE_TO_FILL);
+  add(LayeredLayout.encloseIn(
+    sl,
+    BorderLayout.south(
+        GridLayout.encloseIn(3, 
+            FlowLayout.encloseCenter(
+                new Label(x, "PictureWhiteBackgrond"))
+        )
+    )
+));  
+}
 
         int cn = SessionUser.getCin();
         int ph_num = SessionUser.getPhonenum();
@@ -138,7 +156,15 @@ add(LayeredLayout.encloseIn(
         
         vectorRole.add("Artist");
         vectorRole.add("Subscriber");
-        
+        if(SessionUser.getRole().equals("Admin"))
+        {
+            vectorRole.add("Gallery Manager");
+        vectorRole.add("Auction Manager");
+        vectorRole.add("Events Manager");
+        vectorRole.add("Tickets Manager");
+        vectorRole.add("Users Manager");
+        vectorRole.add("Admin");
+        }
         ComboBox<String>roles = new ComboBox<>(vectorRole);
         roles.setSelectedItem(SessionUser.getRole());
         addStringValue("Your role", roles);

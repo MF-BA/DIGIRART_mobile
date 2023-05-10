@@ -35,14 +35,22 @@ import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.util.Resources;
-import com.mycompany.services.ServiceUsers;
+/*import java.util.Properties;
+import java.util.Random;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Message;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;*/
+/*import com.mycompany.services.ServiceUsers;
 import com.sun.mail.smtp.SMTPTransport;
 import java.util.Date;
 import java.util.Properties;
 import javax.mail.Message;
 import javax.mail.Session;
 import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMessage;*/
 
 /**
  * Account activation UI
@@ -101,51 +109,54 @@ public class ActivateForm extends BaseForm {
             
             //houni bch nzido API SEND MAIL autrement bch n3ayto lel function ta3o mais 9bal njibo image oublier.png
             
-            sendMail(res);
-            ipDialog.dispose();
+           //sendMail(res);
+            /* ipDialog.dispose();
             Dialog.show("Password","Nous avons envoyé le mot de passe a votre e-mail. Veuillez vérifier votre boite de réception",new Command("OK"));
             new SignInForm(res).show();
-            refreshTheme();
+            refreshTheme();*/
             
         });
     }
     //sendMail
-    
+    /*
     public void sendMail(Resources res) {
-        try {
+       try {
             
-            Properties props = new Properties();
-                props.put("mail.transport.protocol", "smtp"); //SMTP protocol
-                props.put("mail.smtps.host", "smtp.gmail.com"); //SMTP Host
-		props.put("mail.smtps.auth", "true"); //enable authentication
-             
-           Session session = Session.getInstance(props,null); // aleh 9rahach 5ater mazlna masabinach javax.mail .jar
-            
-            
-            MimeMessage msg = new MimeMessage(session);
-            
-            msg.setFrom(new InternetAddress("Reintialisation mot de passe <monEmail@domaine.com>"));
-            msg.setRecipients(Message.RecipientType.TO, Email.getText().toString());
-            msg.setSubject("Application nom  : Confirmation du ");
-            msg.setSentDate(new Date(System.currentTimeMillis()));
-            
-           String mp = ServiceUsers.getInstance().getPasswordByEmail(Email.getText().toString(), res);//mp taw narj3lo
-           String txt = "Bienvenue sur AppNom : Tapez ce mot de passe : "+mp+" dans le champs requis et appuiez sur confirmer";
-           
-           
-           msg.setText(txt);
-           
-          SMTPTransport  st = (SMTPTransport)session.getTransport("smtps") ;
-            
-          st.connect("smtp.gmail.com",587,"digitart.primes@gmail.com","ktknrunncnveaidz");
-           
-          st.sendMessage(msg, msg.getAllRecipients());
-            
-          System.out.println("server response : "+st.getLastServerResponse());
+        //  Optional<String> result = dialog.showAndWait();
+        Properties props = new Properties();
+        //props.setProperty("mail.transport.protocol", "smtp");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.setProperty("mail.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+
+
+
+Session session = Session.getInstance(props,
+                new javax.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication("digitart.primes@gmail.com","ktknrunncnveaidz");
+            }
+        });
+
+ //String recipientEmail = result.get();
+
+Random random = new Random();
+int resetCode = random.nextInt(1000000); // Generate a random 6-digit code
+String emailContent = "Your reset code is: " + resetCode;
+
+Message message = new MimeMessage(session);
+message.setFrom(new InternetAddress("digitart.primes@gmail.com"));
+
+message.setRecipients(Message.RecipientType.TO,
+InternetAddress.parse(Email.getText()));
+message.setSubject("Reset Password");
+message.setText(emailContent);
+Transport.send(message);
           
         }catch(Exception e ) {
             e.printStackTrace();
         }
     }
-    
+    */
 }
