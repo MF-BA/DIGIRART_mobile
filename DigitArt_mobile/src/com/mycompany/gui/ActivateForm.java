@@ -31,10 +31,12 @@ import com.codename1.ui.Form;
 import com.codename1.ui.Label;
 import com.codename1.ui.TextField;
 import com.codename1.ui.Toolbar;
+import com.codename1.ui.animations.CommonTransitions;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.util.Resources;
+import com.mycompany.services.ServiceUsers;
 /*import java.util.Properties;
 import java.util.Random;
 import javax.mail.PasswordAuthentication;
@@ -76,11 +78,13 @@ public class ActivateForm extends BaseForm {
                         new Label("Awsome Thanks!", "LogoLabel")
                 )
         );
-        
+            TextField code = new TextField("", "saisir le code", 20, TextField.ANY);
+            TextField newPassword = new TextField("", "saisir le nouveau mot de passe", 20, TextField.PASSWORD);
+
         Email = new TextField("","saisir votre email",20,TextField.ANY);
         Email.setSingleLineTextArea(false);
         
-        Button valider = new Button("Valider");
+        Button sendmailbtn = new Button("Send");
         
         Button signIn = new Button("Return to sign in");
         signIn.addActionListener( e-> previous.showBack());//yarja3 lel window ely9ablha
@@ -90,7 +94,7 @@ public class ActivateForm extends BaseForm {
         
                 new FloatingHint(Email),
                 createLineSeparator(),
-                valider,
+                sendmailbtn,
                 
                 signIn
         );
@@ -99,17 +103,19 @@ public class ActivateForm extends BaseForm {
         
         add(BorderLayout.CENTER,content);
         
-        valider.requestFocus();
+        sendmailbtn.requestFocus();
         
-        valider.addActionListener(e -> {
+        sendmailbtn.addActionListener(e -> {
             
-            InfiniteProgress ip = new InfiniteProgress();
+          /*InfiniteProgress ip = new InfiniteProgress();
             
-            final Dialog ipDialog =  ip.showInfiniteBlocking();
+          final Dialog ipDialog =  ip.showInfiniteBlocking();*/
             
-            //houni bch nzido API SEND MAIL autrement bch n3ayto lel function ta3o mais 9bal njibo image oublier.png
             
-           //sendMail(res);
+          content.replaceAndWait(Email, code, CommonTransitions.createFade(500));
+          
+          String codepass = ServiceUsers.getInstance().getPasswordCodeByEmail(Email.getText(), res);
+          
             /* ipDialog.dispose();
             Dialog.show("Password","Nous avons envoyé le mot de passe a votre e-mail. Veuillez vérifier votre boite de réception",new Command("OK"));
             new SignInForm(res).show();

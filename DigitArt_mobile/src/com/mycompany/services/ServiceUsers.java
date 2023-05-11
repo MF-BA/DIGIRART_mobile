@@ -437,40 +437,31 @@ DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
     return resultOk;
         
     }
-      public String getPasswordByEmail(String email, Resources rs ) {
+      public String getPasswordCodeByEmail(String email, Resources rs ) {
         
         
         String url = Statics.BASE_URL+"/user/getPasswordByEmail?email="+email;
         req = new ConnectionRequest(url, false); 
         req.setUrl(url);
         
+         final String[] code = new String[1];
+         
         req.addResponseListener((e) ->{
             
-            JSONParser j = new JSONParser();
-            
-             json = new String(req.getResponseData()) + "";
-            
-            
-            try {
-            
-          
-                System.out.println("data =="+json);
-                
-                Map<String,Object> password = j.parseJSON(new CharArrayReader(json.toCharArray()));
-                
-                
-            
-            
-            }catch(Exception ex) {
-                ex.printStackTrace();
-            }
-            
-            
-            
+             JSONParser j = new JSONParser();
+        String json = new String(req.getResponseData());
+
+        try {
+            Map<String, Object> result = j.parseJSON(new CharArrayReader(json.toCharArray()));
+            code[0] = String.valueOf(result.get("code"));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+  
         });
     
         
         NetworkManager.getInstance().addToQueueAndWait(req);
-    return json;
+     return code[0];
     }
 }
