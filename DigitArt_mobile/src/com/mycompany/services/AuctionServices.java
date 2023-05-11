@@ -225,5 +225,44 @@ public class AuctionServices {
         NetworkManager.getInstance().addToQueueAndWait(req);
         return resultOK;
     }
+     
+     ///mobile/{id}/delete
+     public boolean DeleteAuction(Auction auction) {
+        String url = Statics.BASE_URL + "mobile/"+auction.getId_auction()+"/delete";
+        req.setUrl(url);     
+
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                resultOK = req.getResponseCode() == 200; //Code HTTP 200 OK
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return resultOK;
+    }
+     
+     
+     public boolean EditAuction(Auction auction) {
+        String url = Statics.BASE_URL + "auction/mobile/edit";
+        req.setUrl(url);
+         System.out.println(String.valueOf(auction.getDate()));
+        req.addArgument("StartingPrice", String.valueOf(auction.getStarting_price()));
+        req.addArgument("Description", String.valueOf(auction.getDescription()));
+        req.addArgument("EndingDate", String.valueOf(auction.getDate()));
+        req.addArgument("Increment", String.valueOf(auction.getIncrement()));
+        req.addArgument("Artwork", String.valueOf(auction.getId_artwork()));
+        
+
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                resultOK = req.getResponseCode() == 200; //Code HTTP 200 OK
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return resultOK;
+    }
 
 }

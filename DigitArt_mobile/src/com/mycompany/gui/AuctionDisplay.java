@@ -10,7 +10,6 @@ import com.codename1.components.ScaleImageLabel;
 import com.codename1.ui.Button;
 import com.codename1.ui.ButtonGroup;
 import com.codename1.ui.Component;
-import static com.codename1.ui.Component.LEFT;
 import com.codename1.ui.Container;
 import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
@@ -39,6 +38,7 @@ import java.util.Date;
  * @author fedi1
  */
 public class AuctionDisplay extends BaseForm {
+
 
     public AuctionDisplay(Resources res) {
 
@@ -96,7 +96,6 @@ public class AuctionDisplay extends BaseForm {
         });
     }
 
-
     private void addauction(Auction auction, Resources res) {
 //        int height = Display.getInstance().convertToPixels(11.5f);
 //        int width = Display.getInstance().convertToPixels(14f);
@@ -118,9 +117,30 @@ public class AuctionDisplay extends BaseForm {
         Date date = auction.getDate();
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
         String formattedDate = formatter.format(date);
-        
-        Label Ending_date = new Label(formattedDate);
-        Ending_date.setUIID("CenterLabel");
+        Label countdownLabel = new Label(formattedDate);
+        countdownLabel.setUIID("CenterLabel");
+
+        // create a new thread that will run the countdown timer
+        Thread countdownThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    String countdownTime = findDifference(date);
+                    Display.getInstance().callSerially(new Runnable() {
+                        @Override
+                        public void run() {
+                            countdownLabel.setText(countdownTime);
+                        }
+                    });
+                    try {
+                        Thread.sleep(1000); // pause for 1 second
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        });
+        countdownThread.start(); // start the countdown timer thread
 
         Button more_info = new Button("more information");
         more_info.setUIID("Button2");
@@ -140,11 +160,35 @@ public class AuctionDisplay extends BaseForm {
         Container cnt = new Container(new BoxLayout(BoxLayout.Y_AXIS));
         cnt.add(title);
         cnt.add(imageLabel);
-        cnt.add(Ending_date);
+        cnt.add(countdownLabel);
         cnt.add(more_info);
         cnt.add(imageLab);
 
         add(cnt);
+    }
+
+    public static String findDifference(Date endDateTime) {
+        // Calculate time difference in milliseconds
+        long differenceInMillis = endDateTime.getTime() - new Date().getTime();
+
+        long differenceInSeconds = differenceInMillis / 1000;
+        long differenceInMinutes = differenceInSeconds / 60;
+        long differenceInHours = differenceInMinutes / 60;
+        long differenceInDays = differenceInHours / 24;
+
+        // Calculate remaining hours, minutes and seconds
+        differenceInHours = differenceInHours % 24;
+        differenceInMinutes = differenceInMinutes % 60;
+        differenceInSeconds = differenceInSeconds % 60;
+
+        // Build the result string
+        String result = differenceInDays + " days, "
+                + differenceInHours + " hours, "
+                + differenceInMinutes + " minutes, "
+                + differenceInSeconds + " seconds.";
+
+        // Return the result string
+        return result;
     }
 
 }
