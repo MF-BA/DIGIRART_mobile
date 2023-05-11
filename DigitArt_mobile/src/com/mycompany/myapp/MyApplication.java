@@ -53,7 +53,7 @@ public class MyApplication {
             return;
         }
        //new PaymentForm(theme).show();
-        new PaymentForm2(theme).show();
+        new AddTicketForm(theme).show();
     }
 
     public void stop() {

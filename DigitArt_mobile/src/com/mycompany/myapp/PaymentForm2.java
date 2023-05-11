@@ -78,9 +78,10 @@ public class PaymentForm2 extends Form {
 
 
         // Add the thank you text
-        Label thankYouLabel = new Label("Thanks for your purchase with Digitart!");
+        Label thankYouLabel = new Label("Thanks for your purchase!");
         thankYouLabel.setUIID("ThankYouLabel");
-
+        thankYouLabel.getAllStyles().setAlignment(Component.CENTER); 
+        thankYouLabel.getAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_BOLD, Font.SIZE_LARGE));
         // Set the foreground color of the thank you text to white
         thankYouLabel.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
 
@@ -88,11 +89,14 @@ public class PaymentForm2 extends Form {
         Label Email = new Label("An email has been sent to you ! ");
         Email.setUIID("ThankYouLabel");
         Email.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+        Email.getAllStyles().setAlignment(Component.CENTER); 
+        Email.getAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_BOLD, Font.SIZE_LARGE));
         
         Label Check = new Label("Check it Out!");
         Check.setUIID("ThankYouLabel");
         Check.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
-        
+        Check.getAllStyles().setAlignment(Component.CENTER); 
+        Check.getAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_BOLD, Font.SIZE_LARGE));
 
         add(thankYouLabel);
         add(Email);
