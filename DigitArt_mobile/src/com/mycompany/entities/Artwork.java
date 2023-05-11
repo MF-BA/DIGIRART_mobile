@@ -22,17 +22,19 @@ public class Artwork {
     private String dateArt;
     private String description;
     private int idRoom;
+    private String nameRoom;
+
+    public String getNameRoom() {
+        return nameRoom;
+    }
+
+    public void setNameRoom(String nameRoom) {
+        this.nameRoom = nameRoom;
+    }
     
 
     public Artwork() {
     }
-
-    public Artwork(int idArt, String artworkName, int idArtist) {
-        this.idArt = idArt;
-        this.artworkName = artworkName;
-        this.idArtist = idArtist;
-    }
-    
     
     public Artwork(int idArt, String artworkName, int idArtist, String artistName, String dateArt, String description, int idRoom, String ownerType) {
         this.idArt = idArt;
