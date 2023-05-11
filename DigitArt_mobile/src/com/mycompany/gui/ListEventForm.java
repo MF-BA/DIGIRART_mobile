@@ -113,8 +113,7 @@ public class ListEventForm extends BaseForm {
         ButtonGroup barGroup = new ButtonGroup();
         RadioButton mesListes = RadioButton.createToggle("Mes Event", barGroup);
         mesListes.setUIID("SelectBar");
-        RadioButton liste = RadioButton.createToggle("Autres", barGroup);
-        liste.setUIID("SelectBar");
+       
         RadioButton partage = RadioButton.createToggle("Reclamer", barGroup);
         partage.setUIID("SelectBar");
         Label arrow = new Label(res.getImage("news-tab-down-arrow.png"), "Container");
@@ -129,7 +128,7 @@ public class ListEventForm extends BaseForm {
         });
 
         add(LayeredLayout.encloseIn(
-                GridLayout.encloseIn(3, mesListes, liste, partage),
+                GridLayout.encloseIn(2, mesListes, partage),
                 FlowLayout.encloseBottom(arrow)
         ));
 
@@ -140,7 +139,6 @@ public class ListEventForm extends BaseForm {
             updateArrowPosition(mesListes, arrow);
         });
         bindButtonSelection(mesListes, arrow);
-        bindButtonSelection(liste, arrow);
         bindButtonSelection(partage, arrow);
         // special case for rotation
         addOrientationListener(e -> {
@@ -166,7 +164,13 @@ public class ListEventForm extends BaseForm {
                 
                 image.setBackgroundType(Style.BACKGROUND_IMAGE_SCALED_FILL);
         }
-
+        
+        Button redirectButton = new Button("Display Statistics");
+redirectButton.addActionListener(e -> {
+    StatisticsEvent statisticsEvent = new StatisticsEvent(res);
+    statisticsEvent.show();
+});
+add(redirectButton);
     }
     private void addStringValue(String s, Component v) {
         

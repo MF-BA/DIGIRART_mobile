@@ -153,13 +153,7 @@ public class EventFrontForm extends BaseForm {
         
                
         }
-     Button backButton = new Button("Map");
-   backButton.addActionListener(e -> {
-        MapEvent a = new MapEvent();
-        a.show();
-    });
-
-add(backButton);
+    
     }
     
     private void updateArrowPosition(Button b, Label arrow) {

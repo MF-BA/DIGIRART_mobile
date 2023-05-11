@@ -132,67 +132,40 @@ BaseForm form;
         
         ButtonGroup barGroup = new ButtonGroup();
         
-        RadioButton all = RadioButton.createToggle("Feedback", barGroup);
        
-        all.setUIID("SelectBar");
-        RadioButton popular = RadioButton.createToggle("Categorie Reclamation", barGroup);
+       
+        RadioButton popular = RadioButton.createToggle("Statistics", barGroup);
         popular.setUIID("SelectBar");
-        RadioButton feedback = RadioButton.createToggle("Feedback", barGroup);
-        feedback.setUIID("SelectBar");
-        RadioButton profile = RadioButton.createToggle("Statistique", barGroup);
-        profile.setUIID("SelectBar");
-        Label arrow = new Label(res.getImage("news-tab-down-arrow.png"), "Container");
+       
         
         add(LayeredLayout.encloseIn(
-                GridLayout.encloseIn(3, all, popular,profile),
-                FlowLayout.encloseBottom(arrow)
+                GridLayout.encloseIn(1,popular)
+               
         ));
-        all.setSelected(true);
-        arrow.setVisible(false);
-        addShowListener(e -> {
-            arrow.setVisible(true);
-            updateArrowPosition(all, arrow);
-           
-        });
-        bindButtonSelection(all, arrow);
-        bindButtonSelection(popular, arrow);
-                all.addActionListener((e)->{
-        });
-
-                 popular.setSelected(true);
-        arrow.setVisible(false);
-        addShowListener(e -> {
-            arrow.setVisible(true);
-            updateArrowPosition(profile, arrow);
-        });
-        bindButtonSelection(profile, arrow);
-                profile.addActionListener((e)->{
-                  new StatisticsEvent(res).show();
-                  
-        });
+      
+       
+     
+             
+        
         // special case for rotation
-        addOrientationListener(e -> {
-            updateArrowPosition(barGroup.getRadioButton(barGroup.getSelectedIndex()), arrow);
-        });
+      
     
         
         //app 
         createPieChartForm();
-        
+        Button redirectButton = new Button("Go to AjoutEventForm");
+redirectButton.addActionListener(e -> {
+    AjoutEventForm ajoutEventForm = new AjoutEventForm(res);
+    ajoutEventForm.show();
+});
+add(redirectButton);
         
         }
     
     
     
     
-    
-     private void updateArrowPosition(Button b, Label arrow) {
-        arrow.getUnselectedStyle().setMargin(LEFT, b.getX() + b.getWidth() / 2 - arrow.getWidth() / 2);
-        arrow.getParent().repaint();
-        
-        
-    }
-    
+ 
     private void addTab(Tabs swipe, Image img, Label spacer, String text) {
         int size = Math.min(Display.getInstance().getDisplayWidth(), Display.getInstance().getDisplayHeight());
         if(img.getHeight() < size) {
@@ -243,15 +216,9 @@ BaseForm form;
       
         add(cnt);
         image.addActionListener(e -> ToastBar.showMessage(title, FontImage.MATERIAL_INFO));
+        
    }
-    private void bindButtonSelection(Button b, Label arrow) {
-        b.addActionListener(e -> {
-            if(b.isSelected()) {
-                updateArrowPosition(b, arrow);
-            }
-        });
-    }
-    
+
 
     //Statistique :
     //fontion : bch n7adhro size ta3 labels ta3 stat w margin w colors ba3d chn3aytoulha methode hethi.
