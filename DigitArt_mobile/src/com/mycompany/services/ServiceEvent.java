@@ -49,7 +49,7 @@ public class ServiceEvent {
     public void ajoutEvent(Event event) {
         
       
-        String url =Statics.Base_URL+"/event/addEvent/Json?event_name="+event.getEventName()+"&nb_participants="+event.getNbParticipants()+"&start_time="+event.getStartTime()+"&detail="+event.getDetail()+"&color="+event.getColor();
+        String url =Statics.BASE_URL+"/event/addEvent/Json?event_name="+event.getEventName()+"&nb_participants="+event.getNbParticipants()+"&start_time="+event.getStartTime()+"&detail="+event.getDetail()+"&color="+event.getColor();
 
 
 // aa sorry n3adi getId lyheya mech ta3 user ta3 reclamation
@@ -68,7 +68,7 @@ public class ServiceEvent {
        public ArrayList<Event>affichageEvent() {
         ArrayList<Event > result = new ArrayList<>();
         
-        String url = Statics.Base_URL+"/event/DisplayEvent/Json";
+        String url = Statics.BASE_URL+"/event/DisplayEvent/Json";
         req.setUrl(url);
         
         req.addResponseListener(new ActionListener<NetworkEvent>() {
@@ -142,7 +142,7 @@ public class ServiceEvent {
       
     public Event DetailEvent( int id , Event event) {
         
-        String url = Statics.Base_URL+"/event/detailEvent/Json?"+id;
+        String url = Statics.BASE_URL+"/event/detailEvent/Json?"+id;
         req.setUrl(url);
         
         String str  = new String(req.getResponseData());
@@ -180,7 +180,7 @@ public class ServiceEvent {
     
      //Delete 
     public boolean deleteEvent(int id ) {
-        String url = Statics.Base_URL +"/event/deleteEvent/Json?id="+id;
+        String url = Statics.BASE_URL +"/event/deleteEvent/Json?id="+id;
         
         req.setUrl(url);
         
@@ -198,7 +198,7 @@ public class ServiceEvent {
     
      //Update 
     public boolean modifierReclamation(Event event) {
-        String url =Statics.Base_URL+"/event/modifyEvent/Json?id="+event.getId()+"&event_name="+event.getEventName()+"&nb_participants="+event.getNbParticipants()+"&start_time="+event.getStartTime()+"&detail="+event.getDetail()+"&color="+event.getColor();
+        String url =Statics.BASE_URL+"/event/modifyEvent/Json?id="+event.getId()+"&event_name="+event.getEventName()+"&nb_participants="+event.getNbParticipants()+"&start_time="+event.getStartTime()+"&detail="+event.getDetail()+"&color="+event.getColor();
         req.setUrl(url);
         
         req.addResponseListener(new ActionListener<NetworkEvent>() {

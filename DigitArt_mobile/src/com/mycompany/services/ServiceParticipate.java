@@ -51,7 +51,7 @@ public class ServiceParticipate {
     public void ajoutParticipate(Participants p) {
         
       
-        String url =Statics.Base_URL+"/participants/addParticipant/Json?id_event="+p.getIdEvent()+"&id_user="+p.getIdUser()+"&first_name="+p.getFirstName()+"&last_name="+p.getLastName()+"&address="+p.getAdress()+"&gender="+p.getGender();
+        String url =Statics.BASE_URL+"/participants/addParticipant/Json?id_event="+p.getIdEvent()+"&id_user="+p.getIdUser()+"&first_name="+p.getFirstName()+"&last_name="+p.getLastName()+"&address="+p.getAdress()+"&gender="+p.getGender();
 //127.0.0.1:8000/participants/addParticipant/Json?id_event=7&id_user=4&first_name="zizou"&last_name="loukil"&address="soukra"&gender="Female"
  
 // aa sorry n3adi getId lyheya mech ta3 user ta3 reclamation
@@ -68,7 +68,7 @@ public class ServiceParticipate {
     
      //Delete 
     public boolean deletePart(int id ) {
-        String url = Statics.Base_URL +"/participants/deleteParticipation/Json?id="+id;
+        String url = Statics.BASE_URL +"/participants/deleteParticipation/Json?id="+id;
         
         req.setUrl(url);
         
