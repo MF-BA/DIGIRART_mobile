@@ -19,6 +19,7 @@ import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
 import com.codename1.ui.EncodedImage;
 import com.codename1.ui.FontImage;
+import com.codename1.ui.Form;
 import com.codename1.ui.Graphics;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
@@ -59,7 +60,7 @@ public class EventFrontForm extends BaseForm {
 
         Label spacer1 = new Label();
         Label spacer2 = new Label();
-        addTab(swipe, res.getImage("news-item.jpg"), spacer1, "15 Likes  ", "85 Comments", "Integer ut placerat purued non dignissim neque. ");
+        addTab(swipe, res.getImage("event_bg.jpg"), spacer1, "15 Likes  ", "85 Comments", "Here you can see the events we have. ");
         addTab(swipe, res.getImage("dog.jpg"), spacer2, "100 Likes  ", "66 Comments", "Dogs are cute: story at 11");
                 
         swipe.setUIID("Container");
@@ -152,6 +153,13 @@ public class EventFrontForm extends BaseForm {
         
                
         }
+     Button backButton = new Button("Map");
+   backButton.addActionListener(e -> {
+        MapEvent a = new MapEvent();
+        a.show();
+    });
+
+add(backButton);
     }
     
     private void updateArrowPosition(Button b, Label arrow) {
@@ -190,11 +198,11 @@ public class EventFrontForm extends BaseForm {
                 BorderLayout.south(
                     BoxLayout.encloseY(
                             new SpanLabel(text, "LargeWhiteText"),
-                            FlowLayout.encloseIn(likes, comments),
                             spacer
                         )
                 )
             );
+        
 
         swipe.addTab("", page1);
     }

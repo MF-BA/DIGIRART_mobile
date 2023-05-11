@@ -5,6 +5,7 @@
  */
 package com.mycompany.gui;
 
+import com.codename1.ui.Button;
 import com.codename1.ui.Form;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
@@ -22,19 +23,26 @@ public class OneEventForm extends Form {
     setTitle("Event Details");
     
     // Create UI components
-    Label eventNameLabel = new Label("Event Name: " + event.getEventName());
-    Label startDateLabel = new Label("Start Date: " + event.getStartDate());
-    Label endDateLabel = new Label("End Date: " + event.getEndDate());
-    Label nbParticipantsLabel = new Label("Number of Participants: " + event.getNbParticipants());
-    Label detailsLabel = new Label("Details:");
-    TextArea detailsTextArea = new TextArea(event.getDetail());
-    detailsTextArea.setEditable(false);
-    detailsTextArea.setRows(4);
-    detailsTextArea.setUIID("Label");
+    Label eventNameLabel = new Label("Event Name: " + event.getEventName(),"NewsTopLine2");
+    Label startDateLabel = new Label("Start Date: " + event.getStartDate(),"NewsTopLine2");
+    Label endDateLabel = new Label("End Date: " + event.getEndDate(),"NewsTopLine2");
+    Label nbParticipantsLabel = new Label("Number of Participants: " + event.getNbParticipants(),"NewsTopLine2");
+    Label detailsLabel = new Label("Details:"+event.getDetail(),"NewsTopLine2");
+  
+    
+    
         
     // Set layout and add components to the form
     setLayout(new BoxLayout(BoxLayout.Y_AXIS));
-    addAll(eventNameLabel, startDateLabel, endDateLabel, nbParticipantsLabel, detailsLabel, detailsTextArea);
+    addAll(eventNameLabel, startDateLabel, endDateLabel, nbParticipantsLabel, detailsLabel);
+    
+    Button button = new Button("Participate");
+button.addActionListener(e -> {
+    // Action to be performed when the button is clicked
+    System.out.println("Button clicked!");
+});
+    add(button);
 }
+  
 }
 

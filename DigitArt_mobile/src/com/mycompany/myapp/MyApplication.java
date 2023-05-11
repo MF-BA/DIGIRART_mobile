@@ -16,6 +16,8 @@ import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.io.NetworkEvent;
 import com.mycompany.gui.EventFrontForm;
 import com.mycompany.gui.ListEventForm;
+import com.mycompany.gui.MapEvent;
+import com.mycompany.gui.StatisticsEvent;
 import com.mycompany.gui.WalkthruForm;
 
 /**
@@ -56,9 +58,11 @@ public class MyApplication {
             return;
         }
         //new WalkthruForm(theme).show();
-        //new AjoutEventForm(theme).show();
+        new AjoutEventForm(theme).show();
         //new ListEventForm(theme).show();
-        new EventFrontForm(theme).show();
+        //new EventFrontForm(theme).show();
+        //new MapEvent();
+        //new StatisticsEvent(theme).show();
         
     }
 

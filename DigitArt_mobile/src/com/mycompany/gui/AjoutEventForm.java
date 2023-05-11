@@ -113,8 +113,7 @@ public class AjoutEventForm extends BaseForm {
 
 
         mesListes.addActionListener((e) -> {
-               InfiniteProgress ip = new InfiniteProgress();
-        final Dialog ipDlg = ip.showInifiniteBlocking();
+         
         
           ListEventForm a = new ListEventForm(res);
           a.show();

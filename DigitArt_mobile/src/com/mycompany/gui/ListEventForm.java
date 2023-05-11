@@ -120,12 +120,11 @@ public class ListEventForm extends BaseForm {
         Label arrow = new Label(res.getImage("news-tab-down-arrow.png"), "Container");
 
 
-        mesListes.addActionListener((e) -> {
-               InfiniteProgress ip = new InfiniteProgress();
-        final Dialog ipDlg = ip.showInifiniteBlocking();
+        partage.addActionListener((e) -> {
+             
         
-        //  ListReclamationForm a = new ListReclamationForm(res);
-          //  a.show();
+         AjoutEventForm a = new AjoutEventForm(res);
+         a.show();
             refreshTheme();
         });
 
@@ -134,11 +133,11 @@ public class ListEventForm extends BaseForm {
                 FlowLayout.encloseBottom(arrow)
         ));
 
-        partage.setSelected(true);
+        mesListes.setSelected(true);
         arrow.setVisible(false);
         addShowListener(e -> {
             arrow.setVisible(true);
-            updateArrowPosition(partage, arrow);
+            updateArrowPosition(mesListes, arrow);
         });
         bindButtonSelection(mesListes, arrow);
         bindButtonSelection(liste, arrow);
@@ -250,7 +249,11 @@ public class ListEventForm extends BaseForm {
         
         Label event_name = new Label("Event_name: "+event.getEventName(),"NewsTopLine2");
         Label detail = new Label("Details : "+event.getDetail(),"NewsTopLine2");
+        Label Start_date = new Label("Start Date : "+event.getStartDate(),"NewsTopLine2");
+        Label End_date = new Label("End Date : "+event.getEndDate(),"NewsTopLine2");
         Label nbparticipants = new Label("Nb Participants : "+event.getNbParticipants(),"NewsTopLine2" );
+        Label start_time = new Label("Start Time: "+event.getStartTime()+"h","NewsTopLine2");
+
         
        
 
@@ -305,6 +308,9 @@ public class ListEventForm extends BaseForm {
                 BoxLayout.encloseX(event_name),
                 BoxLayout.encloseX(detail),
                 BoxLayout.encloseX(nbparticipants),
+                BoxLayout.encloseX(start_time),
+                BoxLayout.encloseX(Start_date),
+                BoxLayout.encloseX(End_date),
                 BoxLayout.encloseX(lModifier,lSupprimer)));
         
         add(cnt);
