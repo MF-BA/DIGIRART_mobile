@@ -54,8 +54,7 @@ public class ServiceArtwork {
     // Adding a Artwork
     public void addArtwork(Artwork artwork) {
         
-        String url = Statics.BASE_URL + "/addArtworkJSON/new?artworkName="+artwork.getArtworkName()+"&artistName="+artwork.getArtistName()+ "&idArtist=" + artwork.getIdArtist() +
-                 "&artistName=" + artwork.getArtistName() + "&dateArt=" + 
+        String url = Statics.BASE_URL + "/addArtworkJSON/new?artworkName="+artwork.getArtworkName()+"&artistName="+artwork.getArtistName()+ "&idArtist=" + artwork.getIdArtist() + "&dateArt=" + 
                  artwork.getDateArt() + "&description=" + artwork.getDescription() +
                  "&idRoom=" + artwork.getIdRoom();
         

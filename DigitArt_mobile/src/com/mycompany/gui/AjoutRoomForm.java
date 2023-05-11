@@ -110,7 +110,7 @@ public class AjoutRoomForm extends BaseForm {
 
         TextField areaField = new TextField("", "enter Area!!");
         areaField.setUIID("TextFieldBlack");
-         areaField.setConstraint(TextField.NUMERIC);
+        areaField.setConstraint(TextField.NUMERIC);
         addStringValue("Area", areaField);
         
         

@@ -68,7 +68,7 @@ public class ShowArtwork extends BaseForm{
         int placeholderHeight = Display.getInstance().getDisplayHeight() / 4; // one quarter of the screen height
         EncodedImage placeholderImage = EncodedImage.createFromImage(Image.createImage(placeholderWidth, placeholderHeight), false);
         ArrayList images = ServiceArtwork.getInstance().getArtworkImages(artwork.getIdArt());
-        String imageURL = images.isEmpty() ? "http://127.0.0.1:8000/uploads//noimage.jpg" : Statics.BASE_URL + "/uploads/" + images.get(0);
+        String imageURL = images.isEmpty() ? "http://127.0.0.1:8000/uploads/noimage.jpg" : Statics.BASE_URL + "/uploads/" + images.get(0);
         Image img = URLImage.createToStorage(placeholderImage, imageURL, imageURL, URLImage.RESIZE_SCALE_TO_FILL);
 
         ScaleImageLabel imageLabel = new ScaleImageLabel(img);
@@ -105,7 +105,7 @@ public class ShowArtwork extends BaseForm{
         cnt.add(nameArtwork);
         cnt.add(imageLabel);
         cnt.add(dateTxt);
-      //  cnt.add(DescriptionTxt);
+        //cnt.add(DescriptionTxt);
         cnt.add(nameRoom);
         cnt.add(backButton);
         add(cnt);
