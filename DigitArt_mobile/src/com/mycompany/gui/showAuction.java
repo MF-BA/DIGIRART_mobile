@@ -79,7 +79,7 @@ public class showAuction extends BaseForm {
         int placeholderHeight = Display.getInstance().getDisplayHeight() / 4; // one quarter of the screen height
         EncodedImage placeholderImage = EncodedImage.createFromImage(Image.createImage(placeholderWidth, placeholderHeight), false);
         ArrayList images = AuctionServices.getInstance().getArtworkImages(auction.getId_artwork());
-        String imageURL = images.isEmpty() ? "http://127.0.0.1:8000/uploads/Empty.jpeg" : Statics.BASE_URL + "uploads/" + images.get(0);
+        String imageURL = images.isEmpty() ? "http://127.0.0.1:8000/uploads/Empty.jpeg" : Statics.BASE_URL + "/uploads/" + images.get(0);
         Image img = URLImage.createToStorage(placeholderImage, imageURL, imageURL, URLImage.RESIZE_SCALE_TO_FILL);
 
         ScaleImageLabel imageLabel = new ScaleImageLabel(img);

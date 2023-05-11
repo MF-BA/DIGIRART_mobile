@@ -122,7 +122,7 @@ public class AuctionServices {
     }
 
     public ArrayList<Auction> getAllAuctions() {
-        String url = Statics.BASE_URL + "auction/mobile/Display";
+        String url = Statics.BASE_URL + "/auction/mobile/Display";
         req.setUrl(url);
         req.setPost(false);
         req.addResponseListener(new ActionListener<NetworkEvent>() {
@@ -184,7 +184,7 @@ public class AuctionServices {
     }
 
     public ArrayList<Artwork> getArtworkNames() {
-        String url = Statics.BASE_URL + "auction/mobile/artwork";
+        String url = Statics.BASE_URL + "/auction/mobile/artwork";
         req.setUrl(url);
         req.setPost(false);
         req.addResponseListener(new ActionListener<NetworkEvent>() {
@@ -205,7 +205,7 @@ public class AuctionServices {
     
     
      public boolean addAuction(Auction auction) {
-        String url = Statics.BASE_URL + "auction/mobile/add";
+        String url = Statics.BASE_URL + "/auction/mobile/add";
         req.setUrl(url);
          System.out.println(String.valueOf(auction.getDate()));
         req.addArgument("StartingPrice", String.valueOf(auction.getStarting_price()));
@@ -228,7 +228,7 @@ public class AuctionServices {
      
      ///mobile/{id}/delete
      public boolean DeleteAuction(Auction auction) {
-        String url = Statics.BASE_URL + "mobile/"+auction.getId_auction()+"/delete";
+        String url = Statics.BASE_URL + "/mobile/"+auction.getId_auction()+"/delete";
         req.setUrl(url);     
 
         req.addResponseListener(new ActionListener<NetworkEvent>() {
@@ -244,7 +244,7 @@ public class AuctionServices {
      
      
      public boolean EditAuction(Auction auction) {
-        String url = Statics.BASE_URL + "auction/mobile/edit";
+        String url = Statics.BASE_URL + "/auction/mobile/edit";
         req.setUrl(url);
          System.out.println(String.valueOf(auction.getDate()));
         req.addArgument("StartingPrice", String.valueOf(auction.getStarting_price()));
