@@ -21,6 +21,7 @@ import com.codename1.ui.util.Resources;
 import com.mycompany.entities.Payment;
 import com.mycompany.entities.Ticket;
 import com.mycompany.services.ServicePayment;
+import com.mycompany.services.ServiceTest;
 import com.mycompany.services.ServiceTicket;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -68,8 +69,34 @@ public class PaymentForm2 extends Form {
         });
         
         
+        ServiceTest.getInstance().Email();
+        
+ 
+         // Set the background color to black
+        this.getAllStyles().setBgColor(0x000000);
+
+
+
+        // Add the thank you text
+        Label thankYouLabel = new Label("Thanks for your purchase with Digitart!");
+        thankYouLabel.setUIID("ThankYouLabel");
+
+        // Set the foreground color of the thank you text to white
+        thankYouLabel.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+
+        // Add the thank you text
+        Label Email = new Label("An email has been sent to you ! ");
+        Email.setUIID("ThankYouLabel");
+        Email.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+        
+        Label Check = new Label("Check it Out!");
+        Check.setUIID("ThankYouLabel");
+        Check.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
         
 
+        add(thankYouLabel);
+        add(Email);
+        add(Check);
     }
 
 

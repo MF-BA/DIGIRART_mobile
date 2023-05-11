@@ -4,7 +4,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/User/OneDrive/Bureau/Next/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/myapp/DisplayTicketForm.java</file>
+            <file>file:/C:/Users/User/OneDrive/Bureau/Next/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/myapp/DisplayPaymentForm.java</file>
+            <file>file:/C:/Users/User/OneDrive/Bureau/Next/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/myapp/BaseForm.java</file>
+            <file>file:/C:/Users/User/OneDrive/Bureau/Next/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/entities/Payment.java</file>
+            <file>file:/C:/Users/User/OneDrive/Bureau/Next/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/services/ServicePayment.java</file>
+            <file>file:/C:/Users/User/OneDrive/Bureau/Next/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/myapp/MyApplication.java</file>
         </group>
     </open-files>
 </project-private>

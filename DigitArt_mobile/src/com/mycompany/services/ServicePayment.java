@@ -85,34 +85,57 @@ public class ServicePayment {
                         //String dateString = formatter.format(date);
                        
                     for(Map<String, Object> obj : listOfMaps) {
-                        Payment ti = new Payment();
-      
-                        // Parse the fields of each ticket from the JSON respons
-                        float paymentid = Math.round(Float.parseFloat(obj.get("paymentId").toString()));
-                        String purchaseDate = obj.get("purchaseDate").toString().substring(0, 10);
-                        float nbAdult = Float.parseFloat(obj.get("nbAdult").toString());
-                        float nbStudent = Float.parseFloat(obj.get("nbStudent").toString());
-                        float nbTeenager = Float.parseFloat(obj.get("nbTeenager").toString());
-                        float TotalPayment = Float.parseFloat(obj.get("totalPayment").toString());
-                        Boolean paid = null;
+                    Payment ti = new Payment();
+                    // Parse the fields of each ticket from the JSON response
+              
+                    int paymentid = Math.round(Float.parseFloat(obj.get("paymentId").toString()));
+                    String purchaseDate = obj.get("purchaseDate").toString().substring(0, 10);
+                    float nbAdult = 0;
+                    float nbStudent = 0;
+                    float nbTeenager = 0;
+                    float totalPayment = 0;
+                    boolean paid = false;
+
+                    // Handle null values for nbAdult
+                    if (obj.containsKey("nbAdult") && obj.get("nbAdult") != null) {
+                        nbAdult = Float.parseFloat(obj.get("nbAdult").toString());
+                    }
+
+                    // Handle null values for nbStudent
+                    if (obj.containsKey("nbStudent") && obj.get("nbStudent") != null) {
+                        nbStudent = Float.parseFloat(obj.get("nbStudent").toString());
+                    }
+
+                    // Handle null values for nbTeenager
+                    if (obj.containsKey("nbTeenager") && obj.get("nbTeenager") != null) {
+                        nbTeenager = Float.parseFloat(obj.get("nbTeenager").toString());
+                    }
+
+                    // Handle null values for totalPayment
+                    if (obj.containsKey("totalPayment") && obj.get("totalPayment") != null) {
+                        totalPayment = Float.parseFloat(obj.get("totalPayment").toString());
+                    }
+
+                    // Handle null values for paid
+                    if (obj.containsKey("paid") && obj.get("paid") != null) {
                         Object paidObj = obj.get("paid");
                         if (paidObj instanceof Boolean) {
                             paid = (Boolean) paidObj;
                         } else if (paidObj instanceof String) {
                             paid = Boolean.parseBoolean((String) paidObj);
                         }
+                    }
 
-      
-                        ti.setPaymentId((int)paymentid);
-                        ti.setPurchaseDate(purchaseDate);
-                        ti.setNbAdult((int)nbAdult);
-                        ti.setNbTeenager((int)nbStudent);
-                        ti.setNbStudent((int)nbTeenager);
-                        ti.setTotalPayment((int)TotalPayment);
-                          ti.setPaid(paid);
-                         
-                        //insert data into ArrayList result
-                        result.add(ti);
+                    ti.setPaymentId(paymentid);
+                    ti.setPurchaseDate(purchaseDate);
+                    ti.setNbAdult((int) nbAdult);
+                    ti.setNbTeenager((int) nbTeenager);
+                    ti.setNbStudent((int) nbStudent);
+                    ti.setTotalPayment((int) totalPayment);
+                    ti.setPaid(paid);
+
+                    // Insert data into ArrayList result
+                    result.add(ti);
                     }
                     
                 }catch(Exception ex) {
