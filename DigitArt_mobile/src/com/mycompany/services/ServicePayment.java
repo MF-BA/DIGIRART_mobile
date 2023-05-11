@@ -109,7 +109,7 @@ public class ServicePayment {
                         ti.setNbTeenager((int)nbStudent);
                         ti.setNbStudent((int)nbTeenager);
                         ti.setTotalPayment((int)TotalPayment);
-                        ti.setPaid(paid);
+                          ti.setPaid(paid);
                          
                         //insert data into ArrayList result
                         result.add(ti);

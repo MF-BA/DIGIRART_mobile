@@ -45,9 +45,21 @@ public class UpdateTicketForm extends BaseForm{
         super.addSideMenu(res);
         
         TextField date = new TextField(t.getTicket_date() , "Start Date" , 32 , TextField.ANY);
+        date.getAllStyles().setAlignment(Component.CENTER);
+        date.getAllStyles().setFgColor(0xff0000);
+        date.getAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_BOLD, Font.SIZE_LARGE));
         TextField edate = new TextField(t.getTicket_edate() , "End Date" , 32 , TextField.ANY);
+        edate.getAllStyles().setAlignment(Component.CENTER);
+        edate.getAllStyles().setFgColor(0xff0000);
+        edate.getAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_BOLD, Font.SIZE_LARGE));
         TextField price = new TextField(String.valueOf(t.getPrice()) , "Price" , 32 , TextField.ANY);
+        price.getAllStyles().setAlignment(Component.CENTER);
+        price.getAllStyles().setFgColor(0xff0000);
+        price.getAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_BOLD, Font.SIZE_LARGE));
         TextField type = new TextField(String.valueOf(t.getTicket_type()) , "Type" , 20 , TextField.ANY);
+        type.getAllStyles().setAlignment(Component.CENTER);
+        type.getAllStyles().setFgColor(0xff0000);
+        type.getAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_BOLD, Font.SIZE_LARGE));
         //etat bch na3mlo comobbox bon lazm admin ya3mlleha approuver mais just chnwarikom ComboBox
         
         ComboBox typeCombo = new ComboBox();
