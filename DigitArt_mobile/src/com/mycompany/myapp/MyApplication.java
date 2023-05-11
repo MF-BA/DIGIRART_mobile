@@ -58,10 +58,10 @@ public class MyApplication {
             return;
         }
         //new WalkthruForm(theme).show();
-        new AjoutEventForm(theme).show();
+        //new AjoutEventForm(theme).show();
         //new ListEventForm(theme).show();
         //new EventFrontForm(theme).show();
-        //new MapEvent();
+        new MapEvent();
         //new StatisticsEvent(theme).show();
         
     }

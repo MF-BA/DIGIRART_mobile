@@ -67,7 +67,7 @@ public MapEvent() {
                 );
              ConnectionRequest r = new ConnectionRequest();
             r.setPost(false);
-            r.setUrl("http://maps.google.com/maps/api/geocode/json?latlng="+cnt.getCameraPosition().getLatitude()+","+cnt.getCameraPosition().getLongitude()+"&oe=utf8&sensor=false");
+            r.setUrl("https://www.google.com/maps/embed/v1/place?key=AIzaSyB20J0YArSAor39b70wlsLGS5L2LKKBc4A&q=Esprit+Tunisia&zoom=15&q=Esprit+Tunisia&center=36.8991667,10.1897222");
                      NetworkManager.getInstance().addToQueueAndWait(r);
 
             JSONParser jsonp = new JSONParser();
