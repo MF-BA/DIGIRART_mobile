@@ -90,7 +90,6 @@ public class PaymentForm extends BaseForm {
                 java.util.Date date = (java.util.Date) p.getValue();
                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
                 System.out.println(dateFormat.format(date));
-                boolean test=ServiceTicket.getInstance().getPrices(date);
 
                 PaymentForm1 form = new PaymentForm1(res,date);
                 form.show();

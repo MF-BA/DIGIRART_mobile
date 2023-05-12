@@ -70,8 +70,11 @@ public class GetTicketPricesServices {
     public int getnbAdult() {
         return nbAdult;
     }
-    
-    public boolean getPrices(Date date) {
+    public interface Callback {
+    void onComplete(boolean success);
+}
+
+    public boolean getPrices(Date date ) {
     String url = Statics.BASE_URL + "/ticket/priceJSON/" + new SimpleDateFormat("dd-MM-yyyy").format(date);
     req.setUrl(url);
     
@@ -83,8 +86,6 @@ public class GetTicketPricesServices {
         priceStudent = Integer.parseInt(tokenizer.nextToken());
         priceAdult = Integer.parseInt(tokenizer.nextToken());
         priceTeen = Integer.parseInt(tokenizer.nextToken());
-        
-
     });
     
     NetworkManager.getInstance().addToQueue(req);

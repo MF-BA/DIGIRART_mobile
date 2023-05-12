@@ -83,7 +83,7 @@ public class PaymentForm1 extends BaseForm {
         add(DateDB);
 
         GetTicketPricesServices.getInstance().getPrices(selectedDate);
-
+        
         // Access prices through getter methods in ServiceTicket class
         int priceStudent = GetTicketPricesServices.getInstance().getPriceStudent();
         int priceAdult = GetTicketPricesServices.getInstance().getPriceTeen();
