@@ -60,7 +60,7 @@ public class EventFrontForm extends BaseForm {
 
         Label spacer1 = new Label();
         Label spacer2 = new Label();
-        addTab(swipe, res.getImage("event_bg.jpg"), spacer1, "15 Likes  ", "85 Comments", "Here you can see the events we have. ");
+        addTab(swipe, res.getImage("Logo.png"), spacer1, "15 Likes  ", "85 Comments", "Here you can see the events we have. ");
         addTab(swipe, res.getImage("dog.jpg"), spacer2, "100 Likes  ", "66 Comments", "Dogs are cute: story at 11");
                 
         swipe.setUIID("Container");
