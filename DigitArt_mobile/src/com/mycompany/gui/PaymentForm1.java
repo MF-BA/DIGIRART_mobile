@@ -25,7 +25,7 @@ import com.mycompany.services.ServiceTicket;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class PaymentForm1 extends Form {
+public class PaymentForm1 extends BaseForm {
 
     Form current;
 
@@ -38,7 +38,7 @@ public class PaymentForm1 extends Form {
         setToolbar(tb);
         getTitleArea().setUIID("Container");
         getContentPane().setScrollVisible(false);
-
+        super.addSideMenu(res);
         ButtonGroup barGroup = new ButtonGroup();
         RadioButton mesListes = RadioButton.createToggle("Step 1", barGroup);
         mesListes.setUIID("SelectBar");

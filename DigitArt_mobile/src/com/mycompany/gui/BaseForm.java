@@ -105,8 +105,7 @@ Image x = URLImage.createToStorage(placeholderImage, imageURL, imageURL, URLImag
                         new Label(x, "PictureWhiteBackgrond"))
         )); 
 }
-       
-        
+ 
         if(SessionUser.getRole().equals("Artist") )
         {
             Statics.back_end = false;
@@ -130,13 +129,9 @@ Image x = URLImage.createToStorage(placeholderImage, imageURL, imageURL, URLImag
             tb.addMaterialCommandToSideMenu("   Payment Management", FontImage.MATERIAL_CREDIT_CARD, e -> new DisplayPaymentForm(res).show());
             tb.addMaterialCommandToSideMenu("   Room Management", FontImage.MATERIAL_HOME_WORK, e -> new ListRoomForm(res).show());
             tb.addMaterialCommandToSideMenu("   Auction Management", FontImage.MATERIAL_CREDIT_CARD, e -> new AuctionDisplay(res).show());
-            
-            
-            
-   
+ 
         }
-        
-        
+ 
         tb.addMaterialCommandToSideMenu("Profile", FontImage.MATERIAL_SETTINGS, e -> new ProfileForm(res).show());
         tb.addMaterialCommandToSideMenu("Logout", FontImage.MATERIAL_EXIT_TO_APP, e -> {
             new SignInForm(res).show();

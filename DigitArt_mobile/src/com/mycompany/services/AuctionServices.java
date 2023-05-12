@@ -108,7 +108,7 @@ public class AuctionServices {
     }
 
     public ArrayList<String> getArtworkImages(int id_artwork) {
-        String url = Statics.BASE_URL + "auction/mobile/" + id_artwork + "/images";
+        String url = Statics.BASE_URL + "/auction/mobile/" + id_artwork + "/images";
         req.setUrl(url);
         req.setPost(false);
         req.addResponseListener(new ActionListener<NetworkEvent>() {

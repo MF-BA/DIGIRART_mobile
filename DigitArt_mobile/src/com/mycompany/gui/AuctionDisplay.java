@@ -20,6 +20,7 @@ import com.codename1.ui.Label;
 import com.codename1.ui.RadioButton;
 import com.codename1.ui.Toolbar;
 import com.codename1.ui.URLImage;
+import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.layouts.GridLayout;
@@ -141,8 +142,10 @@ public class AuctionDisplay extends BaseForm {
         });
         countdownThread.start(); // start the countdown timer thread
 
+         
+        
         Button more_info = new Button("more information");
-        more_info.setUIID("Button2");
+       
 
         more_info.addActionListener(e -> {
             Statics.previous = this;
@@ -160,10 +163,9 @@ public class AuctionDisplay extends BaseForm {
         cnt.add(title);
         cnt.add(imageLabel);
         cnt.add(countdownLabel);
-        cnt.add(more_info);
         cnt.add(imageLab);
-
         add(cnt);
+        addStringValue("", more_info);
     }
 
     public static String findDifference(Date endDateTime) {
@@ -188,6 +190,13 @@ public class AuctionDisplay extends BaseForm {
 
         // Return the result string
         return result;
+    }
+    
+     private void addStringValue(String s, Component v) {
+
+        add(BorderLayout.west(new Label(s, "PaddedLabel"))
+                .add(BorderLayout.CENTER, v));
+        add(createLineSeparator(0xeeeeee));
     }
 
 }
