@@ -64,7 +64,7 @@ public class MyApplication {
                     {
                        new NewsfeedForm(theme).show(); 
                     }
-                    if (SessionUser.getRole().equals("Admin"))
+                    if (SessionUser.getRole().equals("Admin") || SessionUser.getRole().equals("Users Manager") || SessionUser.getRole().equals("Tickets Manager") || SessionUser.getRole().equals("Artwork Manager") || SessionUser.getRole().equals("Events Manager") || SessionUser.getRole().equals("Payment Manager") || SessionUser.getRole().equals("Room Manager") || SessionUser.getRole().equals("Auction Manager") )
                     {
                        new BackuserForm(theme).show(); 
                     }

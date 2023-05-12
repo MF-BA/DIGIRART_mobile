@@ -39,7 +39,7 @@ import java.util.Map;
 public class ServiceUsers {
      //singleton 
     public static ServiceUsers instance = null ;
-    
+    String responseData=null;
     public static boolean resultOk = true;
     String json;
     //initilisation connection request 
@@ -234,7 +234,7 @@ public class ServiceUsers {
     */
     
     //Signup
-    public void signup(TextField cin,TextField firstname,TextField lastname,TextField email,TextField password,TextField address,TextField phoneNum,TextField birthDate,ComboBox<String>  gender,ComboBox<String> roles, Resources res) {
+    public String signup(TextField cin,TextField firstname,TextField lastname,TextField email,TextField password,TextField address,TextField phoneNum,TextField birthDate,ComboBox<String>  gender,ComboBox<String> roles, Resources res) {
         
         String url = Statics.BASE_URL+"/user/signup?cin="+cin.getText()+"&firstname="+firstname.getText()+
                 "&lastname="+lastname.getText()+"&email="+email.getText()+"&password="+password.getText()+"&address="+address.getText()
@@ -255,28 +255,19 @@ public class ServiceUsers {
         //hethi wa9t tsir execution ta3 url 
         req.addResponseListener((e)-> {
          
-            //njib data ly7atithom fi form 
-            byte[]data = (byte[]) e.getMetaData();//lazm awl 7aja n7athrhom ke meta data ya3ni na5o id ta3 kol textField 
-            String responseData = new String(data);//ba3dika na5o content 
-            if(responseData == "Email already used!")
-            {
-                Dialog.show("Email","Email Already used!","OK",null);
-            }
-             if(responseData == "email invalid!")
-            {
-                Dialog.show("Email","Invalid Email!","OK",null);
-            }
-              if(responseData == "Account is created")
-              {Dialog.show("Success","account is saved","OK",null);
-        new SignInForm(res).show();}
+            
+            byte[]data = (byte[]) e.getMetaData();
+           responseData = new String(data);
+            
             System.out.println("data ===>"+responseData);
+           
         }
         );
         
         
         //ba3d execution ta3 requete ely heya url nestanaw response ta3 server.
         NetworkManager.getInstance().addToQueueAndWait(req);
-        
+      return responseData;
             
         
     }
