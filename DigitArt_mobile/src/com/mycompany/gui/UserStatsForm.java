@@ -5,20 +5,38 @@
  */
 package com.mycompany.gui;
 
+
+//CODE TEMPLATE :
+
+
+
+import com.codename1.charts.views.BarChart;
+import com.codename1.charts.views.BarChart.Type;
+import com.codename1.charts.ChartComponent;
+import com.codename1.charts.models.CategorySeries;
+import com.codename1.charts.models.XYMultipleSeriesDataset;
+import com.codename1.charts.renderers.DefaultRenderer;
+import com.codename1.charts.renderers.SimpleSeriesRenderer;
+import com.codename1.charts.renderers.XYMultipleSeriesRenderer;
+import com.codename1.charts.renderers.XYMultipleSeriesRenderer.Orientation;
+import com.codename1.charts.renderers.XYSeriesRenderer;
+import com.codename1.charts.util.ColorUtil;
+import com.codename1.charts.views.PieChart;
 import com.codename1.components.InfiniteProgress;
 import com.codename1.components.ScaleImageLabel;
 import com.codename1.components.SpanLabel;
+import com.codename1.components.ToastBar;
 import com.codename1.ui.Button;
 import com.codename1.ui.ButtonGroup;
+import com.codename1.ui.Command;
 import com.codename1.ui.Component;
 import static com.codename1.ui.Component.BOTTOM;
 import static com.codename1.ui.Component.CENTER;
 import static com.codename1.ui.Component.LEFT;
-import static com.codename1.ui.Component.RIGHT;
 import com.codename1.ui.Container;
 import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
-import com.codename1.ui.EncodedImage;
+import com.codename1.ui.Font;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Graphics;
@@ -26,8 +44,9 @@ import com.codename1.ui.Image;
 import com.codename1.ui.Label;
 import com.codename1.ui.RadioButton;
 import com.codename1.ui.Tabs;
+import com.codename1.ui.TextArea;
 import com.codename1.ui.Toolbar;
-import com.codename1.ui.URLImage;
+import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
@@ -35,18 +54,30 @@ import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
-import com.mycompany.entities.users;
 import com.mycompany.services.ServiceUsers;
+import com.mycompany.utils.Statics;
+
 import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  *
- * @author Islem
+ * @author Chédy
  */
-public class ListUsersForm extends BaseForm {
-   // Form current;
-    public ListUsersForm(Resources res ) {
-         super("Newsfeed",BoxLayout.y()); //herigate men Newsfeed w l formulaire vertical
+
+public class UserStatsForm extends BaseForm {
+  
+        
+    private boolean drawOnMutableImage;
+    int nbmale = 0;
+    int nbfemale = 0;
+
+    
+    Form current;
+BaseForm form;
+        public UserStatsForm(Resources res)  {
+        super("Newsfeed",BoxLayout.y()); //herigate men Newsfeed w l formulaire vertical
         Toolbar tb = new Toolbar(true);
         //current = this ;
         setToolbar(tb);
@@ -125,7 +156,7 @@ public class ListUsersForm extends BaseForm {
         Listeusers.setUIID("SelectBar");
         RadioButton adduser = RadioButton.createToggle("Add User", barGroup);
         adduser.setUIID("SelectBar");
-         RadioButton statsuser = RadioButton.createToggle("User stats", barGroup);
+        RadioButton statsuser = RadioButton.createToggle("User stats", barGroup);
         statsuser.setUIID("SelectBar");
         Label arrow = new Label(res.getImage("news-tab-down-arrow.png"), "Container");
 
@@ -147,7 +178,6 @@ public class ListUsersForm extends BaseForm {
             a.show();
             refreshTheme();
         });
-        
         statsuser.addActionListener((e) -> {
                InfiniteProgress ip = new InfiniteProgress();
         final Dialog ipDlg = ip.showInifiniteBlocking();
@@ -156,45 +186,64 @@ public class ListUsersForm extends BaseForm {
             a.show();
             refreshTheme();
         });
-        
         add(LayeredLayout.encloseIn(
                 GridLayout.encloseIn(3, Listeusers, adduser,statsuser)
                 
         ));
 
-      
-      
-        //Appel affichage methode
-        ArrayList<users>list = ServiceUsers.getInstance().Displayusers();
+        // special case for rotation
+        addOrientationListener(e -> {
+            updateArrowPosition(barGroup.getRadioButton(barGroup.getSelectedIndex()), arrow);
+        });
+    
+        ServiceUsers.getInstance().getStats();
+        nbmale = Statics.Malenb;
+        nbfemale = Statics.Femalenb;
+      createPieChartForm(nbmale,nbfemale);
         
-        for(users rec : list ) {
-             String urlImage ="back-logo.jpeg";//image statique pour le moment ba3d taw fi  videos jayin nwarikom image 
-            
-             Image placeHolder = Image.createImage(120, 90);
-             EncodedImage enc =  EncodedImage.createFromImage(placeHolder,false);
-             URLImage urlim = URLImage.createToStorage(enc, urlImage, urlImage, URLImage.RESIZE_SCALE);
-             
-                addButton(urlim,rec,res);
-        
-                ScaleImageLabel image = new ScaleImageLabel(urlim);
-                
-                Container containerImg = new Container();
-                
-                image.setBackgroundType(Style.BACKGROUND_IMAGE_SCALED_FILL);
         }
-        
+    
+    
+    
+    
+    
+     private void updateArrowPosition(Button b, Label arrow) {
+        arrow.getUnselectedStyle().setMargin(LEFT, b.getX() + b.getWidth() / 2 - arrow.getWidth() / 2);
+        arrow.getParent().repaint();
         
         
     }
     
+    private void addTab(Tabs swipe, Image img, Label spacer, String text) {
+        int size = Math.min(Display.getInstance().getDisplayWidth(), Display.getInstance().getDisplayHeight());
+        if(img.getHeight() < size) {
+            img = img.scaledHeight(size);
+        }
+
+        if(img.getHeight() > Display.getInstance().getDisplayHeight() / 2) {
+            img = img.scaledHeight(Display.getInstance().getDisplayHeight() / 2);
+        }
+        ScaleImageLabel image = new ScaleImageLabel(img);
+        image.setUIID("Container");
+        image.setBackgroundType(Style.BACKGROUND_IMAGE_SCALED_FILL);
+        Label overlay = new Label(" ", "ImageOverlay");
+        
+        Container page1 = 
+            LayeredLayout.encloseIn(
+                image,
+                overlay,
+                BorderLayout.south(
+                    BoxLayout.encloseY(
+                            new SpanLabel(text, "LargeWhiteText"),
+                            spacer
+                        )
+                )
+            );
+
+        swipe.addTab("", page1);
+    }
     
-    
-    
-    
-    
-    
-    
-       private void addTab(Tabs swipe, Label spacer , Image image, String string, String text, Resources res) {
+  private void addTab(Tabs swipe, Label spacer , Image image, String string, String text, Resources res) {
         int size = Math.min(Display.getInstance().getDisplayWidth(), Display.getInstance().getDisplayHeight());
         
         if(image.getHeight() < size) {
@@ -232,117 +281,79 @@ public class ListUsersForm extends BaseForm {
         
         
     }
-    
-    
-    
-    public void bindButtonSelection(Button btn , Label l ) {
-        
-        btn.addActionListener(e-> {
-        if(btn.isSelected()) {
-            updateArrowPosition(btn,l);
-        }
-    });
-    }
-
-    private void updateArrowPosition(Button btn, Label l) {
-        
-        l.getUnselectedStyle().setMargin(LEFT, btn.getX() + btn.getWidth()  / 2  - l.getWidth() / 2 );
-        l.getParent().repaint();
-    }
-
-    private void addButton(Image img,users rec , Resources res) {
-        
-        int height = Display.getInstance().convertToPixels(11.5f);
-        int width = Display.getInstance().convertToPixels(14f);
-        
-        Button image = new Button(img.fill(width, height));
-        image.setUIID("Label");
-        Container cnt = BorderLayout.west(image);
-        
-        
-        //kif nzidouh  ly3endo date mathbih fi codenamone y3adih string w y5alih f symfony dateTime w ytab3ni cha3mlt taw yjih
-        Label cintxt = new Label("Cin : "+rec.getCin(),"NewsTopLine2");
-        Label firstnameTxt = new Label("First Name : "+rec.getFirstname(),"NewsTopLine2");
-        Label lastnameTxt = new Label("Last Name : "+rec.getLastname(),"NewsTopLine2" );
-        Label EmailTxt = new Label("Email : "+rec.getEmail(),"NewsTopLine2" );
-        Label addressTxt = new Label("Address : "+rec.getAddress(),"NewsTopLine2" );
-        Label PhonenumTxt = new Label("Phone number : "+rec.getPhone_number(),"NewsTopLine2" );
-        Label BirthDateTxt = new Label("Birth Date : "+rec.getBirth_date().toString(),"NewsTopLine2" );
-        Label GenderTxt = new Label("Gender : "+rec.getGender(),"NewsTopLine2" );
-        Label roleTxt = new Label("Role : "+rec.getRole(),"NewsTopLine2" );
-        Label statusTxt = new Label("Status : "+rec.getStatus(),"NewsTopLine2" );
-        
-        createLineSeparator();
-        
-       /* if(rec.getEtat() == 0 ) {
-            etatTxt.setText("non Traitée");
-        }
-        else 
-            etatTxt.setText("Traitée");
-       */
-        
-        //supprimer button
-        Label lSupprimer = new Label(" ");
-        lSupprimer.setUIID("NewsTopLine");
-        Style supprmierStyle = new Style(lSupprimer.getUnselectedStyle());
-        supprmierStyle.setFgColor(0xf21f1f);
-        
-        FontImage suprrimerImage = FontImage.createMaterial(FontImage.MATERIAL_DELETE, supprmierStyle);
-        lSupprimer.setIcon(suprrimerImage);
-        lSupprimer.setTextPosition(RIGHT);
-        
-        //click delete icon
-        lSupprimer.addPointerPressedListener(l -> {
-            
-            Dialog dig = new Dialog("Deletion");
-            
-            if(dig.show("Deletion","Do you want to delete this user ?","Cancel","Yes")) {
-                dig.dispose();
+    private void bindButtonSelection(Button b, Label arrow) {
+        b.addActionListener(e -> {
+            if(b.isSelected()) {
+                updateArrowPosition(b, arrow);
             }
-            else {
-                dig.dispose();
-                 }
-                //n3ayto l suuprimer men service Reclamation
-                if(ServiceUsers.getInstance().deleteUser(rec.getId())) {
-                    new ListUsersForm(res).show();
-                }
-           
         });
+    }
+    //Statistique :
+    //fontion : bch n7adhro size ta3 labels ta3 stat w margin w colors ba3d chn3aytoulha methode hethi.
+    public DefaultRenderer buildCatRendrer(int []colors) {
         
-        //Update icon 
-        Label lModifier = new Label(" ");
-        lModifier.setUIID("NewsTopLine");
-        Style modifierStyle = new Style(lModifier.getUnselectedStyle());
-        modifierStyle.setFgColor(0xf7ad02);
+        DefaultRenderer renderer = new DefaultRenderer();
+        renderer.setLabelsTextSize(15);
+        renderer.setLegendTextSize(15);
+        renderer.setMargins(new int[] {20, 30, 15, 0});
         
-        FontImage mFontImage = FontImage.createMaterial(FontImage.MATERIAL_MODE_EDIT, modifierStyle);
-        lModifier.setIcon(mFontImage);
-        lModifier.setTextPosition(LEFT);
+        for(int color : colors) {
+            SimpleSeriesRenderer simpleSeriesRenderer = new SimpleSeriesRenderer();
+            
+            simpleSeriesRenderer.setColor(color);
+            renderer.addSeriesRenderer(simpleSeriesRenderer);
+        }
+        return renderer;
+     }  
+    
+    public void createPieChartForm(int nbmale,int nbfemale) {
         
+        //colors set:
+        int[]colors = new int[]{0xC0392B, 0xCD6155};
         
-        lModifier.addPointerPressedListener(l -> {
-            //System.out.println("hello update");
-            new UpdateUserForm(res,rec).show();
-        });
+        DefaultRenderer renderer = buildCatRendrer(colors);
+        renderer.setLabelsColor(0x000000); // black color for labels.
         
+        renderer.setZoomButtonsVisible(true);//zoom
+        renderer.setLabelsTextSize(40);
+        renderer.setZoomEnabled(true);
+        renderer.setChartTitleTextSize(20);
+        renderer.setDisplayValues(true);
+        renderer.setShowLabels(true);
+        SimpleSeriesRenderer r = renderer.getSeriesRendererAt(0);
+        r.setHighlighted(true);
         
-        cnt.add(BorderLayout.CENTER,BoxLayout.encloseY(
-                
-                BoxLayout.encloseX(cintxt),
-                BoxLayout.encloseX(firstnameTxt),
-                BoxLayout.encloseX(lastnameTxt),
-                BoxLayout.encloseX(EmailTxt),
-                BoxLayout.encloseX(addressTxt),
-                BoxLayout.encloseX(PhonenumTxt),
-                BoxLayout.encloseX(BirthDateTxt),
-                BoxLayout.encloseX(GenderTxt),
-                BoxLayout.encloseX(roleTxt),
-                BoxLayout.encloseX(statusTxt),
-                BoxLayout.encloseX(lModifier,lSupprimer),
-                BoxLayout.encloseX(createLineSeparator())));
+        //CREATe the chart ...
+        PieChart chart = new PieChart(buildDataset("title",Math.round(nbmale),Math.round(nbfemale)), renderer);
         
+        // n7oto chart fi component
+        ChartComponent c  = new ChartComponent(chart);
         
+        String []messages = {
+            "Gender Stats"
+        };
         
+        SpanLabel message = new SpanLabel(messages[0], "WelcomeMessage");
+        
+        Container cnt = BorderLayout.center(message);
+        cnt.setUIID("Container");
         add(cnt);
+        add(c);
+                
+                
+    }
+
+    private CategorySeries buildDataset(String title, int Male, int Female) {
+        
+         CategorySeries series = new CategorySeries(title);
+        
+        series.add("Male",nbmale);
+        series.add("Female",nbfemale);
+       
+        
+        return series;
     }
 }
+
+
+    

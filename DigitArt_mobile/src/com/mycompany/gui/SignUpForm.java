@@ -142,10 +142,31 @@ public class SignUpForm extends BaseForm {
         ));
         next.requestFocus();
         next.addActionListener((e) -> {
+            String cinText = cin.getText();
+    String firstnameText = firstname.getText();
+    String lastnameText = lastname.getText();
+    String emailText = Email.getText().toString();
+    String passwordText = password.getText();
+    String addressText = address.getText();
+    String phonenumText = phonenum.getText();
+    String birthDateText = birthDateField.getText();
+    
+    if (cinText.isEmpty() || firstnameText.isEmpty() || lastnameText.isEmpty() || emailText.isEmpty() ||
+        passwordText.isEmpty() || addressText.isEmpty() || phonenumText.isEmpty() || birthDateText.isEmpty()) {
+        Dialog.show("Error", "All fields are required", "OK", null);
+    } else if (cinText.length() != 8) {
+        Dialog.show("Error", "Cin must contain 8 digits", "OK", null);
+    } else if (phonenumText.length() != 8) {
+        Dialog.show("Error", "Phone number must contain 8 digits", "OK", null);
+    } /*else if (!passwordText.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$")) {
+        Dialog.show("Error", "Password must contain at least one uppercase letter, one lowercase letter, one special character, and be at least 8 characters long", "OK", null);
+    } else if (!emailText.matches("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")) {
+        Dialog.show("Error", "Email must be in the correct format", "OK", null);
+    }*/ else {
+        ServiceUsers.getInstance().signup(cin, firstname, lastname, Email, password, address, phonenum, birthDateField, gender, roles, res);
+        
+    }
             
-            ServiceUsers.getInstance().signup(cin, firstname, lastname, Email, password,address,phonenum,birthDateField,gender,roles,  res);
-            Dialog.show("Success","account is saved","OK",null);
-            new SignInForm(res).show();
         });
     }
     private void addStringValue(String s, Component v) {
