@@ -370,6 +370,7 @@ DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
                    // new ListReclamationForm(rs).show();//yemchi lel list reclamation
                      /*new AjoutReclamationForm(rs).show();
                     */
+                     System.out.println(SessionUser.getRole());
                     }
             
             }catch(Exception ex) {
