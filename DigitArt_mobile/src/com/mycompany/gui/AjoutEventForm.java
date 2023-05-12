@@ -60,7 +60,8 @@ public class AjoutEventForm extends BaseForm {
         Label s1 = new Label();
         Label s2 = new Label();
         
-        addTab(swipe,s1, res.getImage("event_bg.jpg"),"","",res);
+        //addTab(swipe,s1, res.getImage("event_bg.jpg"),"","",res);
+        addTab(swipe,s1, res.getImage("Logo.png"),"","",res);
         
         //
         
