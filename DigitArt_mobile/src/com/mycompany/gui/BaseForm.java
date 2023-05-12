@@ -107,14 +107,35 @@ Image x = URLImage.createToStorage(placeholderImage, imageURL, imageURL, URLImag
 }
        
         
-        if(SessionUser.getRole().equals("Artist") || SessionUser.getRole().equals("Suscriber"))
+        if(SessionUser.getRole().equals("Artist") )
         {
-           tb.addMaterialCommandToSideMenu("Newsfeed", FontImage.MATERIAL_UPDATE, e -> new NewsfeedForm(res).show()); 
+            Statics.back_end = false;
+            Statics.artist = true ;
+           tb.addMaterialCommandToSideMenu("   Newsfeed", FontImage.MATERIAL_UPDATE, e -> new NewsfeedForm(res).show()); 
+           tb.addMaterialCommandToSideMenu("   Ticket Purchase", FontImage.MATERIAL_EXIT_TO_APP, e -> new PaymentForm(res).show());
+           tb.addMaterialCommandToSideMenu("   Auction", FontImage.MATERIAL_CREDIT_CARD, e -> new AuctionDisplay(res).show());
+        }else if(SessionUser.getRole().equals("Suscriber"))
+        {
+            tb.addMaterialCommandToSideMenu("   Auction", FontImage.MATERIAL_CREDIT_CARD, e -> new AuctionDisplay(res).show());
+            Statics.back_end = false;
+            Statics.artist = false ;
         }
         
-        if(SessionUser.getRole().equals("Admin")){
-            tb.addMaterialCommandToSideMenu("Users Management", FontImage.MATERIAL_VERIFIED_USER, e -> new ListUsersForm(res).show());
+        else if(SessionUser.getRole().equals("Admin")){
+            Statics.back_end = true;
+            tb.addMaterialCommandToSideMenu("   Users Management", FontImage.MATERIAL_VERIFIED_USER, e -> new ListUsersForm(res).show());
+            tb.addMaterialCommandToSideMenu("   Ticket Management", FontImage.MATERIAL_MONEY, e -> new DisplayTicketForm(res).show());
+            tb.addMaterialCommandToSideMenu("   Artwork Management", FontImage.MATERIAL_IMAGE, e -> new ListArtworkForm(res).show());
+            tb.addMaterialCommandToSideMenu("   Event Management", FontImage.MATERIAL_EVENT, e -> new AjoutEventForm(res).show());
+            tb.addMaterialCommandToSideMenu("   Payment Management", FontImage.MATERIAL_CREDIT_CARD, e -> new DisplayPaymentForm(res).show());
+            tb.addMaterialCommandToSideMenu("   Room Management", FontImage.MATERIAL_HOME_WORK, e -> new ListRoomForm(res).show());
+            tb.addMaterialCommandToSideMenu("   Auction Management", FontImage.MATERIAL_CREDIT_CARD, e -> new AuctionDisplay(res).show());
+            
+            
+            
+   
         }
+        
         
         tb.addMaterialCommandToSideMenu("Profile", FontImage.MATERIAL_SETTINGS, e -> new ProfileForm(res).show());
         tb.addMaterialCommandToSideMenu("Logout", FontImage.MATERIAL_EXIT_TO_APP, e -> {
