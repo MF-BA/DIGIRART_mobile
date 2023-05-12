@@ -10,6 +10,9 @@ import com.codename1.io.Log;
 import com.codename1.ui.Toolbar;
 import com.mycompany.gui.BackuserForm;
 import com.mycompany.gui.NewsfeedForm;
+import com.mycompany.gui.PaiementStripe;
+import com.mycompany.gui.PaymentForm;
+import com.mycompany.gui.PaymentForm2;
 import com.mycompany.gui.SessionUser;
 import com.mycompany.gui.SignInForm;
 
@@ -49,7 +52,7 @@ public class MyApplication {
        if(current != null){
             current.show();
             return;
-        }
+        } 
        if (SessionUser.getEmail() == null)
        {
            new SignInForm(theme).show();
@@ -64,10 +67,11 @@ public class MyApplication {
                     {
                        new BackuserForm(theme).show(); 
                     }
+
           //new WalkthruForm(theme).show();
        //new ListUsersForm(theme).show();  
-       }
-       
+       } 
+  
     }
 
     public void stop() {

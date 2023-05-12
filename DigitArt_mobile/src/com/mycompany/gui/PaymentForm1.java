@@ -196,7 +196,7 @@ public class PaymentForm1 extends BaseForm {
                     iDialog.dispose(); // dismiss the loading dialog after the data is added
 
                     // show the updated DisplayTicketForm with the new data
-                    PaymentForm2 form = new PaymentForm2(res);
+                    PaymentForm2 form = new PaymentForm2(res,Integer.parseInt(priceLabel.getText()));
                     form.show();
 
                     refreshTheme(); // actualisation
