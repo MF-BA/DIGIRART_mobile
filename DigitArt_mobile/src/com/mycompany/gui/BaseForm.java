@@ -42,7 +42,6 @@ import com.mycompany.gui.AuctionDisplay;
 public class BaseForm extends Form {
 
     public BaseForm() {
-
     }
 
     public BaseForm(Layout contentPaneLayout) {
