@@ -97,17 +97,6 @@ public class AuctionEdit extends BaseForm {
         TextField Description = new TextField(auction.getDescription(), "Description", 20, TextArea.ANY);
         Description.setUIID("TextFieldBlack");
 
-        ComboBox<String> artworks = new ComboBox<>();
-
-        ArrayList<Artwork> artworks_array = AuctionServices.getInstance().getArtworkNames();
-
-        for (int i = 0; i < artworks_array.size(); i++) {
-            artworks.addItem(artworks_array.get(i).getArtworkName());
-            if (artworks_array.get(i).getIdArt() == auction.getId_artwork()) {
-                artworks.setSelectedIndex(i);
-            }
-        }
-
         addStringValue("Ending Date", datePicker);
 
         addStringValue("Starting Price", Starting_Price);
@@ -116,26 +105,20 @@ public class AuctionEdit extends BaseForm {
 
         addStringValue("Description", Description);
 
-        addStringValue("artworks", artworks);
-        Container btn = new Container(new BoxLayout(BoxLayout.X_AXIS));
-
         Button back = new Button(FontImage.MATERIAL_ARROW_BACK);
-        back.setUIID("Button2");
         back.addActionListener(e -> {
             new showAuction(res, auction).showBack();
         });
         Button save = new Button("Save");
-        save.setUIID("Button2");
         save.addActionListener(e -> {
-
             if (Starting_Price.getText().isEmpty()) {
                 Dialog.show("Starting Price", "Starting Price is empty !!", "OK", null);
             } else if (DateUtil.compare(datePicker.getDate(), new Date()) < 0) {
                 Dialog.show("Ending Date", "Ending Date must be after today's date!!", "OK", null);
             } else {
-                Artwork choisen = artworks_array.get(artworks.getSelectedIndex());
-                Auction add = new Auction(Integer.valueOf(Starting_Price.getText()), Integer.valueOf(Increment.getText()), choisen.getIdArt(), datePicker.getDate(), Description.getText());
-                
+
+                Auction add = new Auction(auction.getId_auction(), Integer.valueOf(Starting_Price.getText()), Integer.valueOf(Increment.getText()), auction.getId_artwork(), datePicker.getDate(), Description.getText());
+
                 if (AuctionServices.getInstance().EditAuction(add)) {
                     Dialog.show("Auction modified", "The Auction is saved successfully !!", "OK", null);
                     new AuctionDisplay(res).showBack();
@@ -146,9 +129,9 @@ public class AuctionEdit extends BaseForm {
             }
         }
         );
-        btn.add(back);
-        btn.add(save);
-        add(btn);
+        addStringValue("", back);
+        addStringValue("", save);
+
     }
 
     private void addStringValue(String s, Component v) {

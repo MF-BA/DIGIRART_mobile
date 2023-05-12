@@ -103,7 +103,7 @@ public class AuctionDisplay extends BaseForm {
         int placeholderHeight = Display.getInstance().getDisplayHeight() / 4; // one quarter of the screen height
         EncodedImage placeholderImage = EncodedImage.createFromImage(Image.createImage(placeholderWidth, placeholderHeight), false);
         ArrayList images = AuctionServices.getInstance().getArtworkImages(auction.getId_artwork());
-        String imageURL = images.isEmpty() ? Statics.BASE_URL + "uploads/Empty.jpeg" : Statics.BASE_URL + "/uploads/" + images.get(0);
+        String imageURL = images.isEmpty() ? Statics.BASE_URL + "/uploads/Empty.jpeg" : Statics.BASE_URL + "/uploads/" + images.get(0);
         Image img = URLImage.createToStorage(placeholderImage, imageURL, imageURL, URLImage.RESIZE_SCALE_TO_FILL);
 
         ScaleImageLabel imageLabel = new ScaleImageLabel(img);
@@ -145,25 +145,20 @@ public class AuctionDisplay extends BaseForm {
          
         
         Button more_info = new Button("more information");
-       
 
         more_info.addActionListener(e -> {
             Statics.previous = this;
             new showAuction(res, auction).show();
         });
 
-        EncodedImage placeholderImageseparator = EncodedImage.createFromImage(Image.createImage(placeholderWidth, 100), false);
-        String separURL = Statics.BASE_URL + "uploads/pngegg.png";
-        Image separatorIMG = URLImage.createToStorage(placeholderImageseparator, separURL, separURL, URLImage.RESIZE_SCALE_TO_FILL);
-
-        ScaleImageLabel imageLab = new ScaleImageLabel(separatorIMG);
-        imageLab.setUIID("LogoLabel");
+       
 
         Container cnt = new Container(new BoxLayout(BoxLayout.Y_AXIS));
         cnt.add(title);
         cnt.add(imageLabel);
         cnt.add(countdownLabel);
-        cnt.add(imageLab);
+        
+
         add(cnt);
         addStringValue("", more_info);
     }
@@ -187,7 +182,6 @@ public class AuctionDisplay extends BaseForm {
                 + differenceInHours + " hours, "
                 + differenceInMinutes + " minutes, "
                 + differenceInSeconds + " seconds.";
-
         // Return the result string
         return result;
     }

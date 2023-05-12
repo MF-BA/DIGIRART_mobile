@@ -69,7 +69,7 @@ public class showAuction extends BaseForm {
     }
 
     private void addauction(Auction auction, Resources res) {
-        Container btn = new Container(new BoxLayout(BoxLayout.X_AXIS));
+        
         ArrayList<Bid> bids;
         bids = BidServices.getInstance().getBids(auction);
         int height = Display.getInstance().convertToPixels(11.5f);
@@ -118,15 +118,16 @@ public class showAuction extends BaseForm {
         countdownThread.start(); // start the countdown timer thread
 
         Button backButton = new Button(FontImage.MATERIAL_ARROW_BACK);
-        backButton.setUIID("Button2");
         backButton.addActionListener(e -> Statics.previous.showBack());
-        btn.add(backButton);
+
+        Button delete = null;
+        Button edit = null;
+        Button offer = null;
         if (Statics.back_end) {
             if (bids.isEmpty()) {
-                        Container btn1 = new Container(new BoxLayout(BoxLayout.Y_AXIS));
 
-                Button delete = new Button("Delete");
-                delete.setUIID("Button2");
+                delete = new Button("Delete");
+               
                 delete.addActionListener(e -> {
                     if (AuctionServices.getInstance().DeleteAuction(auction)) {
                         Dialog.show("Auction Deleted", "The Auction is deleted successfully", "OK", null);
@@ -135,22 +136,18 @@ public class showAuction extends BaseForm {
                         Dialog.show("ERROR", "Error while deleting auction. Please try again later !!", "OK", null);
                     }
                 });
-                Button edit = new Button("Edit");
-                edit.setUIID("Button2");
+                edit = new Button("Edit");
+
                 edit.addActionListener(e -> {
                     new AuctionEdit(res, auction).show();
                 });
-                btn1.add(edit);
-                btn1.add(delete);
-                btn.add(btn1);
             }
         } else {
-            Button offer = new Button("Offer");
-            offer.setUIID("Button2");
+            offer = new Button("Offer");
+            
             offer.addActionListener(e -> {
                 new BidAdd(res, auction, bids).showBack();
             });
-            btn.add(offer);
         }
         String description = auction.getDescription();
 // Create a label to display the description
@@ -189,7 +186,17 @@ public class showAuction extends BaseForm {
         cnt.add(descriptionLabel);
 
         add(cnt);
-        add(btn);
+        if (Statics.back_end) {
+            if (bids.isEmpty()) {
+                addStringValue("", edit);
+                addStringValue("", delete);
+            }
+        } else {
+            addStringValue("", offer);
+        }
+        addStringValue("", backButton);
+
+        //add(btn);
     }
 
     public static String findDifference(Date endDateTime) {
@@ -214,6 +221,13 @@ public class showAuction extends BaseForm {
 
         // Return the result string
         return result;
+    }
+
+    private void addStringValue(String s, Component v) {
+
+        add(BorderLayout.west(new Label(s, "PaddedLabel"))
+                .add(BorderLayout.CENTER, v));
+        //add(createLineSeparator(0xeeeeee));
     }
 
 }
