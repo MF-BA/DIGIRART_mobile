@@ -1,4 +1,4 @@
-package com.mycompany.myapp;
+package com.mycompany.gui;
 
 import com.codename1.components.InfiniteProgress;
 import com.codename1.ui.Button;

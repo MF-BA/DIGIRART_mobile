@@ -5,7 +5,6 @@
  */
 package com.mycompany.entities;
 
-
 import java.util.Date;
 
 /**
@@ -13,8 +12,7 @@ import java.util.Date;
  * @author mohamed
  */
 public class Artwork {
-    
-    
+
     private int idArt;
     private String artworkName;
     private int idArtist;
@@ -24,6 +22,12 @@ public class Artwork {
     private int idRoom;
     private String nameRoom;
 
+    public Artwork(int id_artwork, String artworkName, int id_Artist) {
+        this.idArt = id_artwork;
+        this.artworkName = artworkName;
+        this.idArtist = id_Artist;
+    }
+
     public String getNameRoom() {
         return nameRoom;
     }
@@ -31,11 +35,10 @@ public class Artwork {
     public void setNameRoom(String nameRoom) {
         this.nameRoom = nameRoom;
     }
-    
 
     public Artwork() {
     }
-    
+
     public Artwork(int idArt, String artworkName, int idArtist, String artistName, String dateArt, String description, int idRoom, String ownerType) {
         this.idArt = idArt;
         this.artworkName = artworkName;
@@ -44,7 +47,7 @@ public class Artwork {
         this.dateArt = dateArt;
         this.description = description;
         this.idRoom = idRoom;
-      
+
     }
 
     public Artwork(String artworkName, int idArtist, String artistName, String dateArt, String description, int idRoom, String ownerType) {
@@ -54,7 +57,7 @@ public class Artwork {
         this.dateArt = dateArt;
         this.description = description;
         this.idRoom = idRoom;
-       
+
     }
 
     public int getIdArt() {
@@ -113,10 +116,4 @@ public class Artwork {
         this.idRoom = idRoom;
     }
 
- 
-
-   
-
-    
-    
 }

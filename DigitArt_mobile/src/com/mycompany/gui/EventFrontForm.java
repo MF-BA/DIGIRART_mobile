@@ -36,8 +36,8 @@ import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
 import com.mycompany.entities.Event;
-import com.mycompany.entities.Static;
 import com.mycompany.services.ServiceEvent;
+import com.mycompany.utils.Statics;
 import java.util.ArrayList;
 /**
  *
@@ -313,7 +313,7 @@ public class EventFrontForm extends BaseForm {
         Container cnt = BorderLayout.west(image);
         
 
-         System.out.println(Static.BASE_URL+"/uploads/"+event.getImage());
+         System.out.println(Statics.BASE_URL+"/uploads/"+event.getImage());
        
      // Set the dimensions of the poster
 int posterWidth = 1000; // in pixels
@@ -330,7 +330,7 @@ int placeholderHeight = (int) (placeholderWidth / aspectRatio);
 Image placeholder = Image.createImage(placeholderWidth, placeholderHeight);
 
         EncodedImage placeholderImage = EncodedImage.createFromImage(Image.createImage(placeholderWidth, placeholderHeight),false);
-        String imageURL = Static.BASE_URL+"/uploads/"+event.getImage();
+        String imageURL = Statics.BASE_URL+"/uploads/"+event.getImage();
         Image x = URLImage.createToStorage(placeholderImage, imageURL, imageURL, URLImage.RESIZE_SCALE_TO_FILL);
         
 addButton(

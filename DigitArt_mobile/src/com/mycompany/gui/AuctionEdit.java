@@ -33,7 +33,6 @@ import com.codename1.ui.util.Resources;
 import com.codename1.util.DateUtil;
 import com.mycompany.entities.Artwork;
 import com.mycompany.entities.Auction;
-import com.mycompany.myapp.BaseForm;
 import com.mycompany.services.AuctionServices;
 import com.mycompany.utils.Statics;
 import java.util.ArrayList;

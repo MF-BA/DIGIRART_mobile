@@ -23,7 +23,6 @@ import com.codename1.ui.URLImage;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.util.Resources;
-import com.mycompany.myapp.BaseForm;
 import com.mycompany.entities.Auction;
 import com.mycompany.entities.Bid;
 import com.mycompany.utils.Statics;

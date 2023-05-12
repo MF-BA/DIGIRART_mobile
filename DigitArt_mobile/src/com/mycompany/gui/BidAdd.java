@@ -25,7 +25,6 @@ import com.codename1.ui.util.Resources;
 import com.mycompany.entities.Auction;
 import com.mycompany.entities.Bid;
 import com.mycompany.utils.Statics;
-import com.mycompany.myapp.BaseForm;
 import com.mycompany.services.AuctionServices;
 import com.mycompany.services.BidServices;
 import java.util.ArrayList;

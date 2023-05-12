@@ -25,7 +25,6 @@ import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.util.Resources;
-import com.mycompany.myapp.BaseForm;
 import com.mycompany.entities.Auction;
 import com.mycompany.utils.Statics;
 import com.mycompany.services.AuctionServices;

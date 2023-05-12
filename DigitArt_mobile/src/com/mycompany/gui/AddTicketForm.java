@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.myapp;
+package com.mycompany.gui;
 
 import com.codename1.components.InfiniteProgress;
 import com.codename1.components.ScaleImageLabel;

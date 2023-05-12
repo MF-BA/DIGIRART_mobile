@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.myapp;
+package com.mycompany.gui;
 
 import com.codename1.components.ScaleImageLabel;
 import com.codename1.components.SpanLabel;
@@ -13,6 +13,7 @@ import com.codename1.ui.Component;
 import static com.codename1.ui.Component.BOTTOM;
 import static com.codename1.ui.Component.CENTER;
 import static com.codename1.ui.Component.LEFT;
+import static com.codename1.ui.Component.RIGHT;
 import com.codename1.ui.Container;
 import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
@@ -33,7 +34,9 @@ import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
+import com.mycompany.entities.Payment;
 import com.mycompany.entities.Ticket;
+import com.mycompany.services.ServicePayment;
 import com.mycompany.services.ServiceTicket;
 import java.util.ArrayList;
 
@@ -41,11 +44,10 @@ import java.util.ArrayList;
  *
  * @author User
  */
-public class DisplayTicketForm extends BaseForm {
+public class DisplayPaymentForm extends BaseForm{
+     Form current;
 
-    Form current;
-
-    public DisplayTicketForm(Resources res) {
+    public DisplayPaymentForm(Resources res) {
         super("Newsfeed", BoxLayout.y()); //herigate men Newsfeed w l formulaire vertical
         setTitle("Ticket Add");
         Toolbar tb = new Toolbar(true);
@@ -53,16 +55,17 @@ public class DisplayTicketForm extends BaseForm {
         setToolbar(tb);
         getTitleArea().setUIID("Container");
         getContentPane().setScrollVisible(false);
-           super.addSideMenu(res);
+        super.addSideMenu(res);
+        
         Tabs swipe = new Tabs();
 
         Label s1 = new Label();
         Label s2 = new Label();
-
+        
         int placeholderWidth = Display.getInstance().getDisplayWidth(); 
         int placeholderHeight = Display.getInstance().getDisplayHeight();
          EncodedImage placeholderImageseparator = EncodedImage.createFromImage(Image.createImage(placeholderHeight, placeholderWidth), false);
-        String separURL = "http://127.0.0.1:8000/uploads/bc53385fe56f95467c51bbcb40b16412.jpg";
+        String separURL = "http://127.0.0.1:8000/uploads/fa012ba78055ee27aeaa1130de51ab86.jpg";
         Image separatorIMG = URLImage.createToStorage(placeholderImageseparator, separURL, separURL, URLImage.RESIZE_SCALE_TO_FILL);
 
         ScaleImageLabel imageLab = new ScaleImageLabel(separatorIMG);
@@ -74,37 +77,30 @@ public class DisplayTicketForm extends BaseForm {
         add(content);
         addTab(swipe, s1, res.getImage("profile-background.jpg"), "", "", res);
         ButtonGroup barGroup = new ButtonGroup();
-        RadioButton mesListes = RadioButton.createToggle("Ticket List", barGroup);
-        mesListes.setUIID("SelectBar");
-        RadioButton partage = RadioButton.createToggle("Add Ticket", barGroup);
-        partage.setUIID("SelectBar");
+        RadioButton liste = RadioButton.createToggle("Payment List", barGroup);
+        liste.setUIID("SelectBar");
+
         Label arrow = new Label(res.getImage("news-tab-down-arrow.png"), "Container");
 
-        mesListes.addActionListener((e) -> {
 
-            DisplayTicketForm a = new DisplayTicketForm(res);
-            a.show();
-            refreshTheme();
+        liste.addActionListener((e) -> {
+            DisplayPaymentForm paymentListForm = new DisplayPaymentForm(res);
+            paymentListForm.show();
         });
 
-        partage.addActionListener((e) -> {
-            AddTicketForm b = new AddTicketForm(res);
-            b.show();
-        });
 
         add(LayeredLayout.encloseIn(
-                GridLayout.encloseIn(2, mesListes,partage),
+                GridLayout.encloseIn(1,liste),
                 FlowLayout.encloseBottom(arrow)
         ));
 
-        mesListes.setSelected(true);
+        liste.setSelected(true);
         arrow.setVisible(false);
         addShowListener(e -> {
             arrow.setVisible(true);
-            updateArrowPosition(mesListes, arrow);
+            updateArrowPosition(liste, arrow);
         });
-        bindButtonSelection(mesListes, arrow);
-        bindButtonSelection(partage, arrow);
+        bindButtonSelection(liste, arrow);
         // special case for rotation
         addOrientationListener(e -> {
             updateArrowPosition(barGroup.getRadioButton(barGroup.getSelectedIndex()), arrow);
@@ -145,106 +141,47 @@ public class DisplayTicketForm extends BaseForm {
                 rbs[ii].setSelected(true);
             }
         });
-
         Component.setSameSize(radioContainer, s1, s2);
-
         //  ListReclamationForm a = new ListReclamationForm(res);
         //  a.show();
         refreshTheme();
 
-        Button btnAjouter = new Button("Statistics");
-        addStringValue("", btnAjouter);
-
-        //onclick button event 
-        btnAjouter.addActionListener((e) -> {
-            
-             StatisticsTicket a = new StatisticsTicket(res);
-         a.show();
-        });
         //Appel affichage methode
-        ArrayList<Ticket> list = ServiceTicket.getInstance().DisplayTicket();
+        ArrayList<Payment> list = ServicePayment.getInstance().DisplayPayment();
         System.out.println(ServiceTicket.getInstance().DisplayTicket());
-        for (Ticket tick : list) {
-            addButton(tick, res);
+        for (Payment pay : list) {
+            addButton(pay, res);
 
         }
 
     }
 
-    
-    private void addStringValue(String s, Component v) {
-
-        add(BorderLayout.west(new Label(s, "PaddedLabel"))
-                .add(BorderLayout.CENTER, v));
-        add(createLineSeparator(0xeeeeee));
-    }
-    
-    private void addButton(Ticket rec, Resources res) {
+    private void addButton(Payment rec, Resources res) {
         Container newCnt = new Container();
         newCnt.setLayout(new BorderLayout());
 
         //kif nzidouh  ly3endo date mathbih fi codenamone y3adih string w y5alih f symfony dateTime w ytab3ni cha3mlt taw yjih
-        Label dateTxt = new Label("Start Date : " + rec.getTicket_date(), "NewsTopLine2");
-        Label edatetTxt = new Label("End Date : " + rec.getTicket_edate(), "NewsTopLine2");
-        Label priceTxt = new Label("Price : " + rec.getPrice(), "NewsTopLine2");
-        Label typeTxt = new Label("Type : " + rec.getTicket_type(), "NewsTopLine2");
-        //createLineSeparator();
-
-        /*if(rec.getEtat() == 0 ) {
-            etatTxt.setText("non Traitée");
-        }
-        else 
-            etatTxt.setText("Traitée");
-         */
-        //supprimer button
-        Label lSupprimer = new Label(" ");
-        lSupprimer.setUIID("NewsTopLine");
-        Style supprmierStyle = new Style(lSupprimer.getUnselectedStyle());
-        supprmierStyle.setFgColor(0xf21f1f);
-
-        FontImage suprrimerImage = FontImage.createMaterial(FontImage.MATERIAL_DELETE, supprmierStyle);
-        lSupprimer.setIcon(suprrimerImage);
-        lSupprimer.setTextPosition(RIGHT);
-
-        //click delete icon
-        lSupprimer.addPointerPressedListener(l -> {
-
-            Dialog dig = new Dialog("Delete");
-
-            if (dig.show("Delete", "Are you sure you want to delete ticket ?", "Cancel", "Yes")) {
-                dig.dispose();
-            } else {
-                dig.dispose();
-            }
-            //n3ayto l suuprimer men service Reclamation
-            if (ServiceTicket.getInstance().DeleteTicket(rec.getTicket_id())) {
-                new DisplayTicketForm(res).show();
-            }
-
-        });
-
-        //Update icon 
-        Label lModifier = new Label(" ");
-        lModifier.setUIID("NewsTopLine");
-        Style modifierStyle = new Style(lModifier.getUnselectedStyle());
-        modifierStyle.setFgColor(0xf7ad02);
-
-        FontImage mFontImage = FontImage.createMaterial(FontImage.MATERIAL_MODE_EDIT, modifierStyle);
-        lModifier.setIcon(mFontImage);
-        lModifier.setTextPosition(LEFT);
-
-        lModifier.addPointerPressedListener(l -> {
-            System.out.println("hello update");
-            new UpdateTicketForm(res, rec).show();
-        });
-
+        Label dateTxt = new Label("PurchaseDate : " + rec.getPurchaseDate(), "NewsTopLine2");
+        Label edatetTxt = new Label("Nb Adult: " + rec.getNbAdult(), "NewsTopLine2");
+        Label priceTxt = new Label("Nb Teenager : " + rec.getNbTeenager(), "NewsTopLine2");
+        Label typeTxt = new Label("Nb Student: " + rec.getNbStudent(), "NewsTopLine2");
+        Label typeTxt1 = new Label("Total Payment: " + rec.getTotalPayment(), "NewsTopLine2");
+      
+        Label typeTxt2 = new Label("Paid: " + (rec.isPaid() ? "Yes" : "No"), "NewsTopLine2");
+        
+        Label typeTxt3 = new Label(" ");
         newCnt.add(BorderLayout.CENTER, BoxLayout.encloseY(
                 BoxLayout.encloseX(dateTxt),
                 BoxLayout.encloseX(edatetTxt),
                 BoxLayout.encloseX(priceTxt),
                 BoxLayout.encloseX(typeTxt),
-                BoxLayout.encloseX(lSupprimer, lModifier)));
-
+                BoxLayout.encloseX(typeTxt1),
+                BoxLayout.encloseX(typeTxt2),
+                BoxLayout.encloseX(typeTxt3),
+                BoxLayout.encloseX()));
+                
+         
+            
         add(newCnt);
     }
 
@@ -295,5 +232,4 @@ public class DisplayTicketForm extends BaseForm {
         l.getUnselectedStyle().setMargin(LEFT, btn.getX() + btn.getWidth() / 2 - l.getWidth() / 2);
         l.getParent().repaint();
     }
-
 }
