@@ -20,8 +20,8 @@ import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.util.Resources;
 import com.mycompany.entities.Payment;
 import com.mycompany.entities.Ticket;
+import com.mycompany.services.GetTicketPricesServices;
 import com.mycompany.services.ServicePayment;
-import com.mycompany.services.ServiceTicket;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -82,12 +82,12 @@ public class PaymentForm1 extends BaseForm {
         // Add the hidden label to the form
         add(DateDB);
 
-        ServiceTicket.getInstance().getPrices(selectedDate);
+        GetTicketPricesServices.getInstance().getPrices(selectedDate);
 
         // Access prices through getter methods in ServiceTicket class
-        int priceStudent = ServiceTicket.getInstance().getPriceStudent();
-        int priceAdult = ServiceTicket.getInstance().getPriceTeen();
-        int priceTeen = ServiceTicket.getInstance().getPriceAdult();
+        int priceStudent = GetTicketPricesServices.getInstance().getPriceStudent();
+        int priceAdult = GetTicketPricesServices.getInstance().getPriceTeen();
+        int priceTeen = GetTicketPricesServices.getInstance().getPriceAdult();
         
         System.out.println(priceStudent);
         System.out.println(priceTeen);
