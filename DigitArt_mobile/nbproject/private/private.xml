@@ -4,13 +4,33 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/User/OneDrive/Bureau/Next/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/myapp/DisplayPaymentForm.java</file>
-            <file>file:/C:/Users/User/OneDrive/Bureau/Next/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/services/ServiceStats.java</file>
-            <file>file:/C:/Users/User/OneDrive/Bureau/Next/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/myapp/BaseForm.java</file>
-            <file>file:/C:/Users/User/OneDrive/Bureau/Next/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/entities/Payment.java</file>
-            <file>file:/C:/Users/User/OneDrive/Bureau/Next/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/services/ServicePayment.java</file>
-            <file>file:/C:/Users/User/OneDrive/Bureau/Next/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/myapp/PaymentForm2.java</file>
-            <file>file:/C:/Users/User/OneDrive/Bureau/Next/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/myapp/MyApplication.java</file>
+            <file>file:/E:/Esprit/3eme/sem2/PiDev/Primes/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/gui/AjoutEventForm.java</file>
+            <file>file:/E:/Esprit/3eme/sem2/PiDev/Primes/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/gui/AuctionDisplay.java</file>
+            <file>file:/E:/Esprit/3eme/sem2/PiDev/Primes/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/gui/EventFrontForm.java</file>
+            <file>file:/E:/Esprit/3eme/sem2/PiDev/Primes/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/gui/showAuction.java</file>
+            <file>file:/E:/Esprit/3eme/sem2/PiDev/Primes/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/gui/UpdateUserForm.java</file>
+            <file>file:/E:/Esprit/3eme/sem2/PiDev/Primes/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/utils/Statics.java</file>
+            <file>file:/E:/Esprit/3eme/sem2/PiDev/Primes/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/gui/UpdateTicketForm.java</file>
+            <file>file:/E:/Esprit/3eme/sem2/PiDev/Primes/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/gui/AuctionEdit.java</file>
+            <file>file:/E:/Esprit/3eme/sem2/PiDev/Primes/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/gui/StatisticsEvent.java</file>
+            <file>file:/E:/Esprit/3eme/sem2/PiDev/Primes/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/gui/WalkthruForm.java</file>
+            <file>file:/E:/Esprit/3eme/sem2/PiDev/Primes/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/gui/DisplayTicketForm.java</file>
+            <file>file:/E:/Esprit/3eme/sem2/PiDev/Primes/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/gui/OneEventForm.java</file>
+            <file>file:/E:/Esprit/3eme/sem2/PiDev/Primes/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/gui/ActivateForm.java</file>
+            <file>file:/E:/Esprit/3eme/sem2/PiDev/Primes/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/gui/MapEvent.java</file>
+            <file>file:/E:/Esprit/3eme/sem2/PiDev/Primes/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/gui/ListEventForm.java</file>
+            <file>file:/E:/Esprit/3eme/sem2/PiDev/Primes/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/myapp/MyApplication.java</file>
+            <file>file:/E:/Esprit/3eme/sem2/PiDev/Primes/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/gui/AddTicketForm.java</file>
+            <file>file:/E:/Esprit/3eme/sem2/PiDev/Primes/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/gui/StatisticsTicket.java</file>
+            <file>file:/E:/Esprit/3eme/sem2/PiDev/Primes/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/services/ServiceEvent.java</file>
+            <file>file:/E:/Esprit/3eme/sem2/PiDev/Primes/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/gui/BidAdd.java</file>
+            <file>file:/E:/Esprit/3eme/sem2/PiDev/Primes/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/gui/DisplayPaymentForm.java</file>
+            <file>file:/E:/Esprit/3eme/sem2/PiDev/Primes/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/services/ServiceUsers.java</file>
+            <file>file:/E:/Esprit/3eme/sem2/PiDev/Primes/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/gui/AuctionAdd.java</file>
+            <file>file:/E:/Esprit/3eme/sem2/PiDev/Primes/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/services/AuctionServices.java</file>
+            <file>file:/E:/Esprit/3eme/sem2/PiDev/Primes/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/gui/BaseForm.java</file>
+            <file>file:/E:/Esprit/3eme/sem2/PiDev/Primes/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/gui/ModifyEventForm.java</file>
+            <file>file:/E:/Esprit/3eme/sem2/PiDev/Primes/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/entities/Artwork.java</file>
         </group>
     </open-files>
 </project-private>
