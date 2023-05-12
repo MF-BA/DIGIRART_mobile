@@ -42,11 +42,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import org.json.JSONException;
-import org.json.JSONObject;
+
 
 /**
  *
