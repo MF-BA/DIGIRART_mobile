@@ -83,7 +83,7 @@ public class ServiceRoom {
                     Map<String, Object> mapRooms = jsonp.parseJSON(new CharArrayReader(new String(req.getResponseData()).toCharArray()));
 
                     List<Map<String, Object>> listOfMaps = (List<Map<String, Object>>) mapRooms.get("root");
-
+                    System.err.println(listOfMaps);
                     for (Map<String, Object> obj : listOfMaps) {
                         Room room = new Room();
 
