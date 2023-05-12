@@ -21,7 +21,10 @@ package com.mycompany.gui;
 
 import com.codename1.components.FloatingHint;
 import com.codename1.ui.Button;
+import com.codename1.ui.ComboBox;
+import com.codename1.ui.Component;
 import com.codename1.ui.Container;
+import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
 import com.codename1.ui.Form;
 import com.codename1.ui.Label;
@@ -30,7 +33,11 @@ import com.codename1.ui.Toolbar;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
+import com.codename1.ui.spinner.Picker;
 import com.codename1.ui.util.Resources;
+import com.mycompany.services.ServiceUsers;
+import java.text.SimpleDateFormat;
+import java.util.Vector;
 
 /**
  * Signup UI
@@ -48,33 +55,84 @@ public class SignUpForm extends BaseForm {
         Form previous = Display.getInstance().getCurrent();
         tb.setBackCommand("", e -> previous.showBack());
         setUIID("SignIn");
-        
-        
-        
-        TextField username = new TextField("", "Username", 5, TextField.ANY);
-        TextField email = new TextField("", "E-Mail", 20, TextField.EMAILADDR);
+                
+        TextField cin = new TextField("", "Cin", 20, TextField.ANY);
+        TextField firstname = new TextField("", "First Name", 20, TextField.ANY);
+        TextField lastname = new TextField("", "Last Name", 20, TextField.ANY);
+        TextField Email = new TextField("", "Email", 20, TextField.EMAILADDR);
         TextField password = new TextField("", "Password", 20, TextField.PASSWORD);
-        TextField confirmPassword = new TextField("", "Confirm Password", 20, TextField.PASSWORD);
-        username.setSingleLineTextArea(false);
-        email.setSingleLineTextArea(false);
+        TextField address = new TextField("", "Address", 20, TextField.ANY);
+        TextField phonenum = new TextField("", "Phone number", 20, TextField.ANY);
+           //Role 
+        //Vector 3ibara ala array 7atit fiha roles ta3na ba3d nzidouhom lel comboBox
+        Vector<String> vectorRole;
+        vectorRole = new Vector();
+        
+        vectorRole.add("Artist");
+        vectorRole.add("Subscriber");
+        
+        ComboBox<String>roles = new ComboBox<>(vectorRole);
+        
+        //gender
+        Vector<String> vectorGender;
+        vectorGender = new Vector();
+        
+        vectorGender.add("Male");
+        vectorGender.add("Female");
+        
+        ComboBox<String> gender = new ComboBox<>(vectorGender);
+        
+        Picker datePicker = new Picker();
+        datePicker.setType(Display.PICKER_TYPE_DATE);
+        
+        TextField birthDateField = new TextField("", "Birth Date", 20, TextField.ANY);
+         birthDateField.setHidden(true); 
+        
+         // add a listener to the date picker to set the value of the text field
+    datePicker.addActionListener(e -> {
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    String dateString = dateFormat.format(datePicker.getDate());
+    birthDateField.setText(dateString);
+    birthDateField.setHidden(false);
+    });
+
+
+        cin.setSingleLineTextArea(false);
+        firstname.setSingleLineTextArea(false);
+        lastname.setSingleLineTextArea(false);
+        Email.setSingleLineTextArea(false);
+        address.setSingleLineTextArea(false);
         password.setSingleLineTextArea(false);
-        confirmPassword.setSingleLineTextArea(false);
-        Button next = new Button("Next");
+        phonenum.setSingleLineTextArea(false);
+        Button next = new Button("SignUp");
         Button signIn = new Button("Sign In");
-        signIn.addActionListener(e -> previous.showBack());
+        signIn.addActionListener(e -> new SignInForm(res).show());
         signIn.setUIID("Link");
         Label alreadHaveAnAccount = new Label("Already have an account?");
         
         Container content = BoxLayout.encloseY(
                 new Label("Sign Up", "LogoLabel"),
-                new FloatingHint(username),
+                new FloatingHint(cin),
                 createLineSeparator(),
-                new FloatingHint(email),
+                new FloatingHint(firstname),
+                createLineSeparator(),
+                new FloatingHint(lastname),
+                createLineSeparator(),
+                new FloatingHint(Email),
                 createLineSeparator(),
                 new FloatingHint(password),
                 createLineSeparator(),
-                new FloatingHint(confirmPassword),
-                createLineSeparator()
+                new FloatingHint(address),
+                createLineSeparator(),
+                new FloatingHint(phonenum),
+                createLineSeparator(),
+                new FloatingHint(birthDateField),
+                createLineSeparator(),
+                datePicker,
+                createLineSeparator(),
+                gender,
+                createLineSeparator(),
+                roles//sinon y7otich role fi form ta3 signup
         );
         content.setScrollableY(true);
         add(BorderLayout.CENTER, content);
@@ -83,7 +141,17 @@ public class SignUpForm extends BaseForm {
                 FlowLayout.encloseCenter(alreadHaveAnAccount, signIn)
         ));
         next.requestFocus();
-        next.addActionListener(e -> new ActivateForm(res).show());
+        next.addActionListener((e) -> {
+            
+            ServiceUsers.getInstance().signup(cin, firstname, lastname, Email, password,address,phonenum,birthDateField,gender,roles,  res);
+            Dialog.show("Success","account is saved","OK",null);
+            new SignInForm(res).show();
+        });
+    }
+    private void addStringValue(String s, Component v) {
+        add(BorderLayout.west(new Label(s, "PaddedLabel")).
+                add(BorderLayout.CENTER, v));
+        add(createLineSeparator(0xeeeeee));
     }
     
 }
