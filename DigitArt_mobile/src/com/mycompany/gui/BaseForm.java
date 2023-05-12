@@ -113,6 +113,11 @@ Image x = URLImage.createToStorage(placeholderImage, imageURL, imageURL, URLImag
            tb.addMaterialCommandToSideMenu("   Newsfeed", FontImage.MATERIAL_UPDATE, e -> new NewsfeedForm(res).show()); 
            tb.addMaterialCommandToSideMenu("   Ticket Purchase", FontImage.MATERIAL_EXIT_TO_APP, e -> new PaymentForm(res).show());
            tb.addMaterialCommandToSideMenu("   Auction", FontImage.MATERIAL_CREDIT_CARD, e -> new AuctionDisplay(res).show());
+           tb.addMaterialCommandToSideMenu("   Event", FontImage.MATERIAL_EVENT, e -> new EventFrontForm(res).show());
+           tb.addMaterialCommandToSideMenu("   Map", FontImage.MATERIAL_MAP, e -> new MapEvent().show());
+
+
+           
         }else if(SessionUser.getRole().equals("Suscriber"))
         {
             tb.addMaterialCommandToSideMenu("   Auction", FontImage.MATERIAL_CREDIT_CARD, e -> new AuctionDisplay(res).show());

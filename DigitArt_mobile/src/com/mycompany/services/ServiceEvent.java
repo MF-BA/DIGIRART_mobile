@@ -65,7 +65,7 @@ public class ServiceEvent {
     }
     
     
-       public ArrayList<Event>affichageEvent() {
+        public ArrayList<Event>affichageEvent() {
         ArrayList<Event > result = new ArrayList<>();
         
         String url = Statics.BASE_URL+"/event/DisplayEvent/Json";
@@ -138,7 +138,71 @@ public class ServiceEvent {
         
         
     }
-    
+    public ArrayList<Event> getParticipatedEvents(int userId) {
+    ArrayList<Event> result = new ArrayList<>();
+
+    String url = Statics.BASE_URL + "/event/my-participated-events/json?id=" + userId;
+    req.setUrl(url);
+
+    req.addResponseListener(evt -> {
+        JSONParser jsonp = new JSONParser();
+
+        try {
+            Map<String, Object> mapEvent = jsonp.parseJSON(new CharArrayReader(new String(req.getResponseData()).toCharArray()));
+
+            List<Map<String, Object>> listOfMaps = (List<Map<String, Object>>) mapEvent.get("root");
+
+            for(Map<String, Object> obj : listOfMaps) {
+                        Event re = new Event();
+                        
+                        //dima id fi codename one float 5outhouha
+                        float id = Float.parseFloat(obj.get("id").toString());
+                        
+                        String event_name = obj.get("eventName").toString();
+                                int nb_participants = Integer.parseInt(obj.get("nbParticipants").toString());
+                                double start_time = Double.parseDouble(obj.get("startTime").toString());
+
+                                String detail = obj.get("detail").toString();
+                                String color = obj.get("color").toString();  
+                                String image = obj.get("image").toString();
+
+                                re.setId((int)id);
+                                re.setEventName(event_name);
+                                re.setNbParticipants(nb_participants);
+                                re.setDetail(detail);
+                                re.setColor(color);
+                                re.setStartTime((int)start_time);
+                                re.setImage(image);
+
+                        
+                        //Date 
+                       String Start =  obj.get("startDate").toString().substring(obj.get("startDate").toString().indexOf("timestamp") + 10 , obj.get("startDate").toString().lastIndexOf("}"));
+                        String end =  obj.get("endDate").toString().substring(obj.get("endDate").toString().indexOf("timestamp") + 10 , obj.get("endDate").toString().lastIndexOf("}"));
+
+                        Date currentTimes = new Date(Double.valueOf(Start).longValue() * 1000);
+                        Date currentTimee = new Date(Double.valueOf(end).longValue() * 1000);
+
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                        String startString = formatter.format(currentTimes);
+                         String endString = formatter.format(currentTimee);
+                        re.setStartDate(startString);
+                        re.setEndDate(endString);
+                        
+                        //insert data into ArrayList result
+                        result.add(re);
+                       
+                    
+                    }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    });
+
+    NetworkManager.getInstance().addToQueueAndWait(req);
+
+    return result;
+}
+
       
     public Event DetailEvent( int id , Event event) {
         

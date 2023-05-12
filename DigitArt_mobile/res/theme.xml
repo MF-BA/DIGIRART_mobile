@@ -6,6 +6,7 @@
     <image name="back.png"  />
     <image name="confirmation-background.jpg"  />
     <image name="dog.jpg"  />
+    <image name="event_bg.jpg"  />
     <image name="facebook-logo.png" type="multi"  />
     <image name="fleche.png"  />
     <image name="Logo.png"  />
@@ -108,7 +109,7 @@
         <val key="DatePickerMonth.transparency" value="0" />
         <val key="FloatingHint.align" value="4" />
         <val key="FloatingHint.fgColor" value="a2a1b8" />
-        <font key="FloatingHint.font" type="ttf" face="0" style="0" size="0" name="native:MainLight" family="native:MainLight" sizeSettings="3" actualSize="2.5" />
+        <font key="FloatingHint.font" type="ttf" face="0" style="0" size="0" name="native:MainLight" family="native:MainLight" sizeSettings="3" actualSize="3.5" />
         <val key="FloatingHint.transparency" value="0" />
         <val key="Form.bgColor" value="ffffff" />
         <gradient key="Form.bgGradient" color1="0" color2="0" posX="0.5" posY="0.5" radius="1.0" />
@@ -117,7 +118,7 @@
         <val key="ImageOverlay.bgColor" value="14134b" />
         <val key="ImageOverlay.transparency" value="60" />
         <val key="Label.fgColor" value="a2a1b8" />
-        <font key="Label.font" type="ttf" face="0" style="0" size="0" name="native:MainLight" family="native:MainLight" sizeSettings="3" actualSize="2.5" />
+        <font key="Label.font" type="ttf" face="0" style="0" size="0" name="native:MainLight" family="native:MainLight" sizeSettings="3" actualSize="3.5" />
         <val key="Label.transparency" value="0" />
         <val key="LargeWhiteText.align" value="1" />
         <val key="LargeWhiteText.fgColor" value="ffffff" />
@@ -153,7 +154,7 @@
         <val key="MenuButton.sel#transparency" value="0" />
         <val key="MenuButton.transparency" value="0" />
         <val key="NewsBottomLine.fgColor" value="a2a1b8" />
-        <font key="NewsBottomLine.font" type="ttf" face="0" style="0" size="0" name="native:MainLight" family="native:MainLight" sizeSettings="3" actualSize="1.5" />
+        <font key="NewsBottomLine.font" type="ttf" face="0" style="0" size="0" name="native:MainLight" family="native:MainLight" sizeSettings="3" actualSize="3.5" />
         <val key="NewsBottomLine.press#fgColor" value="a2a1b8" />
         <font key="NewsBottomLine.press#font" type="ttf" face="0" style="0" size="0" name="native:MainLight" family="native:MainLight" sizeSettings="3" actualSize="1.5" />
         <val key="NewsBottomLine.press#transparency" value="0" />
@@ -162,7 +163,7 @@
         <val key="NewsBottomLine.sel#transparency" value="0" />
         <val key="NewsBottomLine.transparency" value="0" />
         <val key="NewsTopLine.fgColor" value="0" />
-        <font key="NewsTopLine.font" type="ttf" face="0" style="0" size="0" name="native:MainLight" family="native:MainLight" sizeSettings="3" actualSize="2.0" />
+        <font key="NewsTopLine.font" type="ttf" face="0" style="0" size="0" name="native:MainLight" family="native:MainLight" sizeSettings="3" actualSize="3.0" />
         <val key="NewsTopLine.press#fgColor" value="0" />
         <font key="NewsTopLine.press#font" type="ttf" face="0" style="0" size="0" name="native:MainLight" family="native:MainLight" sizeSettings="3" actualSize="2.0" />
         <val key="NewsTopLine.press#transparency" value="0" />
@@ -171,7 +172,7 @@
         <val key="NewsTopLine.sel#transparency" value="0" />
         <val key="NewsTopLine.transparency" value="0" />
         <val key="PaddedLabel.fgColor" value="a2a1b8" />
-        <font key="PaddedLabel.font" type="ttf" face="0" style="0" size="0" name="native:MainLight" family="native:MainLight" sizeSettings="3" actualSize="2.5" />
+        <font key="PaddedLabel.font" type="ttf" face="0" style="0" size="0" name="native:MainLight" family="native:MainLight" sizeSettings="3" actualSize="4.0" />
         <val key="PaddedLabel.padUnit" value="2,2,2,2" />
         <val key="PaddedLabel.padding" value="2.0,2.0,2.0,2.0" />
         <val key="PaddedLabel.transparency" value="0" />

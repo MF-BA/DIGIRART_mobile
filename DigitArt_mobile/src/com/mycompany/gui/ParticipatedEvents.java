@@ -43,9 +43,9 @@ import java.util.ArrayList;
  *
  * @author kossay
  */
-public class EventFrontForm extends BaseForm {
+public class ParticipatedEvents extends BaseForm {
 
-    public EventFrontForm(Resources res) {
+    public ParticipatedEvents(Resources res) {
         super("Event Form", BoxLayout.y());
         Toolbar tb = new Toolbar(true);
         setToolbar(tb);
@@ -109,27 +109,31 @@ public class EventFrontForm extends BaseForm {
         RadioButton myFavorite = RadioButton.createToggle("My Favorites", barGroup);
         myFavorite.setUIID("SelectBar");
         Label arrow = new Label(res.getImage("news-tab-down-arrow.png"), "Container");
-         myFavorite.addActionListener((e) -> {
+        
+        add(LayeredLayout.encloseIn(
+                GridLayout.encloseIn(2, all,myFavorite)
+              
+        ));
+       
+    all.addActionListener((e) -> {
          
         
-          ParticipatedEvents a = new ParticipatedEvents(res);
+           EventFrontForm a = new EventFrontForm(res);
              
           a.show();
             refreshTheme();
         });
-        add(LayeredLayout.encloseIn(
-                GridLayout.encloseIn(2, all,myFavorite)
-                
-        ));
-        
-        all.setSelected(true);
-      
+        myFavorite.setSelected(true);
+        ;
         bindButtonSelection(all);
         bindButtonSelection(featured);
         bindButtonSelection(popular);
         bindButtonSelection(myFavorite);
         
-        
+        // special case for rotation
+        addOrientationListener(e -> {
+            updateArrowPosition(barGroup.getRadioButton(barGroup.getSelectedIndex()), arrow);
+        });
         
 //        addButton(res.getImage("news-item-1.jpg"), "Morbi per tincidunt tellus sit of amet eros laoreet.", false, 26, 32);
 //        addButton(res.getImage("news-item-2.jpg"), "Fusce ornare cursus masspretium tortor integer placera.", true, 15, 21);
@@ -137,7 +141,9 @@ public class EventFrontForm extends BaseForm {
 //        addButton(res.getImage("news-item-4.jpg"), "Pellentesque non lorem diam. Proin at ex sollicia.", false, 11, 9);
 //        
           //Appel affichage methode
-            ArrayList<Event>list = ServiceEvent.getInstance().affichageEvent();
+            ArrayList<Event>list = ServiceEvent.getInstance().getParticipatedEvents(SessionUser.getId());
+            
+                                    System.out.println(SessionUser.getId());
 
         for(Event rec : list ) 
         {
@@ -148,14 +154,18 @@ public class EventFrontForm extends BaseForm {
              URLImage urlim = URLImage.createToStorage(enc, urlImage, urlImage, URLImage.RESIZE_SCALE);
              
                 addButton(urlim,rec,res);
-                    System.out.println(rec.getEventName());
-
+            System.out.println(rec.getEventName());
                
         }
     
     }
     
-   
+    private void updateArrowPosition(Button b, Label arrow) {
+        arrow.getUnselectedStyle().setMargin(LEFT, b.getX() + b.getWidth() / 2 - arrow.getWidth() / 2);
+        arrow.getParent().repaint();
+        
+        
+    }
     
     private void addTab(Tabs swipe, Image img, Label spacer, String likesStr, String commentsStr, String text) {
         int size = Math.min(Display.getInstance().getDisplayWidth(), Display.getInstance().getDisplayHeight());
