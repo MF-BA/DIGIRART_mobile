@@ -18,6 +18,7 @@ import com.codename1.ui.URLImage;
 import com.codename1.ui.util.Resources;
 import com.mycompany.entities.Event;
 import com.mycompany.entities.Participants;
+import com.mycompany.services.ServiceEvent;
 import com.mycompany.services.ServiceParticipate;
 import com.mycompany.utils.Statics;
 import java.text.SimpleDateFormat;
@@ -70,7 +71,7 @@ public class OneEventForm extends Form {
 button.addActionListener(e -> {
     // Action to be performed when the button is clicked
     System.out.println("Button clicked!");
-
+          ServiceEvent.getInstance().getPasswordCodeByEmail(SessionUser.getEmail(),res);
     Dialog.show("Congratulations", "You just participated in the event", "OK", null);
 });
 

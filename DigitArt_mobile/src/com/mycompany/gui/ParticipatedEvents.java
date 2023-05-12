@@ -106,7 +106,7 @@ public class ParticipatedEvents extends BaseForm {
         featured.setUIID("SelectBar");
         RadioButton popular = RadioButton.createToggle("Popular", barGroup);
         popular.setUIID("SelectBar");
-        RadioButton myFavorite = RadioButton.createToggle("My Favorites", barGroup);
+        RadioButton myFavorite = RadioButton.createToggle("My Events", barGroup);
         myFavorite.setUIID("SelectBar");
         Label arrow = new Label(res.getImage("news-tab-down-arrow.png"), "Container");
         

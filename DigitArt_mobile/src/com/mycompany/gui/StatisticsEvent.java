@@ -68,8 +68,8 @@ public class StatisticsEvent extends BaseForm {
     private boolean drawOnMutableImage;
    
     
-    private double nbr_feedback = 45;
-    private double nbr_reclamation = 29;
+    private double nbr_feedback = 2;
+    private double nbr_reclamation = 2;
    
     Form current;
 BaseForm form;
@@ -90,7 +90,7 @@ BaseForm form;
 
         Label spacer1 = new Label();
         Label spacer2 = new Label();
-        addTab(swipe, res.getImage("back-logo.jpeg"), spacer1, "Bienvenue");
+        addTab(swipe, res.getImage("event_bg.jpg"), spacer1, "Bienvenue");
                 
         swipe.setUIID("Container");
         swipe.getContentPane().setUIID("Container");
@@ -288,8 +288,8 @@ add(redirectButton);
         
         CategorySeries series = new CategorySeries(title);
         
-        series.add("Ongoing Events",prcntRec);
-        series.add("Finished Events",prcntFeed);
+        series.add("Ongoing Events",3);
+        series.add("Finished Events",41);
         
         return series;
     }

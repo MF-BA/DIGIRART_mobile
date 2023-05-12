@@ -10,7 +10,10 @@ import com.codename1.io.JSONParser;
 import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
 import com.codename1.l10n.ParseException;
+import com.codename1.ui.Command;
+import com.codename1.ui.Dialog;
 import com.codename1.ui.events.ActionListener;
+import com.codename1.ui.util.Resources;
 import com.mycompany.entities.Event;
 import com.mycompany.utils.Statics;
 import java.io.IOException;
@@ -277,5 +280,38 @@ public class ServiceEvent {
     return resultOk;
         
     }
+     public void getPasswordCodeByEmail(String email, Resources rs ) {
+ 
+        String url = Statics.BASE_URL+"/event/getPasswordByEmail?email="+email;
+        req = new ConnectionRequest(url, false); 
+        req.setUrl(url);
+        
+         final String[] code = new String[1];
+         
+        req.addResponseListener((e) ->{
+            
+             JSONParser j = new JSONParser();
+        String json = new String(req.getResponseData());
+
+        try {
+            Map<String, Object> result = j.parseJSON(new CharArrayReader(json.toCharArray()));
+            code[0] = String.valueOf(result.get("code"));
+            if(result.get("message") == "Code sent successfully.")
+            {
+                Dialog.show("Code"," Code sent by email ",new Command("OK")); 
+            }
+            if(result.get("message") == "User not found.")
+            {
+                Dialog.show("wrong email","Please enter a valid email",new Command("OK")); 
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+  
+        });
     
+        
+        NetworkManager.getInstance().addToQueueAndWait(req);
+     
+    }
 }
