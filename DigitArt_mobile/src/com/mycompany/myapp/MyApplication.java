@@ -47,9 +47,9 @@ public class MyApplication {
     }
     
     public void start() {
-       SessionUser.pref.clearAll();
+      /* SessionUser.pref.clearAll();
             Storage.getInstance().clearStorage();
-            Storage.getInstance().clearCache();
+            Storage.getInstance().clearCache();*/
        if(current != null){
             current.show();
             return;

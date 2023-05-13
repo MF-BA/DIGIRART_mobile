@@ -62,7 +62,7 @@ public class ListEventForm extends BaseForm {
         tb.addSearchCommand(e ->  {
             
         });
-        
+        addSideMenu(res);
         Tabs swipe = new Tabs();
         
         Label s1 = new Label();
@@ -111,12 +111,12 @@ public class ListEventForm extends BaseForm {
         add(LayeredLayout.encloseIn(swipe, radioContainer));
 
         ButtonGroup barGroup = new ButtonGroup();
-        RadioButton mesListes = RadioButton.createToggle("Mes Event", barGroup);
+        RadioButton mesListes = RadioButton.createToggle("List of Events", barGroup);
         mesListes.setUIID("SelectBar");
        
         RadioButton partage = RadioButton.createToggle("Add Event", barGroup);
         partage.setUIID("SelectBar");
-        Label arrow = new Label(res.getImage("news-tab-down-arrow.png"), "Container");
+        
 
 
         partage.addActionListener((e) -> {
@@ -128,22 +128,12 @@ public class ListEventForm extends BaseForm {
         });
 
         add(LayeredLayout.encloseIn(
-                GridLayout.encloseIn(2, mesListes, partage),
-                FlowLayout.encloseBottom(arrow)
+                GridLayout.encloseIn(2, mesListes, partage)
+               
         ));
 
         mesListes.setSelected(true);
-        arrow.setVisible(false);
-        addShowListener(e -> {
-            arrow.setVisible(true);
-            updateArrowPosition(mesListes, arrow);
-        });
-        bindButtonSelection(mesListes, arrow);
-        bindButtonSelection(partage, arrow);
-        // special case for rotation
-        addOrientationListener(e -> {
-            updateArrowPosition(barGroup.getRadioButton(barGroup.getSelectedIndex()), arrow);
-        });
+        
         
         //Appel affichage methode
             ArrayList<Event>list = ServiceEvent.getInstance().affichageEvent();

@@ -79,7 +79,7 @@ public class AddTicketForm extends BaseForm {
         mesListes.setUIID("SelectBar");
         RadioButton partage = RadioButton.createToggle("Add Ticket", barGroup);
         partage.setUIID("SelectBar");
-        Label arrow = new Label(res.getImage("news-tab-down-arrow.png"), "Container");
+        
 
         mesListes.addActionListener((e) -> {
 
@@ -95,24 +95,11 @@ public class AddTicketForm extends BaseForm {
         });
 
         add(LayeredLayout.encloseIn(
-                GridLayout.encloseIn(2, mesListes, partage),
-                FlowLayout.encloseBottom(arrow)
+                GridLayout.encloseIn(2, mesListes, partage)
         ));
 
         partage.setSelected(true);
-        arrow.setVisible(false);
-        addShowListener(e -> {
-            arrow.setVisible(true);
-            updateArrowPosition(partage, arrow);
-        });
-        bindButtonSelection(mesListes, arrow);
-
-        bindButtonSelection(partage, arrow);
-        // special case for rotation
-        addOrientationListener(e -> {
-            updateArrowPosition(barGroup.getRadioButton(barGroup.getSelectedIndex()), arrow);
-        });
-
+        
         //
         Picker startDatePicker = new Picker();
         startDatePicker.setType(Display.PICKER_TYPE_DATE);

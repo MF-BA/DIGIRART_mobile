@@ -68,7 +68,7 @@ public class AddUserForm extends BaseForm{
         Label s1 = new Label();
         Label s2 = new Label();
         
-        addTab(swipe,s1, res.getImage("back-logo.jpg"),"","",res);
+        addTab(swipe,s1, res.getImage("back-couverture.jpg"),"","",res);
         
         //
         

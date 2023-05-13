@@ -49,25 +49,13 @@ public class PaymentForm2 extends BaseForm {
         RadioButton partage = RadioButton.createToggle("Step 3", barGroup);
         partage.setUIID("SelectBar");
     
-        Label arrow = new Label(res.getImage("news-tab-down-arrow.png"), "Container");
+      
         add(LayeredLayout.encloseIn(
-                GridLayout.encloseIn(3, mesListes, liste, partage),
-                FlowLayout.encloseBottom(arrow)
+                GridLayout.encloseIn(3, mesListes, liste, partage)
         ));
 
         partage.setSelected(true);
-        arrow.setVisible(false);
-        addShowListener(e -> {
-            partage.setVisible(true);
-            updateArrowPosition(partage, arrow);
-        });
-        bindButtonSelection(mesListes, arrow);
-        bindButtonSelection(liste, arrow);
-        bindButtonSelection(partage, arrow);
-        // special case for rotation
-        addOrientationListener(e -> {
-            updateArrowPosition(barGroup.getRadioButton(barGroup.getSelectedIndex()), arrow);
-        });
+        
         
         
         ServiceTest.getInstance().Email();
