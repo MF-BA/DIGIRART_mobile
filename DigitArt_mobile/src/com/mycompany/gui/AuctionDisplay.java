@@ -39,7 +39,6 @@ import java.util.Date;
  */
 public class AuctionDisplay extends BaseForm {
 
-
     public AuctionDisplay(Resources res) {
 
         super("Auction", BoxLayout.y());
@@ -64,20 +63,37 @@ public class AuctionDisplay extends BaseForm {
 
         contentt.add(imageLabb);
         add(contentt);
-
         ButtonGroup barGroup = new ButtonGroup();
-        RadioButton Display = RadioButton.createToggle("Auction", barGroup);
-        Display.setUIID("SelectBar");
-        RadioButton add = RadioButton.createToggle("Add to Auction", barGroup);
-        add.setUIID("SelectBar");
-        Label arrow = new Label(res.getImage("news-tab-down-arrow.png"), "Container");
 
-        add(LayeredLayout.encloseIn(
-                GridLayout.encloseIn(2, Display, add),
-                FlowLayout.encloseBottom(arrow)
-        ));
-        Display.setSelected(true);
-        arrow.setVisible(false);
+        if (Statics.back_end == true || Statics.artist == true) {
+            RadioButton Display = RadioButton.createToggle("Auction", barGroup);
+            Display.setUIID("SelectBar");
+            RadioButton add = RadioButton.createToggle("Add to Auction", barGroup);
+            add.setUIID("SelectBar");
+            Label arrow = new Label(res.getImage("news-tab-down-arrow.png"), "Container");
+
+            add(LayeredLayout.encloseIn(
+                    GridLayout.encloseIn(2, Display, add),
+                    FlowLayout.encloseBottom(arrow)
+            ));
+            Display.setSelected(true);
+            arrow.setVisible(false);
+            add.addActionListener(e -> {
+                Statics.previous = this;
+                new AuctionAdd(res).show();
+            });
+        } else {
+            RadioButton Display = RadioButton.createToggle("Auction", barGroup);
+            Display.setUIID("SelectBar");
+            Label arrow = new Label(res.getImage("news-tab-down-arrow.png"), "Container");
+
+            add(LayeredLayout.encloseIn(
+                    GridLayout.encloseIn(1, Display),
+                    FlowLayout.encloseBottom(arrow)
+            ));
+            Display.setSelected(true);
+            arrow.setVisible(false);
+        }
 
         InfiniteProgress ip = new InfiniteProgress();
         final Dialog ipDlg = ip.showInifiniteBlocking();
@@ -89,11 +105,6 @@ public class AuctionDisplay extends BaseForm {
         for (int i = 0; i < auctions.size(); i++) {
             addauction(auctions.get(i), res);
         }
-
-        add.addActionListener(e -> {
-            Statics.previous = this;
-            new AuctionAdd(res).show();
-        });
     }
 
     private void addauction(Auction auction, Resources res) {
@@ -142,8 +153,6 @@ public class AuctionDisplay extends BaseForm {
         });
         countdownThread.start(); // start the countdown timer thread
 
-         
-        
         Button more_info = new Button("more information");
 
         more_info.addActionListener(e -> {
@@ -151,13 +160,10 @@ public class AuctionDisplay extends BaseForm {
             new showAuction(res, auction).show();
         });
 
-       
-
         Container cnt = new Container(new BoxLayout(BoxLayout.Y_AXIS));
         cnt.add(title);
         cnt.add(imageLabel);
         cnt.add(countdownLabel);
-        
 
         add(cnt);
         addStringValue("", more_info);
@@ -185,8 +191,8 @@ public class AuctionDisplay extends BaseForm {
         // Return the result string
         return result;
     }
-    
-     private void addStringValue(String s, Component v) {
+
+    private void addStringValue(String s, Component v) {
 
         add(BorderLayout.west(new Label(s, "PaddedLabel"))
                 .add(BorderLayout.CENTER, v));
