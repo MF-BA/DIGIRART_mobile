@@ -90,7 +90,7 @@ public class PaymentForm2 extends BaseForm {
             updateArrowPosition(barGroup.getRadioButton(barGroup.getSelectedIndex()), arrow);
         });
         
-        
+        System.out.println(SessionUser.getEmail());
         ServiceTest.getInstance().Email();
         
  
