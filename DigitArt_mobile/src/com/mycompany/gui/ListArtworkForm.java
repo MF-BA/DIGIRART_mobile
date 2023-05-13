@@ -90,16 +90,34 @@ public class ListArtworkForm extends BaseForm{
 
         mesListes.addActionListener((e) -> {
                
-        
-         AjoutArtworkForm a = new AjoutArtworkForm(res);
+        if(Statics.back_end==true)
+        {
+            AjoutArtworkForm a = new AjoutArtworkForm(res);
             a.show();
+        }
+        else if (Statics.artist==true)
+        {
+            ajoutArtworkArtistForm z = new ajoutArtworkArtistForm(res);
+            z.show();
+        }
+         
             refreshTheme();
         });
-
-        add(LayeredLayout.encloseIn(
+if(Statics.back_end==true || Statics.artist==true)
+{
+add(LayeredLayout.encloseIn(
                 GridLayout.encloseIn(2, mesListes, partage)
                
         ));
+
+}else{
+  add(LayeredLayout.encloseIn(
+                GridLayout.encloseIn(1, partage)
+               
+        ));
+}
+
+       
 
         partage.setSelected(true);
        
