@@ -18,6 +18,7 @@ import com.codename1.ui.URLImage;
 import com.codename1.ui.util.Resources;
 import com.mycompany.entities.Event;
 import com.mycompany.entities.Participants;
+import com.mycompany.services.ServiceEvent;
 import com.mycompany.services.ServiceParticipate;
 import com.mycompany.utils.Statics;
 import java.text.SimpleDateFormat;
@@ -28,9 +29,7 @@ import java.text.SimpleDateFormat;
  */
 public class OneEventForm extends Form {
 
-    Resources res;
-
-    public OneEventForm(Event event) {
+    public OneEventForm(Resources res,Event event) {
         setTitle("Event Details");
 
         // Create UI components
@@ -68,28 +67,23 @@ public class OneEventForm extends Form {
 // Add the image label to the form
         addComponent(imageLabel);
 
-        Button button = new Button("Participate");
-        button.addActionListener(e -> {
-            // Action to be performed when the button is clicked
-            System.out.println("Button clicked!");
+      Button button = new Button("Participate");
+button.addActionListener(e -> {
+    // Action to be performed when the button is clicked
+    System.out.println("Button clicked!");
+          ServiceEvent.getInstance().getPasswordCodeByEmail(SessionUser.getEmail(),res);
+    Dialog.show("Congratulations", "You just participated in the event", "OK", null);
+});
 
-        });
         add(button);
-        Button mesListes = new Button("Back");
-        mesListes.addActionListener((e) -> {
-
-            ListEventForm a = new ListEventForm(res);
-            a.show();
-            refreshTheme();
-        });
+       
         Button backButton = new Button("Map");
         backButton.addActionListener(e -> {
             MapEvent a = new MapEvent();
             a.show();
         });
 
-        add(backButton);
-        add(mesListes);
+        
         //onclick button event 
 
         button.addActionListener((e) -> {
@@ -106,7 +100,7 @@ public class OneEventForm extends Form {
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                 //String firstName, String lastName, String adress, String gender, int idEvent, String idUser
                 //njibo iduser men session (current user)
-                Participants p = new Participants(event.getId(), 75, "zizou", "loukil", "soukraa", "Female");
+                Participants p = new Participants(event.getId(), SessionUser.getId(), SessionUser.getFirstname(), SessionUser.getLastname(), SessionUser.getAddress(), SessionUser.getGender());
                 //127.0.0.1:8000/participants/addParticipant/Json?id_event=7&id_user=4&first_name="zizou"&last_name="loukil"&address="soukra"&gender="Female"
 
                 System.out.println("data  reclamation == " + p);
@@ -122,6 +116,12 @@ public class OneEventForm extends Form {
                 ex.printStackTrace();
             }
         });
+                Button Display = new Button("Return");
+
+        Display.addActionListener(e -> {
+            new EventFrontForm(res).showBack();
+        });
+        add(Display);
     }
 
 }

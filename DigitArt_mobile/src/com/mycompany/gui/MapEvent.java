@@ -67,7 +67,13 @@ public MapEvent() {
                 );
              ConnectionRequest r = new ConnectionRequest();
             r.setPost(false);
-            r.setUrl("http://maps.google.com/maps/api/geocode/json?latlng="+cnt.getCameraPosition().getLatitude()+","+cnt.getCameraPosition().getLongitude()+"&oe=utf8&sensor=false");
+String apiKey = "AIzaSyB20J0YArSAor39b70wlsLGS5L2LKKBc4A";
+String url = "http://maps.google.com/maps/api/geocode/json?latlng=" +
+        cnt.getCameraPosition().getLatitude() + "," +
+        cnt.getCameraPosition().getLongitude() +
+        "&oe=utf8&sensor=false&key=" + apiKey;
+
+r.setUrl(url);
                      NetworkManager.getInstance().addToQueueAndWait(r);
 
             JSONParser jsonp = new JSONParser();

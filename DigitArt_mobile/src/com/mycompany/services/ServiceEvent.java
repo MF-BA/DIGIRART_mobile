@@ -10,7 +10,10 @@ import com.codename1.io.JSONParser;
 import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
 import com.codename1.l10n.ParseException;
+import com.codename1.ui.Command;
+import com.codename1.ui.Dialog;
 import com.codename1.ui.events.ActionListener;
+import com.codename1.ui.util.Resources;
 import com.mycompany.entities.Event;
 import com.mycompany.utils.Statics;
 import java.io.IOException;
@@ -65,7 +68,7 @@ public class ServiceEvent {
     }
     
     
-       public ArrayList<Event>affichageEvent() {
+        public ArrayList<Event>affichageEvent() {
         ArrayList<Event > result = new ArrayList<>();
         
         String url = Statics.BASE_URL+"/event/DisplayEvent/Json";
@@ -138,7 +141,71 @@ public class ServiceEvent {
         
         
     }
-    
+    public ArrayList<Event> getParticipatedEvents(int userId) {
+    ArrayList<Event> result = new ArrayList<>();
+
+    String url = Statics.BASE_URL + "/event/my-participated-events/json?id=" + userId;
+    req.setUrl(url);
+
+    req.addResponseListener(evt -> {
+        JSONParser jsonp = new JSONParser();
+
+        try {
+            Map<String, Object> mapEvent = jsonp.parseJSON(new CharArrayReader(new String(req.getResponseData()).toCharArray()));
+
+            List<Map<String, Object>> listOfMaps = (List<Map<String, Object>>) mapEvent.get("root");
+
+            for(Map<String, Object> obj : listOfMaps) {
+                        Event re = new Event();
+                        
+                        //dima id fi codename one float 5outhouha
+                        float id = Float.parseFloat(obj.get("id").toString());
+                        
+                        String event_name = obj.get("eventName").toString();
+                                int nb_participants = Integer.parseInt(obj.get("nbParticipants").toString());
+                                double start_time = Double.parseDouble(obj.get("startTime").toString());
+
+                                String detail = obj.get("detail").toString();
+                                String color = obj.get("color").toString();  
+                                String image = obj.get("image").toString();
+
+                                re.setId((int)id);
+                                re.setEventName(event_name);
+                                re.setNbParticipants(nb_participants);
+                                re.setDetail(detail);
+                                re.setColor(color);
+                                re.setStartTime((int)start_time);
+                                re.setImage(image);
+
+                        
+                        //Date 
+                       String Start =  obj.get("startDate").toString().substring(obj.get("startDate").toString().indexOf("timestamp") + 10 , obj.get("startDate").toString().lastIndexOf("}"));
+                        String end =  obj.get("endDate").toString().substring(obj.get("endDate").toString().indexOf("timestamp") + 10 , obj.get("endDate").toString().lastIndexOf("}"));
+
+                        Date currentTimes = new Date(Double.valueOf(Start).longValue() * 1000);
+                        Date currentTimee = new Date(Double.valueOf(end).longValue() * 1000);
+
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                        String startString = formatter.format(currentTimes);
+                         String endString = formatter.format(currentTimee);
+                        re.setStartDate(startString);
+                        re.setEndDate(endString);
+                        
+                        //insert data into ArrayList result
+                        result.add(re);
+                       
+                    
+                    }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    });
+
+    NetworkManager.getInstance().addToQueueAndWait(req);
+
+    return result;
+}
+
       
     public Event DetailEvent( int id , Event event) {
         
@@ -213,5 +280,38 @@ public class ServiceEvent {
     return resultOk;
         
     }
+     public void getPasswordCodeByEmail(String email, Resources rs ) {
+ 
+        String url = Statics.BASE_URL+"/event/getPasswordByEmail?email="+email;
+        req = new ConnectionRequest(url, false); 
+        req.setUrl(url);
+        
+         final String[] code = new String[1];
+         
+        req.addResponseListener((e) ->{
+            
+             JSONParser j = new JSONParser();
+        String json = new String(req.getResponseData());
+
+        try {
+            Map<String, Object> result = j.parseJSON(new CharArrayReader(json.toCharArray()));
+            code[0] = String.valueOf(result.get("code"));
+            if(result.get("message") == "Code sent successfully.")
+            {
+                Dialog.show("Code"," Code sent by email ",new Command("OK")); 
+            }
+            if(result.get("message") == "User not found.")
+            {
+                Dialog.show("wrong email","Please enter a valid email",new Command("OK")); 
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+  
+        });
     
+        
+        NetworkManager.getInstance().addToQueueAndWait(req);
+     
+    }
 }

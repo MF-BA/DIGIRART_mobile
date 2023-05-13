@@ -61,7 +61,7 @@ public class AjoutEventForm extends BaseForm {
         Label s2 = new Label();
         
         //addTab(swipe,s1, res.getImage("event_bg.jpg"),"","",res);
-        addTab(swipe,s1, res.getImage("Logo.png"),"","",res);
+        addTab(swipe,s1, res.getImage("event_bg.jpg"),"","",res);
         
         //
         
@@ -177,9 +177,23 @@ public class AjoutEventForm extends BaseForm {
             
             try {
                 
-                if(event_name.getText().equals("") || detail.getText().equals("")) {
-                    Dialog.show("Veuillez vérifier les données","","Annuler", "OK");
-                }
+          if (event_name.getText().isEmpty() || detail.getText().isEmpty() || nb_participants.getText().isEmpty() || start_time.getText().isEmpty() || Color.getText().isEmpty()) {
+    Dialog.show("Veuillez vérifier les données", "Vous devez remplir tous les champs", "OK", null);
+} else if (event_name.getText().length() < 3 || event_name.getText().length() > 50) {
+    Dialog.show("Veuillez vérifier les données", "Le nom de l'événement doit contenir entre 3 et 50 caractères", "OK", null);
+} else if (!isNumeric(nb_participants.getText())) {
+    Dialog.show("Veuillez vérifier les données", "Le nombre de participants doit être un nombre", "OK", null);
+} else if (detail.getText().length() > 100) {
+    Dialog.show("Veuillez vérifier les données", "Le détail de l'événement ne doit pas dépasser 100 caractères", "OK", null);
+} else if (!isNumeric(start_time.getText())) {
+    Dialog.show("Veuillez vérifier les données", "L'heure de début doit être un nombre", "OK", null);
+} else if (Color.getText().length() != 7) {
+    Dialog.show("Veuillez vérifier les données", "La couleur doit contenir exactement 7 caractères", "OK", null);
+} 
+    // Rest of your code for valid inputs
+    // ...
+
+
                 
                 else {
                     InfiniteProgress ip = new InfiniteProgress();; //Loading  after insert data
@@ -223,6 +237,14 @@ public class AjoutEventForm extends BaseForm {
         
         
     }
+private boolean isNumeric(String str) {
+    try {
+        Integer.parseInt(str);
+        return true;
+    } catch (NumberFormatException e) {
+        return false;
+    }
+}
 
     private void addStringValue(String s, Component v) {
         
