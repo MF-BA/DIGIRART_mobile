@@ -266,7 +266,10 @@ public class AddUserForm extends BaseForm{
     else if (!isNumeric(cinText)) {
         Dialog.show("Error", "cin must be numerical", "OK", null);
        
-    } else  if(cinText.length() != 8)
+    } 
+    else if (Integer.parseInt(cinText) < 0) {
+    Dialog.show("Verify CIN", "number must be positive", "OK", null);}
+    else  if(cinText.length() != 8)
         {
           Dialog.show("Error", "Cin must contain 8 digits", "OK", null);  
         }
@@ -274,6 +277,8 @@ public class AddUserForm extends BaseForm{
         Dialog.show("Error", "phone number must be numerical", "OK", null);
         
     }
+    else if (Integer.parseInt(phonenumText) < 0) {
+    Dialog.show("Verify Phone number", "number must be positive", "OK", null);}
     else if(phonenumText.length() != 8)
         {
           Dialog.show("Error", "Phone number must contain 8 digits", "OK", null);  

@@ -175,7 +175,11 @@ public class AjoutEventForm extends BaseForm {
     Dialog.show("Veuillez vérifier les données", "Le nombre de participants doit être un nombre", "OK", null);
 } else if (detail.getText().length() > 100) {
     Dialog.show("Veuillez vérifier les données", "Le détail de l'événement ne doit pas dépasser 100 caractères", "OK", null);
-} else if (!isNumeric(start_time.getText())) {
+    
+} 
+ else if (Integer.parseInt(nb_participants.getText()) < 0) {
+    Dialog.show("Veuillez vérifier les données", "Le nombre de participants ne peut pas être négatif", "OK", null);}
+        else if (!isNumeric(start_time.getText())) {
     Dialog.show("Veuillez vérifier les données", "L'heure de début doit être un nombre", "OK", null);
 } else if (Color.getText().length() != 7) {
     Dialog.show("Veuillez vérifier les données", "La couleur doit contenir exactement 7 caractères", "OK", null);

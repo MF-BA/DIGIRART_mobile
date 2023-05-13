@@ -138,7 +138,8 @@ public class AjoutRoomForm extends BaseForm {
                 if(nameRoom.getText().equals("") || description.getText().equals("") || areaField.getText().equals("")) {
                     Dialog.show("Veuillez vérifier les données","","Annuler", "OK");
                 }
-                
+                 else if (Integer.parseInt(areaField.getText()) < 0) {
+    Dialog.show("Veuillez vérifier les données", "area field ne peut pas être négatif", "OK", null);}
                 else {
                     InfiniteProgress ip = new InfiniteProgress(); //Loading  after insert data
                 

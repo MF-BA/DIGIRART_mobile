@@ -98,6 +98,7 @@ public class UpdateTicketForm extends BaseForm{
             Dialog.show("Invalid price", "Price should be greater than 0", "Cancel", "OK");
             return;
         }
+        
          if (Integer.parseInt(price.getText()) <= 0) {
                     Dialog.show("Invalid price", "Price should be greater than 0", "Cancel", "OK");
                     return;
