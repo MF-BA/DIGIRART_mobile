@@ -249,6 +249,7 @@ add(LayeredLayout.encloseIn(
         cntt.add(ArtistName);
         cntt.add(desc);
         cntt.add(descriptionLabel);
+        if(Statics.back_end == true)
         cntt.add(buttonsContainer);
       
         

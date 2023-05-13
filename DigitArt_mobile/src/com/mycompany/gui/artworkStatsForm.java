@@ -32,6 +32,7 @@ import static com.codename1.ui.Component.LEFT;
 import com.codename1.ui.Container;
 import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
+import com.codename1.ui.EncodedImage;
 import com.codename1.ui.Font;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
@@ -42,6 +43,7 @@ import com.codename1.ui.RadioButton;
 import com.codename1.ui.Tabs;
 import com.codename1.ui.TextArea;
 import com.codename1.ui.Toolbar;
+import com.codename1.ui.URLImage;
 import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
@@ -87,17 +89,21 @@ BaseForm form;
             
         });
         addSideMenu(res);
-        Tabs swipe = new Tabs();
         
-        Label s1 = new Label();
-        Label s2 = new Label();
         
-        addTab(swipe,s1, res.getImage("back-logo.jpg"),"","",res);
+       // addTab(swipe,s1, res.getImage("back-logo.jpeg"),"","",res);
         
      
+         int placeholderWidth = Display.getInstance().getDisplayWidth(); 
+        int placeholderHeight = Display.getInstance().getDisplayHeight();
+        EncodedImage placeholderImageseparator = EncodedImage.createFromImage(Image.createImage(placeholderHeight, placeholderWidth), false);
+        String separURL = "http://127.0.0.1:8000/uploads/232323232323xxxxx.jpg";
+        Image separatorIMG = URLImage.createToStorage(placeholderImageseparator, separURL, separURL, URLImage.RESIZE_SCALE_TO_FILL);
+        Tabs swipe = new Tabs();
         
-        
-        
+        Label spacer1 = new Label();
+        Label spacer2 = new Label();
+        addTab(swipe, separatorIMG, spacer1, "Statistics");
         
          swipe.setUIID("Container");
         swipe.getContentPane().setUIID("Container");
@@ -134,7 +140,7 @@ BaseForm form;
             }
         });
 
-        Component.setSameSize(radioContainer, s1, s2);
+        Component.setSameSize(radioContainer, spacer1, spacer2);
         add(LayeredLayout.encloseIn(swipe, radioContainer));
 
         
