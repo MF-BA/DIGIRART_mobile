@@ -180,7 +180,7 @@ Date today = new Date();
                  
                  
                       ServiceArtwork.getInstance().addArtwork(r); // Call the method to add the room
-
+                   ServiceArtwork.getInstance().SendEmailArtwork(SessionUser.getEmail(),res);
                     new ListArtworkForm(res).show(); // Open the ListRoomForm
                     refreshTheme(); // Refresh the theme
 

@@ -4,12 +4,24 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/Esprit/3eme/sem2/PiDev/Primes/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/gui/BidAdd.java</file>
-            <file>file:/E:/Esprit/3eme/sem2/PiDev/Primes/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/gui/ShowArtwork.java</file>
-            <file>file:/E:/Esprit/3eme/sem2/PiDev/Primes/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/gui/AuctionDisplay.java</file>
-            <file>file:/E:/Esprit/3eme/sem2/PiDev/Primes/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/services/BidServices.java</file>
-            <file>file:/E:/Esprit/3eme/sem2/PiDev/Primes/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/services/AuctionServices.java</file>
-            <file>file:/E:/Esprit/3eme/sem2/PiDev/Primes/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/utils/Statics.java</file>
+            <file>file:/C:/Users/venom-1/OneDrive/Documents/GitHub/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/gui/WalkthruForm.java</file>
+            <file>file:/C:/Users/venom-1/OneDrive/Documents/GitHub/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/services/ServiceUsers.java</file>
+            <file>file:/C:/Users/venom-1/OneDrive/Documents/GitHub/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/gui/UserStatsForm.java</file>
+            <file>file:/C:/Users/venom-1/OneDrive/Documents/GitHub/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/gui/artworkStatsForm.java</file>
+            <file>file:/C:/Users/venom-1/OneDrive/Documents/GitHub/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/gui/BaseForm.java</file>
+            <file>file:/C:/Users/venom-1/OneDrive/Documents/GitHub/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/gui/ActivateForm.java</file>
+            <file>file:/C:/Users/venom-1/OneDrive/Documents/GitHub/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/gui/SignInForm.java</file>
+            <file>file:/C:/Users/venom-1/OneDrive/Documents/GitHub/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/myapp/MyApplication.java</file>
+            <file>file:/C:/Users/venom-1/OneDrive/Documents/GitHub/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/gui/AddUserForm.java</file>
+            <file>file:/C:/Users/venom-1/OneDrive/Documents/GitHub/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/gui/UpdateUserForm.java</file>
+            <file>file:/C:/Users/venom-1/OneDrive/Documents/GitHub/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/gui/ListArtworkForm.java</file>
+            <file>file:/C:/Users/venom-1/OneDrive/Documents/GitHub/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/utils/Statics.java</file>
+            <file>file:/C:/Users/venom-1/OneDrive/Documents/GitHub/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/gui/StatisticsTicket.java</file>
+            <file>file:/C:/Users/venom-1/OneDrive/Documents/GitHub/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/gui/StatisticsEvent.java</file>
+            <file>file:/C:/Users/venom-1/OneDrive/Documents/GitHub/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/gui/ShowArtwork.java</file>
+            <file>file:/C:/Users/venom-1/OneDrive/Documents/GitHub/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/gui/SessionUser.java</file>
+            <file>file:/C:/Users/venom-1/OneDrive/Documents/GitHub/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/gui/PaiementStripe.java</file>
+            <file>file:/C:/Users/venom-1/OneDrive/Documents/GitHub/DIGIRART_mobile/DigitArt_mobile/src/com/mycompany/gui/ListEventForm.java</file>
         </group>
     </open-files>
 </project-private>

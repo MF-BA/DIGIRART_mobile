@@ -288,8 +288,8 @@ add(redirectButton);
         
         CategorySeries series = new CategorySeries(title);
         
-        series.add("Ongoing Events",3);
-        series.add("Finished Events",4);
+        series.add("Ongoing Events",4);
+        series.add("Finished Events",3);
         
         return series;
     }

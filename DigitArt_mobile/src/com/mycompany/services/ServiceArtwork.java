@@ -12,7 +12,10 @@ import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
 import com.codename1.l10n.ParseException;
 import com.codename1.l10n.SimpleDateFormat;
+import com.codename1.ui.Command;
+import com.codename1.ui.Dialog;
 import com.codename1.ui.events.ActionListener;
+import com.codename1.ui.util.Resources;
 import com.mycompany.entities.Artwork;
 import com.mycompany.utils.Statics;
 import java.io.IOException;
@@ -327,6 +330,31 @@ public void stats()
     
     }
 
+public void SendEmailArtwork(String email, Resources rs ) {
+ 
+        String url = Statics.BASE_URL+"/artwork/sendmail?email="+email;
+        req = new ConnectionRequest(url, false); 
+        req.setUrl(url);
+        
+        
+         
+        req.addResponseListener((e) ->{
+            
+             JSONParser j = new JSONParser();
+        String json = new String(req.getResponseData());
 
+        try {
+            Map<String, Object> result = j.parseJSON(new CharArrayReader(json.toCharArray()));
+           
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+  
+        });
+    
+        
+        NetworkManager.getInstance().addToQueueAndWait(req);
+     
+    }
 
 }
