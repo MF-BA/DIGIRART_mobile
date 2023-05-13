@@ -153,7 +153,7 @@ public class AuctionDisplay extends BaseForm {
         });
 
         EncodedImage placeholderImageseparator = EncodedImage.createFromImage(Image.createImage(placeholderWidth, 100), false);
-        String separURL = Statics.BASE_URL + "uploads/pngegg.png";
+        String separURL = Statics.BASE_URL + "/uploads/pngegg.png";
         Image separatorIMG = URLImage.createToStorage(placeholderImageseparator, separURL, separURL, URLImage.RESIZE_SCALE_TO_FILL);
 
         ScaleImageLabel imageLab = new ScaleImageLabel(separatorIMG);

@@ -26,6 +26,7 @@ import com.codename1.ui.Image;
 import com.codename1.ui.Label;
 import com.codename1.ui.RadioButton;
 import com.codename1.ui.Tabs;
+import com.codename1.ui.TextArea;
 import com.codename1.ui.Toolbar;
 import com.codename1.ui.URLImage;
 import com.codename1.ui.layouts.BorderLayout;
@@ -36,7 +37,9 @@ import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
 import com.mycompany.entities.Artwork;
+import com.mycompany.services.AuctionServices;
 import com.mycompany.services.ServiceArtwork;
+import com.mycompany.utils.Statics;
 import java.util.ArrayList;
 
 /**
@@ -47,7 +50,7 @@ public class ListArtworkForm extends BaseForm{
     
         Form current;
     public ListArtworkForm(Resources res ) {
-          super("Newsfeed",BoxLayout.y()); //herigate men Newsfeed w l formulaire vertical
+          super("Auction",BoxLayout.y()); //herigate men Newsfeed w l formulaire vertical
         Toolbar tb = new Toolbar(true);
         current = this ;
         setToolbar(tb);
@@ -55,6 +58,8 @@ public class ListArtworkForm extends BaseForm{
         setTitle("Artworks");
         getContentPane().setScrollVisible(false);
         
+        
+
         
           super.addSideMenu(res);
         
@@ -124,14 +129,18 @@ public class ListArtworkForm extends BaseForm{
         
         int height = Display.getInstance().convertToPixels(11.5f);
         int width = Display.getInstance().convertToPixels(14f);
-        
+         int placeholderWidth = Display.getInstance().getDisplayWidth() / 2; // half the screen width
+        int placeholderHeight = Display.getInstance().getDisplayHeight() / 4; // one quarter of the screen height
         
       Button image = new Button();
         image.setUIID("Label");
         Container cnt = BorderLayout.west(image);
+        EncodedImage placeholderImage = EncodedImage.createFromImage(Image.createImage(placeholderWidth, placeholderHeight), false);
+        ArrayList images = AuctionServices.getInstance().getArtworkImages(rec.getIdArt());
+        String imageURL = images.isEmpty() ? Statics.BASE_URL + "/uploads/Empty.jpeg" : Statics.BASE_URL + "/uploads/" + images.get(0);
+        Image img = URLImage.createToStorage(placeholderImage, imageURL, imageURL, URLImage.RESIZE_SCALE_TO_FILL);
         
         
-        //kif nzidouh  ly3endo date mathbih fi codenamone y3adih string w y5alih f symfony dateTime w ytab3ni cha3mlt taw yjih
         Label nameArtwork = new Label("Name : "+rec.getArtworkName(),"NewsTopLine2");
         Label ArtistName = new Label("","NewsTopLine2");
         if(!rec.getArtistName().isEmpty())
@@ -141,12 +150,16 @@ public class ListArtworkForm extends BaseForm{
         }
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDate = formatter.format(rec.getDateArt());
-        Label dateTxt = new Label("reation date :"+formattedDate);
+        Label dateTxt = new Label("Creation date :"+formattedDate);
         dateTxt.setUIID("NewsTopLine2");
 
         
-        Label nameRoom = new Label("Room name : "+rec.getIdRoom(),"NewsTopLine2");// nom depuis l id room
-        Label DescriptionTxt = new Label("Description : "+rec.getDescription(),"NewsTopLine2" );
+
+        String description = rec.getDescription();
+
+        Label desc = new Label("Description : ","NewsTopLine2");
+        TextArea descriptionLabel = new TextArea(description);
+        descriptionLabel.setEditable(false);
         
         createLineSeparator();
         
@@ -204,23 +217,25 @@ public class ListArtworkForm extends BaseForm{
             refreshTheme();
         });  
         
-       
+        Container buttonsContainer = new Container(new FlowLayout(Component.CENTER));
+        buttonsContainer.add(lModifier);
+        buttonsContainer.add(lSupprimer);
+
+        Container imgContainer = new Container(new FlowLayout(Component.CENTER));
+        imgContainer.add(img);
         
+        Container cntt = new Container(new BoxLayout(BoxLayout.Y_AXIS));
+        cntt.add(nameArtwork);
+        cntt.add(imgContainer);
+        cntt.add(dateTxt);
+        cntt.add(ArtistName);
+        cntt.add(desc);
+        cntt.add(descriptionLabel);
+        cntt.add(buttonsContainer);
+      
         
-        cnt.add(BorderLayout.WEST,BoxLayout.encloseY(
-                
-                BoxLayout.encloseX(nameArtwork),
-                BoxLayout.encloseX(dateTxt),
-                BoxLayout.encloseX(ArtistName),
-                BoxLayout.encloseX(DescriptionTxt),
-                BoxLayout.encloseX(nameRoom),
-                BoxLayout.encloseX(lModifier,lSupprimer)
-               
+        add(cntt);
         
-        ));
-        
-        
-        add(cnt);
         add(more_info);
     }
     

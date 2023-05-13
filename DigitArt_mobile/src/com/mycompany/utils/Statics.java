@@ -19,5 +19,7 @@ public class Statics {
     public static Form previous ;
     public static boolean back_end = true ;
     public static boolean artist = false ;
+     public static  int Available;
+     public static  int Unavailable;
     
 }

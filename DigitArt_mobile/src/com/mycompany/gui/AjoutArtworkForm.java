@@ -13,6 +13,7 @@ import com.codename1.ui.ButtonGroup;
 import com.codename1.ui.ComboBox;
 import com.codename1.ui.Component;
 import com.codename1.ui.Container;
+import com.codename1.ui.Dialog;
 
 import com.codename1.ui.Display;
 import com.codename1.ui.EncodedImage;
@@ -157,6 +158,7 @@ datePicker.setUIID("TextFieldBlack");
 
 TextArea description = new TextArea();
 description.setUIID("TextFieldBlack");
+addStringValue("Description: ", description);
 
 ComboBox<String> rooms = new ComboBox<>();
 ArrayList<Room> roomsArray = ServiceRoom.getInstance().getAvailableRooms();
@@ -178,17 +180,40 @@ btnModifier.setUIID("Button");
 addStringValue("", btnModifier);
 
        
-       //Event onclick btnModifer
-       
+       //Event onclick ADD
+Date today = new Date();       
        btnModifier.addPointerPressedListener(new ActionListener() {
              @Override
              public void actionPerformed(ActionEvent l) {
+                 
+                   if (NameArtwork.getText().isEmpty()  || description.getText().isEmpty() ) {
+            Dialog.show("Veuillez vérifier les données", "Vous devez remplir tous les champs", "OK", null);
+            return;
+        }  
+                    else if (datePicker.getDate().getTime() >= today.getTime()) {
+             Dialog.show("Veuillez vérifier les données", "the date of creation must be earlier than today", "OK", null);
+             return;
+         }
+                   else if (NameArtwork.getText().length() <= 5) {
+            Dialog.show("Veuillez vérifier les données", "Le nom de l'œuvre d'art doit comporter plus de 5 caractères", "OK", null);
+            return;
+        }
+
+                   else if (description.getText().length() <= 7) {
+            Dialog.show("Veuillez vérifier les données", "La description doit comporter plus de 7 caractères", "OK", null);
+            return;
+        }
+
+                 
+                 
+                 
+                 
                  Artwork r = new Artwork();
                  r.setArtworkName(NameArtwork.getText());
                  r.setArtistName(ArtistName.getText());
                  r.setDescription(description.getText());
                  r.setDateArt(dateString);
-//                  r.setIdArtist();
+                 r.setIdArtist(artistsArray.get(artists.getSelectedIndex()).getId());
                  r.setIdRoom(roomsArray.get(rooms.getSelectedIndex()).getIdRoom());
                  
                  
