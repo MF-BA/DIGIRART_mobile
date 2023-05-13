@@ -125,6 +125,8 @@ public class ListUsersForm extends BaseForm {
         Listeusers.setUIID("SelectBar");
         RadioButton adduser = RadioButton.createToggle("Add User", barGroup);
         adduser.setUIID("SelectBar");
+         RadioButton statsuser = RadioButton.createToggle("User stats", barGroup);
+        statsuser.setUIID("SelectBar");
         Label arrow = new Label(res.getImage("news-tab-down-arrow.png"), "Container");
 
 
@@ -145,8 +147,18 @@ public class ListUsersForm extends BaseForm {
             a.show();
             refreshTheme();
         });
+        
+        statsuser.addActionListener((e) -> {
+               InfiniteProgress ip = new InfiniteProgress();
+        final Dialog ipDlg = ip.showInifiniteBlocking();
+        
+          UserStatsForm a = new UserStatsForm(res);
+            a.show();
+            refreshTheme();
+        });
+        
         add(LayeredLayout.encloseIn(
-                GridLayout.encloseIn(2, Listeusers, adduser)
+                GridLayout.encloseIn(3, Listeusers, adduser,statsuser)
                 
         ));
 

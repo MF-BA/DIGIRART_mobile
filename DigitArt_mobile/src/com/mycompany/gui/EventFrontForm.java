@@ -60,9 +60,7 @@ public class EventFrontForm extends BaseForm {
 
         Label spacer1 = new Label();
         Label spacer2 = new Label();
-        addTab(swipe, res.getImage("Logo.png"), spacer1, "15 Likes  ", "85 Comments", "Here you can see the events we have. ");
-        addTab(swipe, res.getImage("dog.jpg"), spacer2, "100 Likes  ", "66 Comments", "Dogs are cute: story at 11");
-                
+        addTab(swipe, res.getImage("event_bg.jpg"), spacer1, "15 Likes  ", "85 Comments", "Here you can see the events we have. ");                
         swipe.setUIID("Container");
         swipe.getContentPane().setUIID("Container");
         swipe.hideTabs();
@@ -108,30 +106,30 @@ public class EventFrontForm extends BaseForm {
         featured.setUIID("SelectBar");
         RadioButton popular = RadioButton.createToggle("Popular", barGroup);
         popular.setUIID("SelectBar");
-        RadioButton myFavorite = RadioButton.createToggle("My Favorites", barGroup);
+        RadioButton myFavorite = RadioButton.createToggle("My Events", barGroup);
         myFavorite.setUIID("SelectBar");
         Label arrow = new Label(res.getImage("news-tab-down-arrow.png"), "Container");
+         myFavorite.addActionListener((e) -> {
+         
         
+          ParticipatedEvents a = new ParticipatedEvents(res);
+             
+          a.show();
+            refreshTheme();
+        });
         add(LayeredLayout.encloseIn(
-                GridLayout.encloseIn(4, all, featured, popular, myFavorite),
-                FlowLayout.encloseBottom(arrow)
+                GridLayout.encloseIn(2, all,myFavorite)
+                
         ));
         
         all.setSelected(true);
-        arrow.setVisible(false);
-        addShowListener(e -> {
-            arrow.setVisible(true);
-            updateArrowPosition(all, arrow);
-        });
-        bindButtonSelection(all, arrow);
-        bindButtonSelection(featured, arrow);
-        bindButtonSelection(popular, arrow);
-        bindButtonSelection(myFavorite, arrow);
+      
+        bindButtonSelection(all);
+        bindButtonSelection(featured);
+        bindButtonSelection(popular);
+        bindButtonSelection(myFavorite);
         
-        // special case for rotation
-        addOrientationListener(e -> {
-            updateArrowPosition(barGroup.getRadioButton(barGroup.getSelectedIndex()), arrow);
-        });
+        
         
 //        addButton(res.getImage("news-item-1.jpg"), "Morbi per tincidunt tellus sit of amet eros laoreet.", false, 26, 32);
 //        addButton(res.getImage("news-item-2.jpg"), "Fusce ornare cursus masspretium tortor integer placera.", true, 15, 21);
@@ -140,7 +138,7 @@ public class EventFrontForm extends BaseForm {
 //        
           //Appel affichage methode
             ArrayList<Event>list = ServiceEvent.getInstance().affichageEvent();
-        
+
         for(Event rec : list ) 
         {
              String urlImage ="event_bg.jpg";//image statique pour le moment ba3d taw fi  videos jayin nwarikom image 
@@ -150,18 +148,14 @@ public class EventFrontForm extends BaseForm {
              URLImage urlim = URLImage.createToStorage(enc, urlImage, urlImage, URLImage.RESIZE_SCALE);
              
                 addButton(urlim,rec,res);
-        
+                    System.out.println(rec.getEventName());
+
                
         }
     
     }
     
-    private void updateArrowPosition(Button b, Label arrow) {
-        arrow.getUnselectedStyle().setMargin(LEFT, b.getX() + b.getWidth() / 2 - arrow.getWidth() / 2);
-        arrow.getParent().repaint();
-        
-        
-    }
+   
     
     private void addTab(Tabs swipe, Image img, Label spacer, String likesStr, String commentsStr, String text) {
         int size = Math.min(Display.getInstance().getDisplayWidth(), Display.getInstance().getDisplayHeight());
@@ -235,7 +229,7 @@ public class EventFrontForm extends BaseForm {
        image.addActionListener(e -> ToastBar.showMessage(title, FontImage.MATERIAL_INFO));
    }
    
-   private void addButton(Event event,Image img, String title, String startDate, String endDate, String numParticipants, String details, boolean liked, int likeCount, int commentCount, int eventId) {
+   private void addButton(Resources res,Event event,Image img, String title, String startDate, String endDate, String numParticipants, String details, boolean liked, int likeCount, int commentCount, int eventId) {
     int height = Display.getInstance().convertToPixels(26.5f);
     int width = Display.getInstance().convertToPixels(16f);
     Button image = new Button(img.fill(width, height));
@@ -289,16 +283,16 @@ public class EventFrontForm extends BaseForm {
           
     // Add action listener to the button to redirect to target form
     image.addActionListener(e -> {
-        OneEventForm a = new OneEventForm(event);
+        OneEventForm a = new OneEventForm(res,event);
         a.show();
     });
 }
 
     
-    private void bindButtonSelection(Button b, Label arrow) {
+    private void bindButtonSelection(Button b) {
         b.addActionListener(e -> {
             if(b.isSelected()) {
-                updateArrowPosition(b, arrow);
+                
             }
         });
     }
@@ -333,7 +327,7 @@ Image placeholder = Image.createImage(placeholderWidth, placeholderHeight);
         String imageURL = Statics.BASE_URL+"/uploads/"+event.getImage();
         Image x = URLImage.createToStorage(placeholderImage, imageURL, imageURL, URLImage.RESIZE_SCALE_TO_FILL);
         
-addButton(
+addButton(res,
         event,
     x,
     event.getEventName(),

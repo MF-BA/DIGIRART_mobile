@@ -114,7 +114,7 @@ public class ListEventForm extends BaseForm {
         RadioButton mesListes = RadioButton.createToggle("Mes Event", barGroup);
         mesListes.setUIID("SelectBar");
        
-        RadioButton partage = RadioButton.createToggle("Reclamer", barGroup);
+        RadioButton partage = RadioButton.createToggle("Add Event", barGroup);
         partage.setUIID("SelectBar");
         Label arrow = new Label(res.getImage("news-tab-down-arrow.png"), "Container");
 

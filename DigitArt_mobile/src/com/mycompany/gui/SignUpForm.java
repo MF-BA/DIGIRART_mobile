@@ -35,6 +35,7 @@ import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.spinner.Picker;
 import com.codename1.ui.util.Resources;
+import com.codename1.util.StringUtil;
 import com.mycompany.services.ServiceUsers;
 import java.text.SimpleDateFormat;
 import java.util.Vector;
@@ -142,11 +143,79 @@ public class SignUpForm extends BaseForm {
         ));
         next.requestFocus();
         next.addActionListener((e) -> {
+            String cinText = cin.getText();
+    String firstnameText = firstname.getText();
+    String lastnameText = lastname.getText();
+    String emailText = Email.getText().toString();
+    String passwordText = password.getText();
+    String addressText = address.getText();
+    String phonenumText = phonenum.getText();
+    String birthDateText = birthDateField.getText();
+    
+    if (cinText.isEmpty() || firstnameText.isEmpty() || lastnameText.isEmpty() || emailText.isEmpty() ||
+        passwordText.isEmpty() || addressText.isEmpty() || phonenumText.isEmpty() || birthDateText.isEmpty()) {
+        Dialog.show("Error", "All fields are required", "OK", null);
+    } else if (cinText.isEmpty() && firstnameText.isEmpty() && lastnameText.isEmpty() && emailText.isEmpty() &&
+        passwordText.isEmpty() && addressText.isEmpty() && phonenumText.isEmpty() && birthDateText.isEmpty()) {
+        Dialog.show("Error", "All fields are required", "OK", null);
+    }
+    else if (!isNumeric(cinText)) {
+        Dialog.show("Error", "cin must be numerical", "OK", null);
+       
+    } else  if(cinText.length() != 8)
+        {
+          Dialog.show("Error", "Cin must contain 8 digits", "OK", null);  
+        }
+    else if (!isNumeric(phonenumText)) {
+        Dialog.show("Error", "phone number must be numerical", "OK", null);
+        
+    }
+    else if(phonenumText.length() != 8)
+        {
+          Dialog.show("Error", "Phone number must contain 8 digits", "OK", null);  
+        }/*else if (!passwordText.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$")) {
+        Dialog.show("Error", "Password must contain at least one uppercase letter, one lowercase letter, one special character, and be at least 8 characters long", "OK", null);
+    } else if (!emailText.matches("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")) {
+        Dialog.show("Error", "Email must be in the correct format", "OK", null);
+    }*/
+    else if (!StringUtil.replaceAll(passwordText, "[^0-9]", "").isEmpty() 
+         && !StringUtil.replaceAll(passwordText, "[^a-z]", "").isEmpty() 
+         && !StringUtil.replaceAll(passwordText, "[^A-Z]", "").isEmpty() 
+         && !StringUtil.replaceAll(passwordText, "[^@#$%^&+=]", "").isEmpty()
+         && passwordText.length() >= 8) {
+    Dialog.show("Error", "Password must contain at least one uppercase letter, one lowercase letter, one special character, and be at least 8 characters long", "OK", null);
+    } else if (!StringUtil.replaceAll(emailText, "[^a-zA-Z0-9._%+-@]", "").equals(emailText) 
+           || !emailText.substring(emailText.length() - 4).equals(".com") 
+           || emailText.indexOf("@") == -1) {
+    Dialog.show("Error", "Email must be in the correct format", "OK", null);
+    }
+    else {
+        String responseData = ServiceUsers.getInstance().signup(cin, firstname, lastname, Email, password, address, phonenum, birthDateField, gender, roles, res);
+        System.out.println(responseData);
+        if(responseData.equals("Email already used! "))
+            {
+                Dialog.show("Email","Email Already used!","OK",null);
+            }
+             if(responseData == "email invalid!")
+            {
+                Dialog.show("Email","Invalid Email!","OK",null);
+            }
+              if(responseData == "Account is created")
+              { 
+                  Dialog.show("Success","account is saved","OK",null);
+                new SignInForm(res).show();
+              }
+    }
             
-            ServiceUsers.getInstance().signup(cin, firstname, lastname, Email, password,address,phonenum,birthDateField,gender,roles,  res);
-            Dialog.show("Success","account is saved","OK",null);
-            new SignInForm(res).show();
         });
+    }
+    private boolean isNumeric(String str) {
+    try {
+        Integer.parseInt(str);
+        return true;
+    } catch (NumberFormatException e) {
+        return false;
+    }
     }
     private void addStringValue(String s, Component v) {
         add(BorderLayout.west(new Label(s, "PaddedLabel")).

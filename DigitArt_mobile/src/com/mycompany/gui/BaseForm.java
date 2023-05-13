@@ -105,8 +105,8 @@ Image x = URLImage.createToStorage(placeholderImage, imageURL, imageURL, URLImag
                         new Label(x, "PictureWhiteBackgrond"))
         )); 
 }
- 
-        if(SessionUser.getRole().equals("Artist") )
+        
+        if(SessionUser.getRole().equals("Artist"))
         {
             Statics.back_end = false;
             Statics.artist = true ;
@@ -114,6 +114,8 @@ Image x = URLImage.createToStorage(placeholderImage, imageURL, imageURL, URLImag
            tb.addMaterialCommandToSideMenu("   Ticket Purchase", FontImage.MATERIAL_EXIT_TO_APP, e -> new PaymentForm(res).show());
            tb.addMaterialCommandToSideMenu("   Auction", FontImage.MATERIAL_CREDIT_CARD, e -> new AuctionDisplay(res).show());
            tb.addMaterialCommandToSideMenu("   Event", FontImage.MATERIAL_EVENT, e -> new EventFrontForm(res).show());
+           tb.addMaterialCommandToSideMenu("   Map", FontImage.MATERIAL_MAP, e -> new MapEvent().show());
+
 
            
         }else if(SessionUser.getRole().equals("Suscriber"))
@@ -125,7 +127,6 @@ Image x = URLImage.createToStorage(placeholderImage, imageURL, imageURL, URLImag
             Statics.back_end = false;
             Statics.artist = false;
         }
-        
         else if(SessionUser.getRole().equals("Admin")){
             Statics.back_end = true;
             tb.addMaterialCommandToSideMenu("   Users Management", FontImage.MATERIAL_VERIFIED_USER, e -> new ListUsersForm(res).show());
@@ -137,7 +138,40 @@ Image x = URLImage.createToStorage(placeholderImage, imageURL, imageURL, URLImag
             tb.addMaterialCommandToSideMenu("   Auction Management", FontImage.MATERIAL_CREDIT_CARD, e -> new AuctionDisplay(res).show());
  
         }
+       else if(SessionUser.getRole().equals("Users Manager")){
+         Statics.back_end = true;
+            tb.addMaterialCommandToSideMenu("   Users Management", FontImage.MATERIAL_VERIFIED_USER, e -> new ListUsersForm(res).show());
+           
+        }
+        else if(SessionUser.getRole().equals("Tickets Manager")){
+            Statics.back_end = true;
+            tb.addMaterialCommandToSideMenu("   Ticket Management", FontImage.MATERIAL_MONEY, e -> new DisplayTicketForm(res).show());
+
+        }
+        else if(SessionUser.getRole().equals("Artwork Manager")){
+            Statics.back_end = true;
+            tb.addMaterialCommandToSideMenu("   Artwork Management", FontImage.MATERIAL_IMAGE, e -> new ListArtworkForm(res).show());
+        }
+        else if(SessionUser.getRole().equals("Events Manager")){
+            Statics.back_end = true;
+            tb.addMaterialCommandToSideMenu("   Event Management", FontImage.MATERIAL_EVENT, e -> new AjoutEventForm(res).show());
+           
+        }
+        else if(SessionUser.getRole().equals("Payment Manager")){
+            Statics.back_end = true;
+            tb.addMaterialCommandToSideMenu("   Payment Management", FontImage.MATERIAL_CREDIT_CARD, e -> new DisplayPaymentForm(res).show());
  
+        }
+        else if(SessionUser.getRole().equals("Room Manager")){
+            Statics.back_end = true;
+            tb.addMaterialCommandToSideMenu("   Room Management", FontImage.MATERIAL_HOME_WORK, e -> new ListRoomForm(res).show());
+ 
+        }
+        else if(SessionUser.getRole().equals("Auction Manager")){
+            Statics.back_end = true;
+            tb.addMaterialCommandToSideMenu("   Auction Management", FontImage.MATERIAL_CREDIT_CARD, e -> new AuctionDisplay(res).show());
+ 
+        }
         tb.addMaterialCommandToSideMenu("Profile", FontImage.MATERIAL_SETTINGS, e -> new ProfileForm(res).show());
         tb.addMaterialCommandToSideMenu("Logout", FontImage.MATERIAL_EXIT_TO_APP, e -> {
             new SignInForm(res).show();

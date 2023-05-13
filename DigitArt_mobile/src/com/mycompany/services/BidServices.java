@@ -29,6 +29,7 @@ import java.util.Map;
 public class BidServices {
 
     public ArrayList<Bid> bids;
+    double result = 0;
 
     public static BidServices instance = null;
     public boolean resultOK;
@@ -80,7 +81,7 @@ public class BidServices {
             @Override
             public void actionPerformed(NetworkEvent evt) {
                 try {
-                    bids = parseBids( new String(req.getResponseData()) , auction.getId_auction());
+                    bids = parseBids(new String(req.getResponseData()), auction.getId_auction());
                 } catch (IOException | ParseException e) {
                     e.printStackTrace(); // or handle the exception in some other way
                 }
@@ -90,8 +91,7 @@ public class BidServices {
         NetworkManager.getInstance().addToQueueAndWait(req);
         return bids;
     }
-    
-    
+
     public boolean addBid(Bid bid) {
         String url = Statics.BASE_URL + "/auction/mobile/bid/add";
         req.setUrl(url);
@@ -109,6 +109,28 @@ public class BidServices {
         NetworkManager.getInstance().addToQueueAndWait(req);
         return resultOK;
     }
-    
+
+    public Double currSymbols(String TO, int Amount) {
+        String url = Statics.BASE_URL + "/auction/mobile/currency/"+TO+"/"+Amount;
+        req.setUrl(url);
+        req.setPost(false);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                try {
+                    //new String(req.getResponseData())
+                    JSONParser parser = new JSONParser();
+                    Map<String, Object> jsonMap = parser.parseJSON(new CharArrayReader(new String(req.getResponseData()).toCharArray()));
+                    Double jsonArray = (Double) jsonMap.get("result");
+                    result = jsonArray;
+                } catch (IOException ex) {
+                    ex.printStackTrace(); // or handle the exception in some other way
+                }
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return result;
+    }
 
 }

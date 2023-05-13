@@ -13,6 +13,7 @@ import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.util.Resources;
 import com.mycompany.services.ServiceUsers;
+import com.mycompany.utils.Statics;
 
 /*import java.util.Properties;
 import java.util.Random;
@@ -56,10 +57,9 @@ public class ActivateForm extends BaseForm {
                         new Label("Awsome Thanks!", "LogoLabel")
                 )
         );
-        TextField code = new TextField("", "saisir le code", 20, TextField.ANY);
-        TextField newPassword = new TextField("", "saisir le nouveau mot de passe", 20, TextField.PASSWORD);
+       
 
-        Email = new TextField("", "saisir votre email", 20, TextField.ANY);
+        Email = new TextField("", "Enter your Email", 20, TextField.ANY);
         Email.setSingleLineTextArea(false);
 
         Button sendmailbtn = new Button("Send");
@@ -86,56 +86,19 @@ public class ActivateForm extends BaseForm {
             /*InfiniteProgress ip = new InfiniteProgress();
             
           final Dialog ipDialog =  ip.showInfiniteBlocking();*/
-            content.replaceAndWait(Email, code, CommonTransitions.createFade(500));
+            
 
             String codepass = ServiceUsers.getInstance().getPasswordCodeByEmail(Email.getText(), res);
+           
+             int decimalIndex = codepass.indexOf(".");
+              String integerPart = codepass.substring(0, decimalIndex);
 
-            /* ipDialog.dispose();
-            Dialog.show("Password","Nous avons envoyé le mot de passe a votre e-mail. Veuillez vérifier votre boite de réception",new Command("OK"));
-            new SignInForm(res).show();
-            refreshTheme();*/
-        });
-    }
-    //sendMail
-    /*
-    public void sendMail(Resources res) {
-       try {
+            Statics.codepwd = integerPart;
+            Statics.Emailpwd = Email.getText();
             
-        //  Optional<String> result = dialog.showAndWait();
-        Properties props = new Properties();
-        //props.setProperty("mail.transport.protocol", "smtp");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.setProperty("mail.host", "smtp.gmail.com");
-        props.put("mail.smtp.port", "587");
-
-
-
-Session session = Session.getInstance(props,
-                new javax.mail.Authenticator() {
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("digitart.primes@gmail.com","ktknrunncnveaidz");
-            }
+            new CodepwdForm(res).show();
+             
         });
-
- //String recipientEmail = result.get();
-
-Random random = new Random();
-int resetCode = random.nextInt(1000000); // Generate a random 6-digit code
-String emailContent = "Your reset code is: " + resetCode;
-
-Message message = new MimeMessage(session);
-message.setFrom(new InternetAddress("digitart.primes@gmail.com"));
-
-message.setRecipients(Message.RecipientType.TO,
-InternetAddress.parse(Email.getText()));
-message.setSubject("Reset Password");
-message.setText(emailContent);
-Transport.send(message);
-          
-        }catch(Exception e ) {
-            e.printStackTrace();
-        }
     }
-     */
+    
 }

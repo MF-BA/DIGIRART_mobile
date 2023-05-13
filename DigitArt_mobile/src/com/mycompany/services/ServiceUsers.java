@@ -7,6 +7,7 @@ import com.codename1.io.MultipartRequest;
 import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
 import com.codename1.ui.ComboBox;
+import com.codename1.ui.Command;
 import com.codename1.ui.Dialog;
 import com.codename1.ui.TextField;
 import com.codename1.ui.events.ActionListener;
@@ -15,6 +16,7 @@ import com.mycompany.entities.users;
 import com.mycompany.gui.BackuserForm;
 import com.mycompany.gui.NewsfeedForm;
 import com.mycompany.gui.SessionUser;
+import com.mycompany.gui.SignInForm;
 import com.mycompany.utils.Statics;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -37,7 +39,7 @@ import java.util.Map;
 public class ServiceUsers {
      //singleton 
     public static ServiceUsers instance = null ;
-    
+    String responseData=null;
     public static boolean resultOk = true;
     String json;
     //initilisation connection request 
@@ -232,7 +234,7 @@ public class ServiceUsers {
     */
     
     //Signup
-    public void signup(TextField cin,TextField firstname,TextField lastname,TextField email,TextField password,TextField address,TextField phoneNum,TextField birthDate,ComboBox<String>  gender,ComboBox<String> roles, Resources res) {
+    public String signup(TextField cin,TextField firstname,TextField lastname,TextField email,TextField password,TextField address,TextField phoneNum,TextField birthDate,ComboBox<String>  gender,ComboBox<String> roles, Resources res) {
         
         String url = Statics.BASE_URL+"/user/signup?cin="+cin.getText()+"&firstname="+firstname.getText()+
                 "&lastname="+lastname.getText()+"&email="+email.getText()+"&password="+password.getText()+"&address="+address.getText()
@@ -253,18 +255,19 @@ public class ServiceUsers {
         //hethi wa9t tsir execution ta3 url 
         req.addResponseListener((e)-> {
          
-            //njib data ly7atithom fi form 
-            byte[]data = (byte[]) e.getMetaData();//lazm awl 7aja n7athrhom ke meta data ya3ni na5o id ta3 kol textField 
-            String responseData = new String(data);//ba3dika na5o content 
+            
+            byte[]data = (byte[]) e.getMetaData();
+           responseData = new String(data);
             
             System.out.println("data ===>"+responseData);
+           
         }
         );
         
         
         //ba3d execution ta3 requete ely heya url nestanaw response ta3 server.
         NetworkManager.getInstance().addToQueueAndWait(req);
-        
+      return responseData;
             
         
     }
@@ -358,6 +361,7 @@ DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
                    // new ListReclamationForm(rs).show();//yemchi lel list reclamation
                      /*new AjoutReclamationForm(rs).show();
                     */
+                     System.out.println(SessionUser.getRole());
                     }
             
             }catch(Exception ex) {
@@ -413,7 +417,7 @@ DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
     }
   
      public boolean UpdateUser(users usr) {
-         //http://127.0.0.1:8000/updateUserJSON?id=75&cin=12056889&firstname=Amine&lastname=Tlili&email=aminemehdi999@gmail.com&address=soukra&gender=Male&role=Users Manager&birthDate=2001-07-26&phoneNum=99717964
+         
         String url = Statics.BASE_URL +"/updateUserJSON?id="+usr.getId()+"&cin="+usr.getCin()+"&firstname="+usr.getFirstname()+"&lastname="+usr.getLastname()+"&email="+usr.getEmail()
                 +"&address="+usr.getAddress()
                 +"&gender="+usr.getGender()
@@ -435,9 +439,26 @@ DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
     return resultOk;
         
     }
+     
+     public boolean UpdateUserPwd(String email, String newpwd) {
+         
+        String url = Statics.BASE_URL +"/user/editpwd?email="+email+"&password="+newpwd;
+        req.setUrl(url);
+        
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                resultOk = req.getResponseCode() == 200 ;  // Code response Http 200 ok
+                req.removeResponseListener(this);
+            }
+        });
+        
+    NetworkManager.getInstance().addToQueueAndWait(req);//execution ta3 request sinon yet3ada chy dima nal9awha
+    return resultOk;
+        
+    }
       public String getPasswordCodeByEmail(String email, Resources rs ) {
-        
-        
+ 
         String url = Statics.BASE_URL+"/user/getPasswordByEmail?email="+email;
         req = new ConnectionRequest(url, false); 
         req.setUrl(url);
@@ -452,6 +473,14 @@ DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
         try {
             Map<String, Object> result = j.parseJSON(new CharArrayReader(json.toCharArray()));
             code[0] = String.valueOf(result.get("code"));
+            if(result.get("message") == "Code sent successfully.")
+            {
+                Dialog.show("Code"," Code sent by email ",new Command("OK")); 
+            }
+            if(result.get("message") == "User not found.")
+            {
+                Dialog.show("wrong email","Please enter a valid email",new Command("OK")); 
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -461,5 +490,44 @@ DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
         
         NetworkManager.getInstance().addToQueueAndWait(req);
      return code[0];
+    }
+       public void getStats() {
+ 
+        String url = Statics.BASE_URL+"/user/stats";
+        req = new ConnectionRequest(url, false); 
+        req.setUrl(url);
+        final String[] totalMale = new String[1];
+         final String[] totalFemale = new String[1];
+         
+        req.addResponseListener((e) ->{
+             JSONParser j = new JSONParser();
+        String json = new String(req.getResponseData());
+             try {
+            if (e.getResponseCode() == 200) { // HTTP OK status code
+            Map<String, Object> result = j.parseJSON(new CharArrayReader(json.toCharArray()));
+            totalMale[0] = String.valueOf(result.get("totalMale"));
+            totalFemale[0] = String.valueOf(result.get("totalFemale"));
+            
+            int decimalIndex = totalMale[0].indexOf(".");
+            String integerPart = totalMale[0].substring(0, decimalIndex);
+            
+            Statics.Malenb = Integer.parseInt(integerPart);
+            
+            int decimalIndex2 = totalFemale[0].indexOf(".");
+            String integerPart2 = totalFemale[0].substring(0, decimalIndex2);
+            
+            Statics.Femalenb = Integer.parseInt(integerPart2);
+            // Use the retrieved values here
+        }
+             }catch (Exception ex) {
+            ex.printStackTrace();
+        }
+             
+  
+        });
+    
+        
+        NetworkManager.getInstance().addToQueueAndWait(req);
+    
     }
 }

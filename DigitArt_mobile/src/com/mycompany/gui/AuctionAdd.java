@@ -131,27 +131,17 @@ public class AuctionAdd extends BaseForm {
                 }
             }
         }
-
         // else matchingArtworks = artworks_array ;
         for (int i = 0; i < artworks_array.size(); i++) {
             artworks.addItem(artworks_array.get(i).getArtworkName());
         }
-//        //artworks
-
         addStringValue("Ending Date", datePicker);
-
         addStringValue("Starting Price", Starting_Price);
-        
         addStringValue("Increment", Increment);
-
         addStringValue("Description", Description);
-
         addStringValue("artworks", artworks);
-
         Button save = new Button("Save");
-        save.setUIID("Button2");
         save.addActionListener(e -> {
-
             if (Starting_Price.getText().isEmpty()) {
                 Dialog.show("Starting Price", "Starting Price is empty !!", "OK", null);
             } else if (DateUtil.compare(datePicker.getDate(), new Date()) < 0) {
@@ -170,13 +160,9 @@ public class AuctionAdd extends BaseForm {
                     updateNativeOverlay();
                 }
             }
-            //System.out.println(choisen.getIdArt());
         }
         );
-
-        add(save);
-
-
+        addStringValue("",save);
     }
 
     private void addStringValue(String s, Component v) {

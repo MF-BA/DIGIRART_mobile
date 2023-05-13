@@ -11,9 +11,6 @@ import com.codename1.io.Storage;
 import com.codename1.ui.Toolbar;
 import com.mycompany.gui.BackuserForm;
 import com.mycompany.gui.NewsfeedForm;
-import com.mycompany.gui.PaiementStripe;
-import com.mycompany.gui.PaymentForm;
-import com.mycompany.gui.PaymentForm2;
 import com.mycompany.gui.SessionUser;
 import com.mycompany.gui.SignInForm;
 
@@ -50,13 +47,13 @@ public class MyApplication {
     }
     
     public void start() {
-            //SessionUser.pref.clearAll();
-            //Storage.getInstance().clearStorage();
-            //Storage.getInstance().clearCache();
+       SessionUser.pref.clearAll();
+            Storage.getInstance().clearStorage();
+            Storage.getInstance().clearCache();
        if(current != null){
             current.show();
             return;
-        } 
+        }
        if (SessionUser.getEmail() == null)
        {
            new SignInForm(theme).show();
@@ -67,15 +64,14 @@ public class MyApplication {
                     {
                        new NewsfeedForm(theme).show(); 
                     }
-                    if (SessionUser.getRole().equals("Admin"))
+                    if (SessionUser.getRole().equals("Admin") || SessionUser.getRole().equals("Users Manager") || SessionUser.getRole().equals("Tickets Manager") || SessionUser.getRole().equals("Artwork Manager") || SessionUser.getRole().equals("Events Manager") || SessionUser.getRole().equals("Payment Manager") || SessionUser.getRole().equals("Room Manager") || SessionUser.getRole().equals("Auction Manager") )
                     {
                        new BackuserForm(theme).show(); 
                     }
-
           //new WalkthruForm(theme).show();
        //new ListUsersForm(theme).show();  
-       } 
-  
+       }
+       
     }
 
     public void stop() {
