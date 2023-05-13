@@ -7,6 +7,7 @@ import com.codename1.ui.Dialog;
 import com.codename1.ui.plaf.UIManager;
 import com.codename1.ui.util.Resources;
 import com.codename1.io.Log;
+import com.codename1.io.Storage;
 import com.codename1.ui.Toolbar;
 import com.mycompany.gui.BackuserForm;
 import com.mycompany.gui.NewsfeedForm;
@@ -46,6 +47,9 @@ public class MyApplication {
     }
     
     public void start() {
+       SessionUser.pref.clearAll();
+            Storage.getInstance().clearStorage();
+            Storage.getInstance().clearCache();
        if(current != null){
             current.show();
             return;
@@ -60,7 +64,7 @@ public class MyApplication {
                     {
                        new NewsfeedForm(theme).show(); 
                     }
-                    if (SessionUser.getRole().equals("Admin"))
+                    if (SessionUser.getRole().equals("Admin") || SessionUser.getRole().equals("Users Manager") || SessionUser.getRole().equals("Tickets Manager") || SessionUser.getRole().equals("Artwork Manager") || SessionUser.getRole().equals("Events Manager") || SessionUser.getRole().equals("Payment Manager") || SessionUser.getRole().equals("Room Manager") || SessionUser.getRole().equals("Auction Manager") )
                     {
                        new BackuserForm(theme).show(); 
                     }

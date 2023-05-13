@@ -9,12 +9,14 @@ import com.codename1.components.FloatingHint;
 import com.codename1.ui.Button;
 import com.codename1.ui.ComboBox;
 import com.codename1.ui.Container;
+import com.codename1.ui.Dialog;
 import com.codename1.ui.Form;
 import com.codename1.ui.Label;
 import com.codename1.ui.TextField;
 import com.codename1.ui.Toolbar;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.util.Resources;
+import com.codename1.util.StringUtil;
 import com.mycompany.entities.users;
 import com.mycompany.services.ServiceUsers;
 import java.text.ParseException;
@@ -129,8 +131,43 @@ public class UpdateUserForm extends BaseForm{
                  SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd"); // Create a SimpleDateFormat object with the expected date format
                  Date birthDate = format.parse(dateString); // Parse the date string into a Date object
                  String formattedDate = format.format(birthDate); // Format the Date object into a String using the SimpleDateFormat object*/
-                  
-                 System.out.println(Integer.parseInt(cin.getText()));
+                  String cinText = cin.getText();
+    String firstnameText = firstname.getText();
+    String lastnameText = lastname.getText();
+    String emailText = email.getText().toString();
+    
+    String addressText = address.getText();
+    String phonenumText = phone_num.getText();
+    String birthDateText = birth_date.getText();
+    
+    if (cinText.isEmpty() || firstnameText.isEmpty() || lastnameText.isEmpty() || emailText.isEmpty() || addressText.isEmpty() || phonenumText.isEmpty() || birthDateText.isEmpty()) {
+        Dialog.show("Error", "All fields are required", "OK", null);
+    } else if (cinText.isEmpty() && firstnameText.isEmpty() && lastnameText.isEmpty() && emailText.isEmpty()
+      && addressText.isEmpty() && phonenumText.isEmpty() && birthDateText.isEmpty()) {
+        Dialog.show("Error", "All fields are required", "OK", null);
+    }
+    else if (!isNumeric(cinText)) {
+        Dialog.show("Error", "cin must be numerical", "OK", null);
+       
+    } else  if(cinText.length() != 8)
+        {
+          Dialog.show("Error", "Cin must contain 8 digits", "OK", null);  
+        }
+    else if (!isNumeric(phonenumText)) {
+        Dialog.show("Error", "phone number must be numerical", "OK", null);
+        
+    }
+    else if(phonenumText.length() != 8)
+        {
+          Dialog.show("Error", "Phone number must contain 8 digits", "OK", null);  
+        }
+    else if (!StringUtil.replaceAll(emailText, "[^a-zA-Z0-9._%+-@]", "").equals(emailText) 
+           || !emailText.substring(emailText.length() - 4).equals(".com") 
+           || emailText.indexOf("@") == -1) {
+    Dialog.show("Error", "Email must be in the correct format", "OK", null);
+    }
+    else {
+         System.out.println(Integer.parseInt(cin.getText()));
                 System.out.println(birth_date.getText());
                  
                  u.setCin(Integer.parseInt(cin.getText()));
@@ -149,6 +186,9 @@ public class UpdateUserForm extends BaseForm{
                  if(ServiceUsers.getInstance().UpdateUser(u)) { // if true
                      new ListUsersForm(res).show();
                  }      
+        
+    }
+                
         });
        Button btnAnnuler = new Button("Annuler");
        btnAnnuler.addActionListener(e -> {
@@ -198,5 +238,13 @@ public class UpdateUserForm extends BaseForm{
         show();
         
         
+    }
+    private boolean isNumeric(String str) {
+    try {
+        Integer.parseInt(str);
+        return true;
+    } catch (NumberFormatException e) {
+        return false;
+    }
     }
 }
