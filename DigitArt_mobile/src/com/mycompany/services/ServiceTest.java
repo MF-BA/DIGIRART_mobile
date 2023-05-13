@@ -3,6 +3,7 @@ package com.mycompany.services;
 
 import com.codename1.io.ConnectionRequest;
 import com.codename1.io.NetworkManager;
+import com.mycompany.gui.SessionUser;
 import com.mycompany.services.ServiceStats;
 import static com.mycompany.services.ServiceStats.resultOk;
 import com.mycompany.utils.Statics;
@@ -41,13 +42,14 @@ public class ServiceTest {
    
     String url = Statics.BASE_URL +"/mailJSON";
     req.setUrl(url);
+    req.addArgument("email",SessionUser.getEmail());
+   
     
     req.addResponseListener((e) -> {
         String str = new String(req.getResponseData());
         System.out.println("data == " + str);
         
     });
-    
     NetworkManager.getInstance().addToQueueAndWait(req);
 
     return resultOk;
