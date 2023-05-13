@@ -96,6 +96,16 @@ public class ListRoomForm extends BaseForm{
         ));
 
         partage.setSelected(true);
+        
+         Button btnAjouter = new Button("Statistics");
+        addStringValue("", btnAjouter);
+
+        //onclick button event 
+        btnAjouter.addActionListener((e) -> {
+            
+             artworkStatsForm a = new artworkStatsForm(res);
+              a.show();
+        });
        
        
         //Appel affichage methode
@@ -161,7 +171,7 @@ public class ListRoomForm extends BaseForm{
             
             Dialog dig = new Dialog("Suppression");
             
-            if(dig.show("Suppression","Vous voulez supprimer ce reclamation ?","Annuler","Oui")) {
+            if(dig.show("Suppression","Vous voulez supprimer cette salle ?","Annuler","Oui")) {
                 dig.dispose();
             }
             else {
@@ -202,6 +212,13 @@ public class ListRoomForm extends BaseForm{
         
         add(cnt);
         
+    }
+    
+       private void addStringValue(String s, Component v) {
+        
+        add(BorderLayout.west(new Label(s,"PaddedLabel"))
+        .add(BorderLayout.CENTER,v));
+        add(createLineSeparator(0xeeeeee));
     }
     
    

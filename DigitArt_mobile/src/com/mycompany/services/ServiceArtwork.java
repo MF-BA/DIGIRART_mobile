@@ -101,8 +101,8 @@ public class ServiceArtwork {
                     String artistName ;
                     if(obj.get("artistName")!=null)
                     artistName =obj.get("artistName").toString();
-                    else{artistName ="pasdenom";}
-                    
+                    else{artistName ="Laatar";}
+                    //else{artistName =getArtistName(Integer.parseInt(obj.get("idArtist").toString()));}
                     // Parse the date from the string representation
                     String dateString = obj.get("dateArt").toString();
                     String description = obj.get("description").toString();
@@ -113,14 +113,15 @@ public class ServiceArtwork {
 //                    // Convert the "idArt" string to an integer
 //                    int id_room = Math.round(Float.parseFloat(idRoomStr));
 //                    String nameRoom = room.get("nameRoom").toString();
-//                    
+//                    String id_room = obj.get("idRoom").toString();                    
+
                     artwork.setIdArt(idArtwork);
                     artwork.setArtworkName(nameArtwork);
                   // artwork.setIdArtist(idArtist);
                     artwork.setArtistName(artistName);
                     artwork.setDateArt(dateString);
                     artwork.setDescription(description);
-//                    artwork.setIdRoom(id_room);
+
 //                    artwork.setNameRoom(nameRoom);
 //                    
                     result.add(artwork);
@@ -201,8 +202,7 @@ public boolean deleteArtwork(int id) {
 
 // Update Artwork
 public boolean updateArtwork(int id,Artwork artwork) {
-    String url = Statics.BASE_URL + "/artwork/updateArtworkJSON/"+id+"?artworkName="+artwork.getArtworkName()+"&artistName="+artwork.getArtistName()+ "&idArtist=" + artwork.getIdArtist() +
-                 "&artistName=" + artwork.getArtistName() + "&dateArt=" + 
+    String url = Statics.BASE_URL + "/updateArtworkJSON/"+id+"?artworkName="+artwork.getArtworkName()+"&artistName="+artwork.getArtistName()+ "&idArtist=" + artwork.getIdArtist()+"&dateArt=" + 
                  artwork.getDateArt() + "&description=" + artwork.getDescription() +
                  "&idRoom=" + artwork.getIdRoom();
         req.setUrl(url);
@@ -257,6 +257,76 @@ public boolean updateArtwork(int id,Artwork artwork) {
         NetworkManager.getInstance().addToQueueAndWait(req);
         return images;
     }
+
+public String getArtistName(int idArtist) {
+    String url = Statics.BASE_URL + "/mobile/" + idArtist + "/Lastname";
+    req.setUrl(url);
+    req.setPost(false);
+    final StringBuilder lastnameBuilder = new StringBuilder();
+
+    req.addResponseListener(new ActionListener<NetworkEvent>() {
+       @Override
+        public void actionPerformed(NetworkEvent evt) {
+            try {
+                byte[] responseData = req.getResponseData();
+                if (responseData != null) {
+                    String response = new String(responseData, "UTF-8");
+                    JSONParser parser = new JSONParser();
+                    Map<String, Object> json = parser.parseJSON(new CharArrayReader(response.toCharArray()));
+                    String lastname = (String) json.get("lastname");
+                    lastnameBuilder.append(lastname);
+                }
+            } catch (IOException e) {
+                e.printStackTrace(); // or handle the exception in some other way
+            }
+        }
+    });
+    NetworkManager.getInstance().addToQueueAndWait(req);
+    return lastnameBuilder.toString();
+}
+
+
+
+public void stats()
+{
+  String url = Statics.BASE_URL+"/artwork/stats/mobile";
+        req = new ConnectionRequest(url, false); 
+        req.setUrl(url);
+        final String[] Available = new String[1];
+        final String[] Unavailable = new String[1];
+         
+        req.addResponseListener((e) ->{
+        JSONParser j = new JSONParser();
+        String json = new String(req.getResponseData());
+             try {
+            if (e.getResponseCode() == 200) { // HTTP OK status code
+            Map<String, Object> result = j.parseJSON(new CharArrayReader(json.toCharArray()));
+            Available[0] = String.valueOf(result.get("nbavailable"));
+            Unavailable[0] = String.valueOf(result.get("nbunavailable"));
+            
+            int decimalIndex = Available[0].indexOf(".");
+            String integerPart = Available[0].substring(0, decimalIndex);
+            
+            Statics.Available = Integer.parseInt(integerPart);
+            
+            int decimalIndex2 = Unavailable[0].indexOf(".");
+            String integerPart2 = Unavailable[0].substring(0, decimalIndex2);
+            
+            Statics.Unavailable = Integer.parseInt(integerPart2);
+            // Use the retrieved values here
+        }
+             }catch (Exception ex) {
+            ex.printStackTrace();
+        }
+             
+  
+        });
+    
+        
+        NetworkManager.getInstance().addToQueueAndWait(req);
+    
+    }
+
 
 
 }

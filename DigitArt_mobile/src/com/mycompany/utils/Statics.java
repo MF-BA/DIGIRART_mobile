@@ -24,5 +24,7 @@ public class Statics {
     public static String Emailpwd;
     public static int Malenb;
     public static int Femalenb;
+     public static  int Available;
+     public static  int Unavailable;
     
 }

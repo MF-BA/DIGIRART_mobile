@@ -6,18 +6,28 @@
 package com.mycompany.gui;
 
 import com.codename1.components.FloatingHint;
+import com.codename1.components.ScaleImageLabel;
 import com.codename1.ui.Button;
+import com.codename1.ui.ButtonGroup;
 import com.codename1.ui.ComboBox;
 import com.codename1.ui.Component;
 import com.codename1.ui.Container;
+import com.codename1.ui.Display;
+import com.codename1.ui.EncodedImage;
 import com.codename1.ui.Form;
+import com.codename1.ui.Image;
 import com.codename1.ui.Label;
+import com.codename1.ui.RadioButton;
+import com.codename1.ui.TextArea;
 import com.codename1.ui.TextField;
 import com.codename1.ui.Toolbar;
+import com.codename1.ui.URLImage;
 import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
+import com.codename1.ui.layouts.GridLayout;
+import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.util.Resources;
 import com.mycompany.entities.Room;
 
@@ -41,16 +51,69 @@ public class ModifierRoomForm extends BaseForm {
         getContentPane().setScrollVisible(false);
         
         
-       // super.addSideMenu(res);
+        super.addSideMenu(res);
+          int placeholderWidth = Display.getInstance().getDisplayWidth(); 
+        int placeholderHeight = Display.getInstance().getDisplayHeight();
+         EncodedImage placeholderImageseparator = EncodedImage.createFromImage(Image.createImage(placeholderHeight, placeholderWidth), false);
+        String separURL = "http://127.0.0.1:8000/uploads/cf0e6d8a486debf84483cc5caaf34552.jpg";
+        Image separatorIMG = URLImage.createToStorage(placeholderImageseparator, separURL, separURL, URLImage.RESIZE_SCALE_TO_FILL);
+
+        ScaleImageLabel imageLab = new ScaleImageLabel(separatorIMG);
+        imageLab.setUIID("LogoLabel");
+
+        Container content = new Container();
+
+        content.add(imageLab);
+        add(content);
+
+        ButtonGroup barGroup = new ButtonGroup();
+        RadioButton mesListes = RadioButton.createToggle("Add a new Room", barGroup);
+        mesListes.setUIID("SelectBar");
+        RadioButton partage = RadioButton.createToggle("List of Rooms", barGroup);
+        partage.setUIID("SelectBar");
+       
+
+
+        partage.addActionListener((e) -> {
+               
+         
+         ListRoomForm a = new ListRoomForm(res);
+            a.show();
+            refreshTheme();
+           
+        });
+
+        add(LayeredLayout.encloseIn(
+                GridLayout.encloseIn(2, mesListes, partage)
+              
+        ));
+        mesListes.setSelected(true);
+ 
+        //
         
-        TextField NameRoom = new TextField(r.getNameRoom() , "NameRoom" , 0 , TextField.ANY);
-        TextField description = new TextField(r.getDescription() , "Description" , 0 , TextField.ANY);
-        TextField Area = new TextField(String.valueOf(r.getArea()) , "Area" , 0 , TextField.ANY);
-  ComboBox etatCombo = new ComboBox();
+        
+        TextField nameRoom = new TextField(r.getNameRoom());
+        nameRoom.setUIID("TextFieldBlack");
+        addStringValue("Room Name", nameRoom);
+
+        TextField areaField = new TextField(r.getArea());
+        areaField.setUIID("TextFieldBlack");
+        addStringValue("Area", areaField);
+        
+        
+        ComboBox etatCombo = new ComboBox();
         etatCombo.addItem("Available");
         etatCombo.addItem("Unvailable");
+        addStringValue("State", etatCombo);
         etatCombo.setSelectedItem(r.getState());
-         addStringValue("State", etatCombo);
+        
+       
+        
+        TextArea description = new TextArea(r.getDescription());
+        description.setUIID("TextFieldBlack");
+        addStringValue("Description", description);
+        
+    
         
         
      
@@ -58,25 +121,20 @@ public class ModifierRoomForm extends BaseForm {
         
         
         
-        NameRoom.setUIID("NewsTopLine");
-        description.setUIID("NewsTopLine");
-        Area.setUIID("NewsTopLine");
-        
-        NameRoom.setSingleLineTextArea(true);
-        description.setSingleLineTextArea(true);
-        Area.setSingleLineTextArea(true);
+    
         
         Button btnModifier = new Button("Modifier");
        btnModifier.setUIID("Button");
+        addStringValue("", btnModifier);
        
        //Event onclick btnModifer
        
        btnModifier.addPointerPressedListener(new ActionListener() {
              @Override
              public void actionPerformed(ActionEvent l) {
-                 r.setNameRoom(NameRoom.getText());
+                 r.setNameRoom(nameRoom.getText());
                  r.setDescription(description.getText());
-                 r.setArea(Integer.parseInt(Area.getText()));
+                 r.setArea(Integer.parseInt(areaField.getText()));
                  r.setState(etatCombo.getSelectedItem().toString());
                  
                  
@@ -93,32 +151,7 @@ public class ModifierRoomForm extends BaseForm {
            new ListRoomForm(res).show();
        });
        
-       
-       Label l2 = new Label("");
-       
-       Label l3 = new Label("");
-       
-       Label l4 = new Label("");
-       
-       Label l5 = new Label("");
-       
-        Label l1 = new Label();
-        
-        Container content = BoxLayout.encloseY(
-                l1, l2, 
-                new FloatingHint(NameRoom),
-                createLineSeparator(),
-                new FloatingHint(description),
-                createLineSeparator(),
-                Area,
-                createLineSeparator(),//ligne de séparation
-                btnModifier,
-                btnAnnuler
-                
-               
-        );
-        
-        add(content);
+    
         show();
         
         

@@ -5,7 +5,6 @@
  */
 package com.mycompany.gui;
 
-import com.codename1.components.FloatingHint;
 import com.codename1.components.ScaleImageLabel;
 import com.codename1.l10n.SimpleDateFormat;
 import com.codename1.ui.Button;
@@ -41,31 +40,27 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import javafx.scene.control.DatePicker;
 
 /**
  *
  * @author mohamed
  */
-public class ModifierArtworkForm extends BaseForm {
+public class ajoutArtworkArtistForm extends BaseForm {
     
-    Form current;
-    public ModifierArtworkForm(Resources res , Artwork r) {
-         super("Newsfeed",BoxLayout.y()); 
     
+      Form current;
+    public ajoutArtworkArtistForm(Resources res ) {
+          super("Newsfeed",BoxLayout.y()); //herigate men Newsfeed w l formulaire vertical
         Toolbar tb = new Toolbar(true);
         current = this ;
         setToolbar(tb);
         getTitleArea().setUIID("Container");
-        setTitle("Modif Artwork");
+        setTitle("Artworks");
         getContentPane().setScrollVisible(false);
         
-        
-       super.addSideMenu(res);
+        super.addSideMenu(res);
        
-       
-
-          
+            
         int placeholderWidth = Display.getInstance().getDisplayWidth(); 
         int placeholderHeight = Display.getInstance().getDisplayHeight();
          EncodedImage placeholderImageseparator = EncodedImage.createFromImage(Image.createImage(placeholderHeight, placeholderWidth), false);
@@ -104,48 +99,13 @@ public class ModifierArtworkForm extends BaseForm {
         mesListes.setSelected(true);
  
         //
-       TextField NameArtwork = new TextField(r.getArtworkName());
+       TextField NameArtwork = new TextField();
 NameArtwork.setUIID("TextFieldBlack");
 addStringValue("Artwork Name :", NameArtwork);
 
-ComboBox<String> owner = new ComboBox<>("Museum", "Artist");
-addStringValue("Owner :", owner);
 
-TextField ArtistName = new TextField(r.getArtistName());
-ArtistName.setUIID("TextFieldBlack");
-addStringValue("Artist Name :", ArtistName);
-ArtistName.setVisible(false);
 
-ComboBox<String> artists = new ComboBox<>();
-ArrayList<users> artistsArray = ServiceRoom.getInstance().getArtists();
-System.out.println("Artists Array: " + artistsArray);
-Collections.sort(artistsArray, new Comparator<users>() {
-    @Override
-     public int compare(users u1, users u2) {
-        // Compare the ID values of the two rooms
-        return Integer.compare(u1.getId(), u2.getId());
-    }
-});
 
-for (users user : artistsArray) {
-    artists.addItem(user.getLastname());
-}
-artists.setVisible(false);
-addStringValue("Artists: ", artists);
-
-owner.addActionListener(evt -> {
-    String selectedItem = owner.getSelectedItem();
-    if (selectedItem.equals("Museum")) {
-        ArtistName.setVisible(true);
-        artists.setVisible(false);
-    } else if (selectedItem.equals("Artist")) {
-        ArtistName.setVisible(false);
-        artists.setVisible(true);
-    } else {
-        ArtistName.setVisible(false);
-        artists.setVisible(false);
-    }
-});
 
 Picker datePicker = new Picker();
 datePicker.setType(Display.PICKER_TYPE_DATE);
@@ -155,7 +115,7 @@ SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 String dateString = dateFormat.format(datePicker.getDate());
 datePicker.setUIID("TextFieldBlack");
 
-TextArea description = new TextArea(r.getDescription());
+TextArea description = new TextArea();
 description.setUIID("TextFieldBlack");
 addStringValue("Description: ", description);
 
@@ -174,22 +134,18 @@ for (Room room : roomsArray) {
 }
 addStringValue("Room: ", rooms);
 
+Button btnModifier = new Button("Add Artwork");
+btnModifier.setUIID("Button");
+addStringValue("", btnModifier);
 
-
-        
-      
-        Button btnModifier = new Button("Modifier");
-       btnModifier.setUIID("Button");
-       addStringValue("", btnModifier);
        
-       //Event onclick btnModifer
-       Date today = new Date();   
+       //Event onclick ADD
+Date today = new Date();       
        btnModifier.addPointerPressedListener(new ActionListener() {
              @Override
              public void actionPerformed(ActionEvent l) {
                  
-                 
-                           if (NameArtwork.getText().isEmpty()  || description.getText().isEmpty() ) {
+                   if (NameArtwork.getText().isEmpty()  || description.getText().isEmpty() ) {
             Dialog.show("Veuillez vérifier les données", "Vous devez remplir tous les champs", "OK", null);
             return;
         }  
@@ -207,43 +163,48 @@ addStringValue("Room: ", rooms);
             return;
         }
 
+                 
+                 
+                 
+                 
+                 Artwork r = new Artwork();
                  r.setArtworkName(NameArtwork.getText());
-                 r.setArtistName(ArtistName.getText());
+                 r.setArtistName(SessionUser.getLastname());
                  r.setDescription(description.getText());
                  r.setDateArt(dateString);
-                 r.setIdArtist(artistsArray.get(artists.getSelectedIndex()).getId());
                  r.setIdRoom(roomsArray.get(rooms.getSelectedIndex()).getIdRoom());
                  
                  
                  
                  
-                 //appel fonction modfier reclamation men service
                  
-                 if(ServiceArtwork.getInstance().updateArtwork(r.getIdArt(),r)) { // if true
-                     new ListArtworkForm(res).show();
-                 }     }
-         });
-       Button btnAnnuler = new Button("Annuler");
-       btnAnnuler.addActionListener(e -> {
-           new ListArtworkForm(res).show();
-       });
-       
-    
-        
+                 
+                      ServiceArtwork.getInstance().addArtwork(r); // Call the method to add the room
 
-        show();
+                    new ListArtworkForm(res).show(); // Open the ListRoomForm
+                    refreshTheme(); // Refresh the theme
+
+                            
+                }
+                
+          
+            
+            
+            
+            
+            
+        });
         
         
     }
 
-    
-         private void addStringValue(String s, Component v) {
+    private void addStringValue(String s, Component v) {
         
-        add(BorderLayout.north(new Label(s,"PaddedLabel"))
-        .add(BorderLayout.SOUTH,v));
+        add(BorderLayout.west(new Label(s,"PaddedLabel"))
+        .add(BorderLayout.CENTER,v));
         add(createLineSeparator(0xeeeeee));
     }
 
-    }
 
+}
 
