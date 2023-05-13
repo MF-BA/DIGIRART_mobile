@@ -110,7 +110,7 @@ Image x = URLImage.createToStorage(placeholderImage, imageURL, imageURL, URLImag
         {
             Statics.back_end = false;
             Statics.artist = true ;
-           tb.addMaterialCommandToSideMenu("   Newsfeed", FontImage.MATERIAL_UPDATE, e -> new NewsfeedForm(res).show()); 
+           tb.addMaterialCommandToSideMenu("   Home Page", FontImage.MATERIAL_HOME, e -> new NewsfeedForm(res).show()); 
            tb.addMaterialCommandToSideMenu("   Ticket Purchase", FontImage.MATERIAL_EXIT_TO_APP, e -> new PaymentForm(res).show());
            tb.addMaterialCommandToSideMenu("   Auction", FontImage.MATERIAL_CREDIT_CARD, e -> new AuctionDisplay(res).show());
            tb.addMaterialCommandToSideMenu("   Event", FontImage.MATERIAL_EVENT, e -> new EventFrontForm(res).show());
@@ -120,7 +120,7 @@ Image x = URLImage.createToStorage(placeholderImage, imageURL, imageURL, URLImag
            
         }else if(SessionUser.getRole().equals("Suscriber"))
         {
-            tb.addMaterialCommandToSideMenu("   Newsfeed", FontImage.MATERIAL_UPDATE, e -> new NewsfeedForm(res).show()); 
+            tb.addMaterialCommandToSideMenu("   Home Page", FontImage.MATERIAL_HOME, e -> new NewsfeedForm(res).show()); 
            tb.addMaterialCommandToSideMenu("   Ticket Purchase", FontImage.MATERIAL_EXIT_TO_APP, e -> new PaymentForm(res).show());
            tb.addMaterialCommandToSideMenu("   Auction", FontImage.MATERIAL_CREDIT_CARD, e -> new AuctionDisplay(res).show());
            tb.addMaterialCommandToSideMenu("   Event", FontImage.MATERIAL_EVENT, e -> new EventFrontForm(res).show());
