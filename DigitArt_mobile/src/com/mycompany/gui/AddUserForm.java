@@ -117,7 +117,7 @@ public class AddUserForm extends BaseForm{
         adduser.setUIID("SelectBar");
         RadioButton statsuser = RadioButton.createToggle("User stats", barGroup);
         statsuser.setUIID("SelectBar");
-        Label arrow = new Label(res.getImage("news-tab-down-arrow.png"), "Container");
+       
 
 
         Listeusers.addActionListener((e) -> {
@@ -289,7 +289,7 @@ public class AddUserForm extends BaseForm{
          && passwordText.length() >= 8) {
     Dialog.show("Error", "Password must contain at least one uppercase letter, one lowercase letter, one special character, and be at least 8 characters long", "OK", null);
     } else if (!StringUtil.replaceAll(emailText, "[^a-zA-Z0-9._%+-@]", "").equals(emailText) 
-           || !emailText.substring(emailText.length() - 4).equals(".com") 
+          
            || emailText.indexOf("@") == -1) {
     Dialog.show("Error", "Email must be in the correct format", "OK", null);
     }

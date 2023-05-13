@@ -55,12 +55,12 @@ public class NewsfeedForm extends BaseForm {
        Toolbar tb = new Toolbar(true);
         setToolbar(tb);
         getTitleArea().setUIID("Container");
-        setUIID("SignIn");
+        setUIID("homefront");
         setTitle("Home Application");
         getContentPane().setScrollVisible(false);
         
         super.addSideMenu(res);
-        tb.addSearchCommand(e -> {});
+      
         
       if(!Display.getInstance().isTablet()) {
             BorderLayout bl = (BorderLayout)getLayout();
@@ -69,9 +69,9 @@ public class NewsfeedForm extends BaseForm {
         }
         
         
-       add(BorderLayout.CENTER, new Label(res.getImage("Logo.png"), "LogoLabel"));
+       add(BorderLayout.CENTER, new Label(res.getImage("logo-digitart.png"), "LogoLabel"));
         
-        Label Dash = new Label("Your Dashboard");
+       
         //add(Dash);
         
     

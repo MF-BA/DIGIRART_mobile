@@ -80,7 +80,7 @@ BaseForm form;
         Toolbar tb = new Toolbar(true);
         setToolbar(tb);
         getTitleArea().setUIID("Container");
-        setTitle("Acceuill");
+        setTitle("Home");
         getContentPane().setScrollVisible(false);
         
         super.addSideMenu(res);
@@ -153,7 +153,7 @@ BaseForm form;
         
         //app 
         createPieChartForm();
-        Button redirectButton = new Button("Go to AjoutEventForm");
+        Button redirectButton = new Button("add event");
 redirectButton.addActionListener(e -> {
     AjoutEventForm ajoutEventForm = new AjoutEventForm(res);
     ajoutEventForm.show();
@@ -289,7 +289,7 @@ add(redirectButton);
         CategorySeries series = new CategorySeries(title);
         
         series.add("Ongoing Events",3);
-        series.add("Finished Events",41);
+        series.add("Finished Events",4);
         
         return series;
     }

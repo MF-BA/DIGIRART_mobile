@@ -6,6 +6,7 @@ import com.codename1.io.JSONParser;
 import com.codename1.io.MultipartRequest;
 import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
+import com.codename1.io.Storage;
 import com.codename1.ui.ComboBox;
 import com.codename1.ui.Command;
 import com.codename1.ui.Dialog;
@@ -298,20 +299,16 @@ public class ServiceUsers {
                 
                 Map<String,Object> user = j.parseJSON(new CharArrayReader(json.toCharArray()));
                 
-               
-        
-              // Get the user's timezone
-/*TimeZone userTimeZone = TimeZone.getDefault();
-
-// Create a formatter that uses the desired timezone
-DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-        .withZone(userTimeZone.toZoneId());*/
-
-// Format the date value
-//String formattedDate = formatter.format(user.get("birthDate"));
-        
-        
-                //Session 
+               if(user.size() >0 )// l9a user
+                {
+                    if (user.get("status").toString().equals("blocked"))
+                    {
+                       Dialog.show("Failed to login","your account is blocked","OK",null); 
+                       new SignInForm(rs).show();
+                    }
+                    else 
+                    {
+                         //Session 
                 float id = Float.parseFloat(user.get("id").toString());
                 double cin = Double.parseDouble(user.get("cin").toString());
                 double phone_num = Double.parseDouble(user.get("phoneNum").toString());
@@ -343,25 +340,26 @@ DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
                     SessionUser.setImage(user.get("image").toString());
                 
                
-                if(user.size() >0 )// l9a user
-                {
-                    if (user.get("role").toString().equals("Artist") || user.get("role").toString().equals("Subscriber"))
-                    {
-                       new NewsfeedForm(rs).show(); 
-                    }
-                    if (user.get("role").toString().equals("Admin"))
-                    {
-                       new BackuserForm(rs).show(); 
-                    }
-                    if (user.get("status").toString().equals("blocked"))
-                    {
-                       Dialog.show("Failed to login","your account is blocked","OK",null); 
-                    }
-                }
+                
                    // new ListReclamationForm(rs).show();//yemchi lel list reclamation
                      /*new AjoutReclamationForm(rs).show();
                     */
                      System.out.println(SessionUser.getRole());
+                    if (user.get("role").toString().equals("Artist") || user.get("role").toString().equals("Subscriber"))
+                    {
+                       new NewsfeedForm(rs).show(); 
+                    }
+                    else if (user.get("role").toString().equals("Admin"))
+                    {
+                       new BackuserForm(rs).show(); 
+                    }  
+                    }
+                    
+                   
+                }
+        
+
+               
                     }
             
             }catch(Exception ex) {

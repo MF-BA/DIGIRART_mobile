@@ -162,7 +162,7 @@ public class UpdateUserForm extends BaseForm{
           Dialog.show("Error", "Phone number must contain 8 digits", "OK", null);  
         }
     else if (!StringUtil.replaceAll(emailText, "[^a-zA-Z0-9._%+-@]", "").equals(emailText) 
-           || !emailText.substring(emailText.length() - 4).equals(".com") 
+          
            || emailText.indexOf("@") == -1) {
     Dialog.show("Error", "Email must be in the correct format", "OK", null);
     }

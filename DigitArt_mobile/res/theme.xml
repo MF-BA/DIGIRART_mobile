@@ -5,11 +5,13 @@
     <image name="back-couverture.jpg"  />
     <image name="back-logo.jpeg"  />
     <image name="back.png"  />
+    <image name="background-homepage.jpg"  />
     <image name="confirmation-background.jpg"  />
     <image name="dog.jpg"  />
     <image name="event_bg.jpg"  />
     <image name="facebook-logo.png" type="multi"  />
     <image name="fleche.png"  />
+    <image name="logo-digitart.png"  />
     <image name="Logo.png"  />
     <image name="logo_digitart_rouge.png"  />
     <image name="map-pin.jpg"  />
@@ -112,8 +114,7 @@
         <val key="DatePickerMonth.sel#transparency" value="0" />
         <val key="DatePickerMonth.transparency" value="0" />
         <val key="FloatingHint.align" value="4" />
-        <val key="FloatingHint.fgColor" value="a2a1b8" />
-        <font key="FloatingHint.font" type="ttf" face="0" style="0" size="0" name="native:MainLight" family="native:MainLight" sizeSettings="3" actualSize="3.5" />
+        <font key="FloatingHint.font" type="ttf" face="0" style="0" size="0" name="native:MainRegular" family="native:MainRegular" sizeSettings="3" actualSize="3.5" />
         <val key="FloatingHint.transparency" value="0" />
         <val key="Form.bgColor" value="ffffff" />
         <gradient key="Form.bgGradient" color1="0" color2="0" posX="0.5" posY="0.5" radius="1.0" />
@@ -121,8 +122,8 @@
         <val key="Form.transparency" value="255" />
         <val key="ImageOverlay.bgColor" value="14134b" />
         <val key="ImageOverlay.transparency" value="60" />
-        <val key="Label.fgColor" value="a2a1b8" />
-        <font key="Label.font" type="ttf" face="0" style="0" size="0" name="native:MainLight" family="native:MainLight" sizeSettings="3" actualSize="3.5" />
+        <val key="Label.fgColor" value="333333" />
+        <font key="Label.font" type="ttf" face="0" style="0" size="0" name="native:MainRegular" family="native:MainRegular" sizeSettings="1" actualSize="3.5" />
         <val key="Label.transparency" value="0" />
         <val key="LargeWhiteText.align" value="1" />
         <val key="LargeWhiteText.fgColor" value="ffffff" />
@@ -175,8 +176,8 @@
         <font key="NewsTopLine.sel#font" type="ttf" face="0" style="0" size="0" name="native:MainLight" family="native:MainLight" sizeSettings="3" actualSize="2.0" />
         <val key="NewsTopLine.sel#transparency" value="0" />
         <val key="NewsTopLine.transparency" value="0" />
-        <val key="PaddedLabel.fgColor" value="a2a1b8" />
-        <font key="PaddedLabel.font" type="ttf" face="0" style="0" size="0" name="native:MainLight" family="native:MainLight" sizeSettings="3" actualSize="4.0" />
+        <val key="PaddedLabel.fgColor" value="333333" />
+        <font key="PaddedLabel.font" type="ttf" face="0" style="0" size="0" name="native:MainRegular" family="native:MainRegular" sizeSettings="1" actualSize="4.0" />
         <val key="PaddedLabel.padUnit" value="2,2,2,2" />
         <val key="PaddedLabel.padding" value="2.0,2.0,2.0,2.0" />
         <val key="PaddedLabel.transparency" value="0" />
@@ -344,6 +345,11 @@
         <val key="WhiteSeparator.margin" value="0.0,0.0,0.0,0.0" />
         <val key="WhiteSeparator.padding" value="1.0,1.0,1.0,1.0" />
         <val key="WhiteSeparator.transparency" value="26" />
+        <val key="homefront.bgImage" value="background-homepage.jpg" />
+        <val key="homefront.bgType" value="1" />
+        <val key="homefront.margin" value="0.0,0.0,0.0,0.0" />
+        <val key="homefront.padding" value="0.0,3.0,0.0,0.0" />
+        <val key="homefront.transparency" value="255" />
         <val key="transparency" value="0" />
     </theme>
     <image name="timeline-background.jpg"  />

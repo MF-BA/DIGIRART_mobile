@@ -118,7 +118,7 @@ Image x = URLImage.createToStorage(placeholderImage, imageURL, imageURL, URLImag
 
 
            
-        }else if(SessionUser.getRole().equals("Suscriber"))
+        }else if(SessionUser.getRole().equals("Subscriber"))
         {
             tb.addMaterialCommandToSideMenu("   Home Page", FontImage.MATERIAL_HOME, e -> new NewsfeedForm(res).show()); 
            tb.addMaterialCommandToSideMenu("   Ticket Purchase", FontImage.MATERIAL_EXIT_TO_APP, e -> new PaymentForm(res).show());
