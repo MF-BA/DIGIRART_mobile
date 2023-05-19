@@ -46,6 +46,8 @@ public class PaymentForm extends BaseForm {
         getTitleArea().setUIID("Container");
         getContentPane().setScrollVisible(false);
         super.addSideMenu(res);
+        // Set the background color to black
+        this.getAllStyles().setBgColor(0x000000);
         
         ButtonGroup barGroup = new ButtonGroup();
         RadioButton mesListes = RadioButton.createToggle("Step 1", barGroup);
@@ -83,6 +85,8 @@ public class PaymentForm extends BaseForm {
             }
         });
         Label selectDateLabel = new Label("Please select a date:");
+                selectDateLabel.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+
         selectDateLabel.getAllStyles().setAlignment(Component.CENTER);
         selectDateLabel.getAllStyles().setFgColor(0x000000);
         selectDateLabel.getAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_BOLD, Font.SIZE_LARGE));
@@ -97,9 +101,12 @@ public class PaymentForm extends BaseForm {
     }
 
     private void addStringValue(String s, Component v) {
-
-  add(BorderLayout.west(new Label(s, "PaddedLabel"))
-            .add(BorderLayout.CENTER, v));
+        Label L = new Label(s, "PaddedLabel");
+        L.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+        v.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+        add(BorderLayout.west(L)
+                .add(BorderLayout.CENTER, v));
+        add(createLineSeparator(0x353537));
     }
 
     public void bindButtonSelection(Button btn, Label l) {

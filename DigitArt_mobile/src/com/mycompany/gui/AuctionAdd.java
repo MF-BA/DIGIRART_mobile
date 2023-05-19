@@ -52,7 +52,8 @@ public class AuctionAdd extends BaseForm {
         
         setTitle("Auction");
         getContentPane().setScrollVisible(false);
-
+// Set the background color to black
+        this.getAllStyles().setBgColor(0x000000);
         super.addSideMenu(res);
         InfiniteProgress ip = new InfiniteProgress();
         final Dialog ipDlg = ip.showInifiniteBlocking();
@@ -166,10 +167,13 @@ public class AuctionAdd extends BaseForm {
     }
 
     private void addStringValue(String s, Component v) {
+        Label L = new Label(s, "PaddedLabel");
+        L.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+                v.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
 
-        add(BorderLayout.west(new Label(s, "PaddedLabel"))
+        add(BorderLayout.west(L)
                 .add(BorderLayout.CENTER, v));
-        add(createLineSeparator(0xeeeeee));
+        add(createLineSeparator(0x353537));
     }
 
 }

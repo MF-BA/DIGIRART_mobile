@@ -43,7 +43,6 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 
-
 /**
  *
  * @author fedi1
@@ -61,14 +60,15 @@ public class BidAdd extends BaseForm {
         getTitleArea().setUIID("Welcome");
         setTitle("Auction");
         getContentPane().setScrollVisible(false);
-
+        
+        // Set the background color to black
+        this.getAllStyles().setBgColor(0x000000);
+        
         super.addSideMenu(res);
         InfiniteProgress ip = new InfiniteProgress();
         final Dialog ipDlg = ip.showInifiniteBlocking();
 
-        //  ListReclamationForm a = new ListReclamationForm(res);
-        //  a.show();
-//            refreshTheme();
+        
         EncodedImage placeholderImageseparator = EncodedImage.createFromImage(Image.createImage(1000, 110), false);
         String separURL = "http://127.0.0.1:8000/uploads/pngegg.png";
         Image separatorIMG = URLImage.createToStorage(placeholderImageseparator, separURL, separURL, URLImage.RESIZE_SCALE_TO_FILL);
@@ -98,6 +98,7 @@ public class BidAdd extends BaseForm {
         Label title = new Label(auction.getArtworkName());
         title.setUIID("CenterLabel");
         title.getUnselectedStyle().setFont(largeBoldSystemFont);
+        title.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
 
         Button offer = new Button("Make an offer");
 
@@ -121,6 +122,7 @@ public class BidAdd extends BaseForm {
         }
         highest_bid.setVerticalAlignment(CENTER);
         highest_bid.getUnselectedStyle().setFont(mediumBoldSystemFont);
+        highest_bid.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
 
         int next_offer;
         if (highestBid != null) {
@@ -188,10 +190,13 @@ public class BidAdd extends BaseForm {
     }
 
     private void addStringValue(String s, Component v) {
+        Label L = new Label(s, "PaddedLabel");
+        L.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+                v.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
 
-        add(BorderLayout.west(new Label(s, "PaddedLabel"))
+        add(BorderLayout.west(L)
                 .add(BorderLayout.CENTER, v));
-        add(createLineSeparator(0xeeeeee));
+        add(createLineSeparator(0x353537));
     }
 
     private void set_symbols() {

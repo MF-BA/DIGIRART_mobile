@@ -45,11 +45,17 @@ public class AuctionDisplay extends BaseForm {
         Toolbar tb = new Toolbar(true);
         setToolbar(tb);
 
-        setTitle("Auction");
+        
         getContentPane().setScrollVisible(false);
 
         super.addSideMenu(res);
+        
+        // Set the background color to black
+        this.getAllStyles().setBgColor(0x000000);
 
+        
+        
+        
         int placeholderWidthh = Display.getInstance().getDisplayWidth();
         int placeholderHeightt = Display.getInstance().getDisplayHeight();
         EncodedImage placeholderImageseparatorr = EncodedImage.createFromImage(Image.createImage(placeholderHeightt, placeholderWidthh), false);
@@ -66,7 +72,7 @@ public class AuctionDisplay extends BaseForm {
         ButtonGroup barGroup = new ButtonGroup();
 
         if (Statics.back_end == true || Statics.artist == true) {
-            RadioButton Display = RadioButton.createToggle("Auction", barGroup);
+            RadioButton Display = RadioButton.createToggle("Ongoing Auction", barGroup);
             Display.setUIID("SelectBar");
             RadioButton add = RadioButton.createToggle("Add to Auction", barGroup);
             add.setUIID("SelectBar");
@@ -83,7 +89,7 @@ public class AuctionDisplay extends BaseForm {
                 new AuctionAdd(res).show();
             });
         } else {
-            RadioButton Display = RadioButton.createToggle("Auction", barGroup);
+            RadioButton Display = RadioButton.createToggle("Available Auction", barGroup);
             Display.setUIID("SelectBar");
             Label arrow = new Label(res.getImage("news-tab-down-arrow.png"), "Container");
 
@@ -124,12 +130,16 @@ public class AuctionDisplay extends BaseForm {
         title.setUIID("CenterLabel");
         title.getStyle().setAlignment(Component.CENTER);
         title.getStyle().setFont(Font.createSystemFont(Font.FACE_MONOSPACE, Font.STYLE_BOLD, Font.SIZE_MEDIUM));
-
+        
+        title.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+        
+        
         Date date = auction.getDate();
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
         String formattedDate = formatter.format(date);
         Label countdownLabel = new Label(formattedDate);
         countdownLabel.setUIID("CenterLabel");
+        countdownLabel.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
 
         // create a new thread that will run the countdown timer
         Thread countdownThread = new Thread(new Runnable() {
@@ -193,10 +203,11 @@ public class AuctionDisplay extends BaseForm {
     }
 
     private void addStringValue(String s, Component v) {
-
-        add(BorderLayout.west(new Label(s, "PaddedLabel"))
+        Label L = new Label(s, "PaddedLabel");
+        L.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+        add(BorderLayout.west(L)
                 .add(BorderLayout.CENTER, v));
-        add(createLineSeparator(0xeeeeee));
+        add(createLineSeparator(0x353537));
     }
 
 }

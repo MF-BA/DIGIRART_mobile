@@ -18,7 +18,6 @@
  */
 package com.mycompany.gui;
 
-
 import com.codename1.components.ScaleImageLabel;
 import com.codename1.io.Storage;
 import com.codename1.ui.Component;
@@ -74,62 +73,56 @@ public class BaseForm extends Form {
     protected void addSideMenu(Resources res) {
         Toolbar tb = getToolbar();
         Image img = res.getImage("profile-background.jpg");
+        // Set the background color to black
+        tb.getAllStyles().setBgColor(0x000000);
+        
+
         if (img.getHeight() > Display.getInstance().getDisplayHeight() / 3) {
             img = img.scaledHeight(Display.getInstance().getDisplayHeight() / 3);
         }
         ScaleImageLabel sl = new ScaleImageLabel(img);
         sl.setUIID("BottomPad");
         sl.setBackgroundType(Style.BACKGROUND_IMAGE_SCALED_FILL);
-        
-        
+
         int placeholderWidth = Display.getInstance().getDisplayWidth() / 6; // half the screen width
         int placeholderHeight = Display.getInstance().getDisplayHeight() / 12; // one quarter of the screen height
-        EncodedImage placeholderImage = EncodedImage.createFromImage(Image.createImage(placeholderWidth, placeholderHeight),false); 
-        if(SessionUser.getImage() != null)
-{
-    String imageURL = Statics.BASE_URL+"/uploads/"+SessionUser.getImage();
-Image x = URLImage.createToStorage(placeholderImage, imageURL, imageURL, URLImage.RESIZE_SCALE_TO_FILL);
- tb.addComponentToSideMenu(LayeredLayout.encloseIn(
-                sl,
-                FlowLayout.encloseCenterBottom(
-                        new Label(x, "PictureWhiteBackgrond"))
-        ));
-}
-if(SessionUser.getImage() == null)
-{
-    String imageURL = Statics.BASE_URL+"/Back/images/icon-profile.png";
-Image x = URLImage.createToStorage(placeholderImage, imageURL, imageURL, URLImage.RESIZE_SCALE_TO_FILL);
-   tb.addComponentToSideMenu(LayeredLayout.encloseIn(
-                sl,
-                FlowLayout.encloseCenterBottom(
-                        new Label(x, "PictureWhiteBackgrond"))
-        )); 
-}
-        
-        if(SessionUser.getRole().equals("Artist"))
-        {
+        EncodedImage placeholderImage = EncodedImage.createFromImage(Image.createImage(placeholderWidth, placeholderHeight), false);
+        if (SessionUser.getImage() != null) {
+            String imageURL = Statics.BASE_URL + "/uploads/" + SessionUser.getImage();
+            Image x = URLImage.createToStorage(placeholderImage, imageURL, imageURL, URLImage.RESIZE_SCALE_TO_FILL);
+            tb.addComponentToSideMenu(LayeredLayout.encloseIn(
+                    sl,
+                    FlowLayout.encloseCenterBottom(
+                            new Label(x, "PictureWhiteBackgrond"))
+            ));
+        }
+        if (SessionUser.getImage() == null) {
+            String imageURL = Statics.BASE_URL + "/Back/images/icon-profile.png";
+            Image x = URLImage.createToStorage(placeholderImage, imageURL, imageURL, URLImage.RESIZE_SCALE_TO_FILL);
+            tb.addComponentToSideMenu(LayeredLayout.encloseIn(
+                    sl,
+                    FlowLayout.encloseCenterBottom(
+                            new Label(x, "PictureWhiteBackgrond"))
+            ));
+        }
+
+        if (SessionUser.getRole().equals("Artist")) {
             Statics.back_end = false;
-            Statics.artist = true ;
-           tb.addMaterialCommandToSideMenu("   Home Page", FontImage.MATERIAL_HOME, e -> new NewsfeedForm(res).show()); 
-           tb.addMaterialCommandToSideMenu("   Ticket Purchase", FontImage.MATERIAL_EXIT_TO_APP, e -> new PaymentForm(res).show());
-           tb.addMaterialCommandToSideMenu("   Auction", FontImage.MATERIAL_CREDIT_CARD, e -> new AuctionDisplay(res).show());
-           tb.addMaterialCommandToSideMenu("   Event", FontImage.MATERIAL_EVENT, e -> new EventFrontForm(res).show());
-           tb.addMaterialCommandToSideMenu("   Artwork Management", FontImage.MATERIAL_IMAGE, e -> new ListArtworkForm(res).show());
-           //tb.addMaterialCommandToSideMenu("   Map", FontImage.MATERIAL_MAP, e -> new MapEvent().show());
-
-
-           
-        }else if(SessionUser.getRole().equals("Subscriber"))
-        {
-            tb.addMaterialCommandToSideMenu("   Home Page", FontImage.MATERIAL_HOME, e -> new NewsfeedForm(res).show()); 
-           tb.addMaterialCommandToSideMenu("   Ticket Purchase", FontImage.MATERIAL_EXIT_TO_APP, e -> new PaymentForm(res).show());
-           tb.addMaterialCommandToSideMenu("   Auction", FontImage.MATERIAL_CREDIT_CARD, e -> new AuctionDisplay(res).show());
-           tb.addMaterialCommandToSideMenu("   Event", FontImage.MATERIAL_EVENT, e -> new EventFrontForm(res).show());
-           tb.addMaterialCommandToSideMenu("   Artwork Management", FontImage.MATERIAL_IMAGE, e -> new ListArtworkForm(res).show());
+            Statics.artist = true;
+            tb.addMaterialCommandToSideMenu("   Home Page", FontImage.MATERIAL_HOME, e -> new NewsfeedForm(res).show());
+            tb.addMaterialCommandToSideMenu("   Ticket Purchase", FontImage.MATERIAL_EXIT_TO_APP, e -> new PaymentForm(res).show());
+            tb.addMaterialCommandToSideMenu("   Auction", FontImage.MATERIAL_CREDIT_CARD, e -> new AuctionDisplay(res).show());
+            tb.addMaterialCommandToSideMenu("   Event", FontImage.MATERIAL_EVENT, e -> new EventFrontForm(res).show());
+            tb.addMaterialCommandToSideMenu("   Artwork", FontImage.MATERIAL_IMAGE, e -> new ListArtworkForm(res).show());
+        } else if (SessionUser.getRole().equals("Subscriber")) {
+            tb.addMaterialCommandToSideMenu("   Home Page", FontImage.MATERIAL_HOME, e -> new NewsfeedForm(res).show());
+            tb.addMaterialCommandToSideMenu("   Ticket Purchase", FontImage.MATERIAL_EXIT_TO_APP, e -> new PaymentForm(res).show());
+            tb.addMaterialCommandToSideMenu("   Auction", FontImage.MATERIAL_CREDIT_CARD, e -> new AuctionDisplay(res).show());
+            tb.addMaterialCommandToSideMenu("   Event", FontImage.MATERIAL_EVENT, e -> new EventFrontForm(res).show());
+            tb.addMaterialCommandToSideMenu("   Artwork", FontImage.MATERIAL_IMAGE, e -> new ListArtworkForm(res).show());
             Statics.back_end = false;
             Statics.artist = false;
-        }
-        else if(SessionUser.getRole().equals("Admin")){
+        } else if (SessionUser.getRole().equals("Admin")) {
             Statics.back_end = true;
             tb.addMaterialCommandToSideMenu("   Users Management", FontImage.MATERIAL_VERIFIED_USER, e -> new ListUsersForm(res).show());
             tb.addMaterialCommandToSideMenu("   Ticket Management", FontImage.MATERIAL_MONEY, e -> new DisplayTicketForm(res).show());
@@ -138,41 +131,33 @@ Image x = URLImage.createToStorage(placeholderImage, imageURL, imageURL, URLImag
             tb.addMaterialCommandToSideMenu("   Payment Management", FontImage.MATERIAL_CREDIT_CARD, e -> new DisplayPaymentForm(res).show());
             tb.addMaterialCommandToSideMenu("   Room Management", FontImage.MATERIAL_HOME_WORK, e -> new ListRoomForm(res).show());
             tb.addMaterialCommandToSideMenu("   Auction Management", FontImage.MATERIAL_CREDIT_CARD, e -> new AuctionDisplay(res).show());
- 
-        }
-       else if(SessionUser.getRole().equals("Users Manager")){
-         Statics.back_end = true;
+
+        } else if (SessionUser.getRole().equals("Users Manager")) {
+            Statics.back_end = true;
             tb.addMaterialCommandToSideMenu("   Users Management", FontImage.MATERIAL_VERIFIED_USER, e -> new ListUsersForm(res).show());
-           
-        }
-        else if(SessionUser.getRole().equals("Tickets Manager")){
+
+        } else if (SessionUser.getRole().equals("Tickets Manager")) {
             Statics.back_end = true;
             tb.addMaterialCommandToSideMenu("   Ticket Management", FontImage.MATERIAL_MONEY, e -> new DisplayTicketForm(res).show());
 
-        }
-        else if(SessionUser.getRole().equals("Artwork Manager")){
+        } else if (SessionUser.getRole().equals("Artwork Manager")) {
             Statics.back_end = true;
             tb.addMaterialCommandToSideMenu("   Artwork Management", FontImage.MATERIAL_IMAGE, e -> new ListArtworkForm(res).show());
-        }
-        else if(SessionUser.getRole().equals("Events Manager")){
+        } else if (SessionUser.getRole().equals("Events Manager")) {
             Statics.back_end = true;
             tb.addMaterialCommandToSideMenu("   Event Management", FontImage.MATERIAL_EVENT, e -> new AjoutEventForm(res).show());
-           
-        }
-        else if(SessionUser.getRole().equals("Payment Manager")){
+
+        } else if (SessionUser.getRole().equals("Payment Manager")) {
             Statics.back_end = true;
             tb.addMaterialCommandToSideMenu("   Payment Management", FontImage.MATERIAL_CREDIT_CARD, e -> new DisplayPaymentForm(res).show());
- 
-        }
-        else if(SessionUser.getRole().equals("Room Manager")){
+
+        } else if (SessionUser.getRole().equals("Room Manager")) {
             Statics.back_end = true;
             tb.addMaterialCommandToSideMenu("   Room Management", FontImage.MATERIAL_HOME_WORK, e -> new ListRoomForm(res).show());
- 
-        }
-        else if(SessionUser.getRole().equals("Auction Manager")){
+
+        } else if (SessionUser.getRole().equals("Auction Manager")) {
             Statics.back_end = true;
             tb.addMaterialCommandToSideMenu("   Auction Management", FontImage.MATERIAL_CREDIT_CARD, e -> new AuctionDisplay(res).show());
- 
         }
         tb.addMaterialCommandToSideMenu("Profile", FontImage.MATERIAL_SETTINGS, e -> new ProfileForm(res).show());
         tb.addMaterialCommandToSideMenu("Logout", FontImage.MATERIAL_EXIT_TO_APP, e -> {
@@ -181,7 +166,7 @@ Image x = URLImage.createToStorage(placeholderImage, imageURL, imageURL, URLImag
             Storage.getInstance().clearStorage();
             Storage.getInstance().clearCache();
         });
-        
+
         refreshTheme();
     }
 }

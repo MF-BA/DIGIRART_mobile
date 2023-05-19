@@ -85,6 +85,8 @@ BaseForm form;
         setTitle("List of Users");
         getContentPane().setScrollVisible(false);
         
+        // Set the background color to black
+        this.getAllStyles().setBgColor(0x000000);
         
         tb.addSearchCommand(e ->  {
             

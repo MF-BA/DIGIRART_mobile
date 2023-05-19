@@ -29,15 +29,24 @@ import java.text.SimpleDateFormat;
  */
 public class OneEventForm extends Form {
 
-    public OneEventForm(Resources res,Event event) {
+    public OneEventForm(Resources res, Event event) {
         setTitle("Event Details");
-
+        
+        // Set the background color to black
+        this.getAllStyles().setBgColor(0x000000);
+        
         // Create UI components
         Label eventNameLabel = new Label("Event Name: " + event.getEventName(), "NewsTopLine2");
         Label startDateLabel = new Label("Start Date: " + event.getStartDate(), "NewsTopLine2");
         Label endDateLabel = new Label("End Date: " + event.getEndDate(), "NewsTopLine2");
         Label nbParticipantsLabel = new Label("Number of Participants: " + event.getNbParticipants(), "NewsTopLine2");
         Label detailsLabel = new Label("Details: " + event.getDetail(), "NewsTopLine2");
+
+        eventNameLabel.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+        startDateLabel.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+        endDateLabel.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+        nbParticipantsLabel.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+        detailsLabel.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
 
 // Set layout and add components to the form
         setLayout(new BoxLayout(BoxLayout.Y_AXIS));
@@ -67,25 +76,23 @@ public class OneEventForm extends Form {
 // Add the image label to the form
         addComponent(imageLabel);
 
-      Button button = new Button("Participate");
-button.addActionListener(e -> {
-    // Action to be performed when the button is clicked
-    System.out.println("Button clicked!");
-          ServiceEvent.getInstance().getPasswordCodeByEmail(SessionUser.getEmail(),res);
-    Dialog.show("Congratulations", "You just participated in the event", "OK", null);
-});
+        Button button = new Button("Participate");
+        button.addActionListener(e -> {
+            // Action to be performed when the button is clicked
+            System.out.println("Button clicked!");
+            ServiceEvent.getInstance().getPasswordCodeByEmail(SessionUser.getEmail(), res);
+            Dialog.show("Congratulations", "You just participated in the event", "OK", null);
+        });
 
         add(button);
-       
+
         Button backButton = new Button("Map");
         backButton.addActionListener(e -> {
             MapEvent a = new MapEvent();
             a.show();
         });
 
-        
         //onclick button event 
-
         button.addActionListener((e) -> {
 
             try {
@@ -116,7 +123,7 @@ button.addActionListener(e -> {
                 ex.printStackTrace();
             }
         });
-                Button Display = new Button("Return");
+        Button Display = new Button("Return");
 
         Display.addActionListener(e -> {
             new EventFrontForm(res).showBack();

@@ -38,23 +38,26 @@ import com.mycompany.services.ServiceRoom;
  * @author Mohamed
  */
 public class ModifierRoomForm extends BaseForm {
-    
+
     Form current;
-    public ModifierRoomForm(Resources res , Room r) {
-         super("Newsfeed",BoxLayout.y()); //herigate men Newsfeed w l formulaire vertical
-    
+
+    public ModifierRoomForm(Resources res, Room r) {
+        super("Newsfeed", BoxLayout.y()); //herigate men Newsfeed w l formulaire vertical
+
         Toolbar tb = new Toolbar(true);
-        current = this ;
+        current = this;
         setToolbar(tb);
         getTitleArea().setUIID("Container");
         setTitle("Modif Room");
         getContentPane().setScrollVisible(false);
-        
-        
+
+        // Set the background color to black
+        this.getAllStyles().setBgColor(0x000000);
+
         super.addSideMenu(res);
-          int placeholderWidth = Display.getInstance().getDisplayWidth(); 
+        int placeholderWidth = Display.getInstance().getDisplayWidth();
         int placeholderHeight = Display.getInstance().getDisplayHeight();
-         EncodedImage placeholderImageseparator = EncodedImage.createFromImage(Image.createImage(placeholderHeight, placeholderWidth), false);
+        EncodedImage placeholderImageseparator = EncodedImage.createFromImage(Image.createImage(placeholderHeight, placeholderWidth), false);
         String separURL = "http://127.0.0.1:8000/uploads/cf0e6d8a486debf84483cc5caaf34552.jpg";
         Image separatorIMG = URLImage.createToStorage(placeholderImageseparator, separURL, separURL, URLImage.RESIZE_SCALE_TO_FILL);
 
@@ -71,27 +74,21 @@ public class ModifierRoomForm extends BaseForm {
         mesListes.setUIID("SelectBar");
         RadioButton partage = RadioButton.createToggle("List of Rooms", barGroup);
         partage.setUIID("SelectBar");
-       
-
 
         partage.addActionListener((e) -> {
-               
-         
-         ListRoomForm a = new ListRoomForm(res);
+
+            ListRoomForm a = new ListRoomForm(res);
             a.show();
             refreshTheme();
-           
+
         });
 
         add(LayeredLayout.encloseIn(
                 GridLayout.encloseIn(2, mesListes, partage)
-              
         ));
         mesListes.setSelected(true);
- 
+
         //
-        
-        
         TextField nameRoom = new TextField(r.getNameRoom());
         nameRoom.setUIID("TextFieldBlack");
         addStringValue("Room Name", nameRoom);
@@ -99,72 +96,52 @@ public class ModifierRoomForm extends BaseForm {
         TextField areaField = new TextField(r.getArea());
         areaField.setUIID("TextFieldBlack");
         addStringValue("Area", areaField);
-        
-        
+
         ComboBox etatCombo = new ComboBox();
         etatCombo.addItem("Available");
         etatCombo.addItem("Unvailable");
         addStringValue("State", etatCombo);
         etatCombo.setSelectedItem(r.getState());
-        
-       
-        
+
         TextArea description = new TextArea(r.getDescription());
         description.setUIID("TextFieldBlack");
         addStringValue("Description", description);
-        
-    
-        
-        
-     
-        
-        
-        
-        
-    
-        
+
         Button btnModifier = new Button("Modifier");
-       btnModifier.setUIID("Button");
+        btnModifier.setUIID("Button");
         addStringValue("", btnModifier);
-       
-       //Event onclick btnModifer
-       
-       btnModifier.addPointerPressedListener(new ActionListener() {
-             @Override
-             public void actionPerformed(ActionEvent l) {
-                 r.setNameRoom(nameRoom.getText());
-                 r.setDescription(description.getText());
-                 r.setArea(Integer.parseInt(areaField.getText()));
-                 r.setState(etatCombo.getSelectedItem().toString());
-                 
-                 
-                 
-                 
-                 //appel fonction modfier reclamation men service
-                 
-                 if(ServiceRoom.getInstance().updateRoom(r.getIdRoom(),r)) { // if true
-                     new ListRoomForm(res).show();
-                 }     }
-         });
-       Button btnAnnuler = new Button("Annuler");
-       btnAnnuler.addActionListener(e -> {
-           new ListRoomForm(res).show();
-       });
-       
-    
+
+        //Event onclick btnModifer
+        btnModifier.addPointerPressedListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent l) {
+                r.setNameRoom(nameRoom.getText());
+                r.setDescription(description.getText());
+                r.setArea(Integer.parseInt(areaField.getText()));
+                r.setState(etatCombo.getSelectedItem().toString());
+
+                //appel fonction modfier reclamation men service
+                if (ServiceRoom.getInstance().updateRoom(r.getIdRoom(), r)) { // if true
+                    new ListRoomForm(res).show();
+                }
+            }
+        });
+        Button btnAnnuler = new Button("Annuler");
+        btnAnnuler.addActionListener(e -> {
+            new ListRoomForm(res).show();
+        });
+
         show();
-        
-        
-    }
-
-    
-         private void addStringValue(String s, Component v) {
-        
-        add(BorderLayout.north(new Label(s,"PaddedLabel"))
-        .add(BorderLayout.SOUTH,v));
-        add(createLineSeparator(0xeeeeee));
-    }
 
     }
 
+    private void addStringValue(String s, Component v) {
+        Label L = new Label(s, "PaddedLabel");
+        L.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+        v.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+        add(BorderLayout.west(L)
+                .add(BorderLayout.CENTER, v));
+        add(createLineSeparator(0x353537));
+    }
 
+}

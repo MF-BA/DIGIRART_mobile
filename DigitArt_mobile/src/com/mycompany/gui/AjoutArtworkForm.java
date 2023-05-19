@@ -65,7 +65,8 @@ public class AjoutArtworkForm extends BaseForm {
         getContentPane().setScrollVisible(false);
         
         super.addSideMenu(res);
-       
+       // Set the background color to black
+        this.getAllStyles().setBgColor(0x000000);
             
         int placeholderWidth = Display.getInstance().getDisplayWidth(); 
         int placeholderHeight = Display.getInstance().getDisplayHeight();
@@ -241,10 +242,13 @@ Date today = new Date();
     }
 
     private void addStringValue(String s, Component v) {
-        
-        add(BorderLayout.west(new Label(s,"PaddedLabel"))
-        .add(BorderLayout.CENTER,v));
-        add(createLineSeparator(0xeeeeee));
+        Label L = new Label(s, "PaddedLabel");
+        L.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+                v.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+
+        add(BorderLayout.west(L)
+                .add(BorderLayout.CENTER, v));
+        add(createLineSeparator(0x353537));
     }
 
 

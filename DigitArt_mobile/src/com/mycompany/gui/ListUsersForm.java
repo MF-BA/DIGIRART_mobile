@@ -44,44 +44,38 @@ import java.util.ArrayList;
  * @author Islem
  */
 public class ListUsersForm extends BaseForm {
-   // Form current;
-    public ListUsersForm(Resources res ) {
-         super("Newsfeed",BoxLayout.y()); //herigate men Newsfeed w l formulaire vertical
+    // Form current;
+
+    public ListUsersForm(Resources res) {
+        super("Newsfeed", BoxLayout.y()); //herigate men Newsfeed w l formulaire vertical
         Toolbar tb = new Toolbar(true);
         //current = this ;
         setToolbar(tb);
         getTitleArea().setUIID("Container");
         setTitle("List of Users");
         getContentPane().setScrollVisible(false);
-        
-        
-        tb.addSearchCommand(e ->  {
-            
-        });
+
+        // Set the background color to black
+        this.getAllStyles().setBgColor(0x000000);
+
         addSideMenu(res);
         Tabs swipe = new Tabs();
-        
+
         Label s1 = new Label();
         Label s2 = new Label();
-        
-        addTab(swipe,s1, res.getImage("back-couverture.jpg"),"","",res);
-        
+
+        addTab(swipe, s1, res.getImage("back-couverture.jpg"), "", "", res);
+
         // Welcome current user
-        
-        System.out.println("user connecté id ="+ SessionUser.getId());
-        
-        
-        
-        System.out.println("user connecté first name ="+ SessionUser.getFirstname());
-        
-        System.out.println("user connecté last name ="+ SessionUser.getLastname());
-        
-        System.out.println("user connecté email ="+ SessionUser.getEmail());
-        
-        
-        
-        
-         swipe.setUIID("Container");
+        System.out.println("user connecté id =" + SessionUser.getId());
+
+        System.out.println("user connecté first name =" + SessionUser.getFirstname());
+
+        System.out.println("user connecté last name =" + SessionUser.getLastname());
+
+        System.out.println("user connecté email =" + SessionUser.getEmail());
+
+        swipe.setUIID("Container");
         swipe.getContentPane().setUIID("Container");
         swipe.hideTabs();
 
@@ -120,214 +114,198 @@ public class ListUsersForm extends BaseForm {
         add(LayeredLayout.encloseIn(swipe, radioContainer));
 
         ButtonGroup barGroup = new ButtonGroup();
-        
+
         RadioButton Listeusers = RadioButton.createToggle("Liste Of Users", barGroup);
         Listeusers.setUIID("SelectBar");
         RadioButton adduser = RadioButton.createToggle("Add User", barGroup);
         adduser.setUIID("SelectBar");
-         RadioButton statsuser = RadioButton.createToggle("User stats", barGroup);
+        RadioButton statsuser = RadioButton.createToggle("User stats", barGroup);
         statsuser.setUIID("SelectBar");
         Label arrow = new Label(res.getImage("news-tab-down-arrow.png"), "Container");
 
-
         Listeusers.addActionListener((e) -> {
-               InfiniteProgress ip = new InfiniteProgress();
-        final Dialog ipDlg = ip.showInifiniteBlocking();
-        
-          ListUsersForm a = new ListUsersForm(res);
+            InfiniteProgress ip = new InfiniteProgress();
+            final Dialog ipDlg = ip.showInifiniteBlocking();
+
+            ListUsersForm a = new ListUsersForm(res);
             a.show();
             refreshTheme();
         });
 
         adduser.addActionListener((e) -> {
-               InfiniteProgress ip = new InfiniteProgress();
-        final Dialog ipDlg = ip.showInifiniteBlocking();
-        
-          AddUserForm a = new AddUserForm(res);
+            InfiniteProgress ip = new InfiniteProgress();
+            final Dialog ipDlg = ip.showInifiniteBlocking();
+
+            AddUserForm a = new AddUserForm(res);
             a.show();
             refreshTheme();
         });
-        
+
         statsuser.addActionListener((e) -> {
-               InfiniteProgress ip = new InfiniteProgress();
-        final Dialog ipDlg = ip.showInifiniteBlocking();
-        
-          UserStatsForm a = new UserStatsForm(res);
+            InfiniteProgress ip = new InfiniteProgress();
+            final Dialog ipDlg = ip.showInifiniteBlocking();
+
+            UserStatsForm a = new UserStatsForm(res);
             a.show();
             refreshTheme();
         });
-        
+
         add(LayeredLayout.encloseIn(
-                GridLayout.encloseIn(3, Listeusers, adduser,statsuser)
-                
+                GridLayout.encloseIn(3, Listeusers, adduser, statsuser)
         ));
 
-      
-      
         //Appel affichage methode
-        ArrayList<users>list = ServiceUsers.getInstance().Displayusers();
-        
-        for(users rec : list ) {
-             String urlImage ="back-logo.jpeg";//image statique pour le moment ba3d taw fi  videos jayin nwarikom image 
-            
-             Image placeHolder = Image.createImage(120, 90);
-             EncodedImage enc =  EncodedImage.createFromImage(placeHolder,false);
-             URLImage urlim = URLImage.createToStorage(enc, urlImage, urlImage, URLImage.RESIZE_SCALE);
-             
-                addButton(urlim,rec,res);
-        
-                ScaleImageLabel image = new ScaleImageLabel(urlim);
-                
-                Container containerImg = new Container();
-                
-                image.setBackgroundType(Style.BACKGROUND_IMAGE_SCALED_FILL);
+        ArrayList<users> list = ServiceUsers.getInstance().Displayusers();
+
+        for (users rec : list) {
+            String urlImage = "back-logo.jpeg";//image statique pour le moment ba3d taw fi  videos jayin nwarikom image 
+
+            Image placeHolder = Image.createImage(120, 90);
+            EncodedImage enc = EncodedImage.createFromImage(placeHolder, false);
+            URLImage urlim = URLImage.createToStorage(enc, urlImage, urlImage, URLImage.RESIZE_SCALE);
+
+            addButton(urlim, rec, res);
+
+            ScaleImageLabel image = new ScaleImageLabel(urlim);
+
+            Container containerImg = new Container();
+
+            image.setBackgroundType(Style.BACKGROUND_IMAGE_SCALED_FILL);
         }
-        
-        
-        
+
     }
-    
-    
-    
-    
-    
-    
-    
-    
-       private void addTab(Tabs swipe, Label spacer , Image image, String string, String text, Resources res) {
+
+    private void addTab(Tabs swipe, Label spacer, Image image, String string, String text, Resources res) {
         int size = Math.min(Display.getInstance().getDisplayWidth(), Display.getInstance().getDisplayHeight());
-        
-        if(image.getHeight() < size) {
+
+        if (image.getHeight() < size) {
             image = image.scaledHeight(size);
         }
-        
-        
-        
-        if(image.getHeight() > Display.getInstance().getDisplayHeight() / 2 ) {
+
+        if (image.getHeight() > Display.getInstance().getDisplayHeight() / 2) {
             image = image.scaledHeight(Display.getInstance().getDisplayHeight() / 2);
         }
-        
+
         ScaleImageLabel imageScale = new ScaleImageLabel(image);
         imageScale.setUIID("Container");
         imageScale.setBackgroundType(Style.BACKGROUND_IMAGE_SCALED_FILL);
-        
-        Label overLay = new Label("","ImageOverlay");
-        
-        
-        Container page1 = 
-                LayeredLayout.encloseIn(
-                imageScale,
+
+        Label overLay = new Label("", "ImageOverlay");
+
+        Container page1
+                = LayeredLayout.encloseIn(
+                        imageScale,
                         overLay,
                         BorderLayout.south(
-                        BoxLayout.encloseY(
-                        new SpanLabel(text, "LargeWhiteText"),
+                                BoxLayout.encloseY(
+                                        new SpanLabel(text, "LargeWhiteText"),
                                         spacer
+                                )
                         )
-                    )
                 );
-        
-        swipe.addTab("",res.getImage("back-logo.jpeg"), page1);
-        
-        
-        
-        
+
+        swipe.addTab("", res.getImage("back-logo.jpeg"), page1);
+
     }
-    
-    
-    
-    public void bindButtonSelection(Button btn , Label l ) {
-        
-        btn.addActionListener(e-> {
-        if(btn.isSelected()) {
-            updateArrowPosition(btn,l);
-        }
-    });
+
+    public void bindButtonSelection(Button btn, Label l) {
+
+        btn.addActionListener(e -> {
+            if (btn.isSelected()) {
+                updateArrowPosition(btn, l);
+            }
+        });
     }
 
     private void updateArrowPosition(Button btn, Label l) {
-        
-        l.getUnselectedStyle().setMargin(LEFT, btn.getX() + btn.getWidth()  / 2  - l.getWidth() / 2 );
+
+        l.getUnselectedStyle().setMargin(LEFT, btn.getX() + btn.getWidth() / 2 - l.getWidth() / 2);
         l.getParent().repaint();
     }
 
-    private void addButton(Image img,users rec , Resources res) {
-        
+    private void addButton(Image img, users rec, Resources res) {
+
         int height = Display.getInstance().convertToPixels(11.5f);
         int width = Display.getInstance().convertToPixels(14f);
-        
+
         Button image = new Button(img.fill(width, height));
         image.setUIID("Label");
         Container cnt = BorderLayout.west(image);
-        
-        
+
         //kif nzidouh  ly3endo date mathbih fi codenamone y3adih string w y5alih f symfony dateTime w ytab3ni cha3mlt taw yjih
-        Label cintxt = new Label("Cin : "+rec.getCin(),"NewsTopLine2");
-        Label firstnameTxt = new Label("First Name : "+rec.getFirstname(),"NewsTopLine2");
-        Label lastnameTxt = new Label("Last Name : "+rec.getLastname(),"NewsTopLine2" );
-        Label EmailTxt = new Label("Email : "+rec.getEmail(),"NewsTopLine2" );
-        Label addressTxt = new Label("Address : "+rec.getAddress(),"NewsTopLine2" );
-        Label PhonenumTxt = new Label("Phone number : "+rec.getPhone_number(),"NewsTopLine2" );
-        Label BirthDateTxt = new Label("Birth Date : "+rec.getBirth_date().toString(),"NewsTopLine2" );
-        Label GenderTxt = new Label("Gender : "+rec.getGender(),"NewsTopLine2" );
-        Label roleTxt = new Label("Role : "+rec.getRole(),"NewsTopLine2" );
-        Label statusTxt = new Label("Status : "+rec.getStatus(),"NewsTopLine2" );
-        
+        Label cintxt = new Label("Cin : " + rec.getCin(), "NewsTopLine2");
+        Label firstnameTxt = new Label("First Name : " + rec.getFirstname(), "NewsTopLine2");
+        Label lastnameTxt = new Label("Last Name : " + rec.getLastname(), "NewsTopLine2");
+        Label EmailTxt = new Label("Email : " + rec.getEmail(), "NewsTopLine2");
+        Label addressTxt = new Label("Address : " + rec.getAddress(), "NewsTopLine2");
+        Label PhonenumTxt = new Label("Phone number : " + rec.getPhone_number(), "NewsTopLine2");
+        Label BirthDateTxt = new Label("Birth Date : " + rec.getBirth_date().toString(), "NewsTopLine2");
+        Label GenderTxt = new Label("Gender : " + rec.getGender(), "NewsTopLine2");
+        Label roleTxt = new Label("Role : " + rec.getRole(), "NewsTopLine2");
+        Label statusTxt = new Label("Status : " + rec.getStatus(), "NewsTopLine2");
+
+        cintxt.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+        firstnameTxt.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+        lastnameTxt.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+        EmailTxt.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+        addressTxt.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+        PhonenumTxt.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+        BirthDateTxt.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+        GenderTxt.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+        roleTxt.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+        statusTxt.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+
         createLineSeparator();
-        
-       /* if(rec.getEtat() == 0 ) {
+
+        /* if(rec.getEtat() == 0 ) {
             etatTxt.setText("non Traitée");
         }
         else 
             etatTxt.setText("Traitée");
-       */
-        
+         */
         //supprimer button
         Label lSupprimer = new Label(" ");
         lSupprimer.setUIID("NewsTopLine");
         Style supprmierStyle = new Style(lSupprimer.getUnselectedStyle());
         supprmierStyle.setFgColor(0xf21f1f);
-        
+
         FontImage suprrimerImage = FontImage.createMaterial(FontImage.MATERIAL_DELETE, supprmierStyle);
         lSupprimer.setIcon(suprrimerImage);
         lSupprimer.setTextPosition(RIGHT);
-        
+
         //click delete icon
         lSupprimer.addPointerPressedListener(l -> {
-            
+
             Dialog dig = new Dialog("Deletion");
-            
-            if(dig.show("Deletion","Do you want to delete this user ?","Cancel","Yes")) {
+
+            if (dig.show("Deletion", "Do you want to delete this user ?", "Cancel", "Yes")) {
+                dig.dispose();
+            } else {
                 dig.dispose();
             }
-            else {
-                dig.dispose();
-                 }
-                //n3ayto l suuprimer men service Reclamation
-                if(ServiceUsers.getInstance().deleteUser(rec.getId())) {
-                    new ListUsersForm(res).show();
-                }
-           
+            //n3ayto l suuprimer men service Reclamation
+            if (ServiceUsers.getInstance().deleteUser(rec.getId())) {
+                new ListUsersForm(res).show();
+            }
+
         });
-        
+
         //Update icon 
         Label lModifier = new Label(" ");
         lModifier.setUIID("NewsTopLine");
         Style modifierStyle = new Style(lModifier.getUnselectedStyle());
         modifierStyle.setFgColor(0xf7ad02);
-        
+
         FontImage mFontImage = FontImage.createMaterial(FontImage.MATERIAL_MODE_EDIT, modifierStyle);
         lModifier.setIcon(mFontImage);
         lModifier.setTextPosition(LEFT);
-        
-        
+
         lModifier.addPointerPressedListener(l -> {
             //System.out.println("hello update");
-            new UpdateUserForm(res,rec).show();
+            new UpdateUserForm(res, rec).show();
         });
-        
-        
-        cnt.add(BorderLayout.CENTER,BoxLayout.encloseY(
-                
+
+        cnt.add(BorderLayout.CENTER, BoxLayout.encloseY(
                 BoxLayout.encloseX(cintxt),
                 BoxLayout.encloseX(firstnameTxt),
                 BoxLayout.encloseX(lastnameTxt),
@@ -338,11 +316,9 @@ public class ListUsersForm extends BaseForm {
                 BoxLayout.encloseX(GenderTxt),
                 BoxLayout.encloseX(roleTxt),
                 BoxLayout.encloseX(statusTxt),
-                BoxLayout.encloseX(lModifier,lSupprimer),
+                BoxLayout.encloseX(lModifier, lSupprimer),
                 BoxLayout.encloseX(createLineSeparator())));
-        
-        
-        
+
         add(cnt);
     }
 }

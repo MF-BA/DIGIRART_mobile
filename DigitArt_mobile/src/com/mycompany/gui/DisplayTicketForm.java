@@ -55,7 +55,8 @@ public class DisplayTicketForm extends BaseForm {
         getContentPane().setScrollVisible(false);
            super.addSideMenu(res);
         Tabs swipe = new Tabs();
-
+// Set the background color to black
+        this.getAllStyles().setBgColor(0x000000);
         Label s1 = new Label();
         Label s2 = new Label();
 
@@ -162,10 +163,13 @@ public class DisplayTicketForm extends BaseForm {
 
     
     private void addStringValue(String s, Component v) {
+        Label L = new Label(s, "PaddedLabel");
+        L.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+                v.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
 
-        add(BorderLayout.west(new Label(s, "PaddedLabel"))
+        add(BorderLayout.west(L)
                 .add(BorderLayout.CENTER, v));
-        add(createLineSeparator(0xeeeeee));
+        add(createLineSeparator(0x353537));
     }
     
     private void addButton(Ticket rec, Resources res) {
@@ -177,16 +181,17 @@ public class DisplayTicketForm extends BaseForm {
         Label edatetTxt = new Label("End Date : " + rec.getTicket_edate(), "NewsTopLine2");
         Label priceTxt = new Label("Price : " + rec.getPrice(), "NewsTopLine2");
         Label typeTxt = new Label("Type : " + rec.getTicket_type(), "NewsTopLine2");
-        //createLineSeparator();
-
-        /*if(rec.getEtat() == 0 ) {
-            etatTxt.setText("non Traitée");
-        }
-        else 
-            etatTxt.setText("Traitée");
-         */
-        //supprimer button
+        
+        
         Label lSupprimer = new Label(" ");
+        
+        dateTxt.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+        edatetTxt.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+        priceTxt.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+        typeTxt.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+        lSupprimer.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+       
+
         lSupprimer.setUIID("NewsTopLine");
         Style supprmierStyle = new Style(lSupprimer.getUnselectedStyle());
         supprmierStyle.setFgColor(0xf21f1f);
@@ -253,6 +258,10 @@ public class DisplayTicketForm extends BaseForm {
         imageScale.setBackgroundType(Style.BACKGROUND_IMAGE_SCALED_FILL);
 
         Label overLay = new Label("", "ImageOverlay");
+        overLay.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+
+
+        
 
         Container page1
                 = LayeredLayout.encloseIn(

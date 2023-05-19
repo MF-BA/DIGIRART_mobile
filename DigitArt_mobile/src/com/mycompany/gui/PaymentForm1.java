@@ -39,6 +39,9 @@ public class PaymentForm1 extends BaseForm {
         getTitleArea().setUIID("Container");
         getContentPane().setScrollVisible(false);
         super.addSideMenu(res);
+
+        // Set the background color to black
+        this.getAllStyles().setBgColor(0x000000);
         ButtonGroup barGroup = new ButtonGroup();
         RadioButton mesListes = RadioButton.createToggle("Step 1", barGroup);
         mesListes.setUIID("SelectBar");
@@ -46,18 +49,17 @@ public class PaymentForm1 extends BaseForm {
         liste.setUIID("SelectBar");
         RadioButton partage = RadioButton.createToggle("Step 3", barGroup);
         partage.setUIID("SelectBar");
-    
-       
+
         add(LayeredLayout.encloseIn(
                 GridLayout.encloseIn(3, mesListes, liste, partage)
         ));
 
         liste.setSelected(true);
-        
-        
-        
+
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Label selectedDateLabel = new Label("Selected Date: " + dateFormat.format(selectedDate));
+        selectedDateLabel.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+
         selectedDateLabel.getAllStyles().setAlignment(Component.CENTER);
         selectedDateLabel.getAllStyles().setFgColor(0x000000);
         selectedDateLabel.getAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_BOLD, Font.SIZE_LARGE));
@@ -71,64 +73,67 @@ public class PaymentForm1 extends BaseForm {
         add(DateDB);
 
         GetTicketPricesServices.getInstance().getPrices(selectedDate);
-        
+
         // Access prices through getter methods in ServiceTicket class
         int priceStudent = GetTicketPricesServices.getInstance().getPriceStudent();
         int priceAdult = GetTicketPricesServices.getInstance().getPriceTeen();
         int priceTeen = GetTicketPricesServices.getInstance().getPriceAdult();
-        
+
         System.out.println(priceStudent);
         System.out.println(priceTeen);
         System.out.println(priceAdult);
         Label PaymentForm = new Label("Payment Form");
+        PaymentForm.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+
         PaymentForm.getAllStyles().setAlignment(Component.CENTER);
         PaymentForm.getAllStyles().setFgColor(0x000000);
         PaymentForm.getAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_BOLD, Font.SIZE_LARGE));
         add(PaymentForm);
         // Add ComboBoxes and labels for each ticket type
         Label teenagerLabel = new Label("Adult(price: $" + priceTeen + "/per Ticket)");
-        
+        teenagerLabel.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+
         ComboBox<Integer> comboBoxS = new ComboBox<>();
         for (int i = 0; i <= 10; i++) {
             comboBoxS.addItem(i);
         }
         if (priceTeen == 0) {
-        comboBoxS.setVisible(false);
-        teenagerLabel.setVisible(false);
+            comboBoxS.setVisible(false);
+            teenagerLabel.setVisible(false);
         } else {
-        comboBoxS.setEnabled(true);
-        add(teenagerLabel);
-        add(comboBoxS);
+            comboBoxS.setEnabled(true);
+            add(teenagerLabel);
+            add(comboBoxS);
         }
-
 
         Label studentLabel = new Label("Student(price: $" + priceStudent + "/per Ticket)");
         ComboBox<Integer> comboBoxA = new ComboBox<>();
         for (int i = 0; i <= 10; i++) {
             comboBoxA.addItem(i);
         }
-         if (priceStudent == 0) {
-        comboBoxA.setVisible(false);
-        studentLabel.setVisible(false);
+        if (priceStudent == 0) {
+            comboBoxA.setVisible(false);
+            studentLabel.setVisible(false);
         } else {
-        comboBoxA.setEnabled(true);
-        add(studentLabel);
-        add(comboBoxA);
+            comboBoxA.setEnabled(true);
+            add(studentLabel);
+            add(comboBoxA);
         }
- 
 
         Label adultLabel = new Label("Teenager (price: $" + priceAdult + "/per Ticket)");
+        adultLabel.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+
         ComboBox<Integer> comboBoxT = new ComboBox<>();
         for (int i = 0; i <= 10; i++) {
             comboBoxT.addItem(i);
         }
         if (priceAdult == 0) {
-        comboBoxT.setVisible(false);
-        adultLabel.setVisible(false);
+            comboBoxT.setVisible(false);
+            adultLabel.setVisible(false);
         } else {
-        comboBoxT.setEnabled(true);
-        add(adultLabel);
-        add(comboBoxT);
+            comboBoxT.setEnabled(true);
+            add(adultLabel);
+            add(comboBoxT);
         }
 
         // Add a space between the ComboBoxes and the total label
@@ -142,13 +147,11 @@ public class PaymentForm1 extends BaseForm {
 
         add(totalLabel);
         Label priceLabel = new Label("0");
-                
-
 
         // Add a listener to update the total price when a ComboBox value changes
-        comboBoxS.addActionListener(e -> updateTotalPrice(priceLabel,totalLabel, comboBoxS, comboBoxA, comboBoxT, priceStudent, priceTeen, priceAdult));
-        comboBoxA.addActionListener(e -> updateTotalPrice(priceLabel,totalLabel, comboBoxS, comboBoxA, comboBoxT, priceStudent, priceTeen, priceAdult));
-        comboBoxT.addActionListener(e -> updateTotalPrice(priceLabel,totalLabel, comboBoxS, comboBoxA, comboBoxT, priceStudent, priceTeen, priceAdult));
+        comboBoxS.addActionListener(e -> updateTotalPrice(priceLabel, totalLabel, comboBoxS, comboBoxA, comboBoxT, priceStudent, priceTeen, priceAdult));
+        comboBoxA.addActionListener(e -> updateTotalPrice(priceLabel, totalLabel, comboBoxS, comboBoxA, comboBoxT, priceStudent, priceTeen, priceAdult));
+        comboBoxT.addActionListener(e -> updateTotalPrice(priceLabel, totalLabel, comboBoxS, comboBoxA, comboBoxT, priceStudent, priceTeen, priceAdult));
 
         Button btnAjouter = new Button("ADD");
         addStringValue("", btnAjouter);
@@ -165,17 +168,16 @@ public class PaymentForm1 extends BaseForm {
 
                     final Dialog iDialog = ip.showInfiniteBlocking();
 
-                    int userid=0;
+                    int userid = 0;
                     int nbAdult = comboBoxS.getSelectedItem();
                     int nbTeenager = comboBoxA.getSelectedItem();
                     int nbStudent = comboBoxT.getSelectedItem();
                     String selectedDateStr = DateDB.getText();
                     int totalPayment = Integer.parseInt(priceLabel.getText());
-                    boolean paid=true;
-                    
-                    
-                     Payment p = new Payment( userid,selectedDateStr, nbAdult,nbTeenager,nbStudent, totalPayment, paid);
-                            
+                    boolean paid = true;
+
+                    Payment p = new Payment(userid, selectedDateStr, nbAdult, nbTeenager, nbStudent, totalPayment, paid);
+
                     System.out.println("data ticket == " + p);
 
                     // call the addTicket method from the Ticket service to add the data to the database
@@ -184,7 +186,7 @@ public class PaymentForm1 extends BaseForm {
                     iDialog.dispose(); // dismiss the loading dialog after the data is added
 
                     // show the updated DisplayTicketForm with the new data
-                    PaymentForm2 form = new PaymentForm2(res,Integer.parseInt(priceLabel.getText()));
+                    PaymentForm2 form = new PaymentForm2(res, Integer.parseInt(priceLabel.getText()));
                     form.show();
 
                     refreshTheme(); // actualisation
@@ -196,17 +198,17 @@ public class PaymentForm1 extends BaseForm {
             }
 
         });
-        
+
         Button btnReturn = new Button("Return");
         btnReturn.addActionListener(e -> {
-        PaymentForm form = new PaymentForm(res);
+            PaymentForm form = new PaymentForm(res);
             form.show();
         });
         addStringValue("", btnReturn);
 
     }
 
-    private void updateTotalPrice(Label priceLabel,Label totalLabel, ComboBox<Integer> comboBoxS, ComboBox<Integer> comboBoxA, ComboBox<Integer> comboBoxT,int price1,int price2,int price3) {
+    private void updateTotalPrice(Label priceLabel, Label totalLabel, ComboBox<Integer> comboBoxS, ComboBox<Integer> comboBoxA, ComboBox<Integer> comboBoxT, int price1, int price2, int price3) {
         int studentPrice = comboBoxS.getSelectedItem() * price2;
         int adultPrice = comboBoxA.getSelectedItem() * price1;
         int teenagerPrice = comboBoxT.getSelectedItem() * price3;
@@ -214,12 +216,17 @@ public class PaymentForm1 extends BaseForm {
         totalLabel.setText("Total price: $" + totalPrice);
         totalLabel.setText("Total price: $" + totalPrice);
         priceLabel.setText(String.valueOf(totalPrice));
+        priceLabel.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+        totalLabel.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
     }
 
     private void addStringValue(String s, Component v) {
-
-        add(BorderLayout.west(new Label(s, "PaddedLabel"))
+        Label L = new Label(s, "PaddedLabel");
+        L.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+        v.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+        add(BorderLayout.west(L)
                 .add(BorderLayout.CENTER, v));
+        add(createLineSeparator(0x353537));
     }
 
     public void bindButtonSelection(Button btn, Label l) {

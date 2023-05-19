@@ -45,6 +45,8 @@ public class PaiementStripe extends Form {
         cvcTextField.getAllStyles().setFgColor(0xff0000);
         cvcTextField.getAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_BOLD, Font.SIZE_LARGE));
         
+            // Set the background color to black
+        this.getAllStyles().setBgColor(0x000000);
         
         Button payButton = new Button("Pay");
         payButton.addActionListener(new ActionListener() {

@@ -48,6 +48,9 @@ public class ShowArtwork extends BaseForm {
         setTitle(artwork.getArtworkName());
         getContentPane().setScrollVisible(false);
 
+        // Set the background color to black
+        this.getAllStyles().setBgColor(0x000000);
+
         super.addSideMenu(res);
 
         int placeholderWidth = Display.getInstance().getDisplayWidth();
@@ -77,90 +80,86 @@ public class ShowArtwork extends BaseForm {
 
         ScaleImageLabel imageLabel = new ScaleImageLabel(img);
 
-           
-        Label nameArtwork = new Label("Name : "+artwork.getArtworkName(),"NewsTopLine2");
-        Label ArtistName = new Label("","NewsTopLine2");
-        if(!artwork.getArtistName().isEmpty())
-           ArtistName.setText("ArtistName :"+artwork.getArtistName());
-        
-        else{ArtistName.setText("ArtistName : User");
+        Label nameArtwork = new Label("Name : " + artwork.getArtworkName(), "NewsTopLine2");
+        Label ArtistName = new Label("", "NewsTopLine2");
+
+        if (!artwork.getArtistName().isEmpty()) {
+            ArtistName.setText("ArtistName :" + artwork.getArtistName());
+        } else {
+            ArtistName.setText("ArtistName : User");
         }
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDate = formatter.format(artwork.getDateArt());
-        Label dateTxt = new Label("Creation date :"+formattedDate);
+        Label dateTxt = new Label("Creation date :" + formattedDate);
         dateTxt.setUIID("NewsTopLine2");
-
-        
 
         String description = artwork.getDescription();
 
-        Label desc = new Label("Description : ","NewsTopLine2");
+        Label desc = new Label("Description : ", "NewsTopLine2");
         TextArea descriptionLabel = new TextArea(description);
         descriptionLabel.setEditable(false);
-        
+        descriptionLabel.getAllStyles().setBgColor(0x000000); // Set the foreground color to black
+        descriptionLabel.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
         createLineSeparator();
-        
 
-       
-        
         //supprimer button
         Label lSupprimer = new Label(" ");
         lSupprimer.setUIID("NewsTopLine");
         Style supprmierStyle = new Style(lSupprimer.getUnselectedStyle());
         supprmierStyle.setFgColor(0xf21f1f);
-        
+
         FontImage suprrimerImage = FontImage.createMaterial(FontImage.MATERIAL_DELETE, supprmierStyle);
         lSupprimer.setIcon(suprrimerImage);
         lSupprimer.setTextPosition(RIGHT);
-        
+
         //click delete icon
         lSupprimer.addPointerPressedListener(l -> {
-            
+
             Dialog dig = new Dialog("Suppression");
-            
-            if(dig.show("Suppression","Vous voulez supprimer cet oeuvre d'art ?","Annuler","Oui")) {
+
+            if (dig.show("Suppression", "Vous voulez supprimer cet oeuvre d'art ?", "Annuler", "Oui")) {
+                dig.dispose();
+            } else {
                 dig.dispose();
             }
-            else {
-                dig.dispose();
-                 }
-                //n3ayto l suuprimer men service 
-                if(ServiceArtwork.getInstance().deleteArtwork(artwork.getIdArt())) {
-                    new ListArtworkForm(res).show();
-                }
-           
+            //n3ayto l suuprimer men service 
+            if (ServiceArtwork.getInstance().deleteArtwork(artwork.getIdArt())) {
+                new ListArtworkForm(res).show();
+            }
+
         });
-        
+        nameArtwork.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+        ArtistName.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+        dateTxt.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+        desc.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+
         //Update icon 
         Label lModifier = new Label(" ");
         lModifier.setUIID("NewsTopLine");
         Style modifierStyle = new Style(lModifier.getUnselectedStyle());
         modifierStyle.setFgColor(0xf7ad02);
-        
+
         FontImage mFontImage = FontImage.createMaterial(FontImage.MATERIAL_MODE_EDIT, modifierStyle);
         lModifier.setIcon(mFontImage);
         lModifier.setTextPosition(LEFT);
         lModifier.addPointerPressedListener(l -> {
             //System.out.println("hello update");
-            new ModifierArtworkForm(res,artwork).show();
+            new ModifierArtworkForm(res, artwork).show();
         });
-        
-        
-        
+
         Container buttonsContainer = new Container(new FlowLayout(Component.CENTER));
         buttonsContainer.add(lModifier);
         buttonsContainer.add(lSupprimer);
-        
+
         Button backButton = new Button(FontImage.MATERIAL_ARROW_BACK);
         backButton.addActionListener(e -> new ListArtworkForm(res).show());
-        
 
         Container imgContainer = new Container(new FlowLayout(Component.CENTER));
         imgContainer.add(img);
-        
-         Container back = new Container(new FlowLayout(Component.CENTER));
+
+        Container back = new Container(new FlowLayout(Component.CENTER));
         back.add(backButton);
-        
+
         Container cntt = new Container(new BoxLayout(BoxLayout.Y_AXIS));
         cntt.add(nameArtwork);
         cntt.add(imgContainer);
@@ -168,12 +167,13 @@ public class ShowArtwork extends BaseForm {
         cntt.add(ArtistName);
         cntt.add(desc);
         cntt.add(descriptionLabel);
-        if(Statics.back_end == true)
-        cntt.add(buttonsContainer);
+        if (Statics.back_end == true) {
+            cntt.add(buttonsContainer);
+        }
         cntt.add(back);
-        
+
         add(cntt);
-        
+
     }
 
 }

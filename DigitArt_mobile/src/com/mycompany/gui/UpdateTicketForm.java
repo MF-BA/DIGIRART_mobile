@@ -40,7 +40,8 @@ public class UpdateTicketForm extends BaseForm{
         getTitleArea().setUIID("Container");
         setTitle("Ajout Reclamation");
         getContentPane().setScrollVisible(false);
-        
+        // Set the background color to black
+        this.getAllStyles().setBgColor(0x000000);
         
         super.addSideMenu(res);
         
@@ -157,6 +158,10 @@ public class UpdateTicketForm extends BaseForm{
        Label l5 = new Label("");
        
        Label l1 = new Label();
+       
+                               l2.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+                               l1.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+
         
         Container content = BoxLayout.encloseY(
                 l1, l2, 

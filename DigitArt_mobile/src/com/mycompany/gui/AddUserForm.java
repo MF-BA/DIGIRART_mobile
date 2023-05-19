@@ -57,7 +57,8 @@ public class AddUserForm extends BaseForm{
         getTitleArea().setUIID("Container");
         setTitle("Add user");
         getContentPane().setScrollVisible(false);
-        
+        // Set the background color to black
+        this.getAllStyles().setBgColor(0x000000);
         
         tb.addSearchCommand(e ->  {
             
@@ -342,11 +343,16 @@ public class AddUserForm extends BaseForm{
     }
 
     private void addStringValue(String s, Component v) {
+        Label L = new Label(s, "PaddedLabel");
+        L.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+        v.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
         
-        add(BorderLayout.west(new Label(s,"PaddedLabel"))
-        .add(BorderLayout.CENTER,v));
-        add(createLineSeparator(0xeeeeee));
+        add(BorderLayout.west(L)
+                .add(BorderLayout.CENTER, v));
+        add(createLineSeparator(0x353537));
     }
+    
+    
 
     private void addTab(Tabs swipe, Label spacer , Image image, String string, String text, Resources res) {
         int size = Math.min(Display.getInstance().getDisplayWidth(), Display.getInstance().getDisplayHeight());

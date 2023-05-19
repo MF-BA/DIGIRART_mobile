@@ -44,8 +44,9 @@ import java.util.ArrayList;
  *
  * @author User
  */
-public class DisplayPaymentForm extends BaseForm{
-     Form current;
+public class DisplayPaymentForm extends BaseForm {
+
+    Form current;
 
     public DisplayPaymentForm(Resources res) {
         super("Newsfeed", BoxLayout.y()); //herigate men Newsfeed w l formulaire vertical
@@ -57,14 +58,17 @@ public class DisplayPaymentForm extends BaseForm{
         getContentPane().setScrollVisible(false);
         super.addSideMenu(res);
         
+        // Set the background color to black
+        this.getAllStyles().setBgColor(0x000000);
+        
         Tabs swipe = new Tabs();
 
         Label s1 = new Label();
         Label s2 = new Label();
-        
-        int placeholderWidth = Display.getInstance().getDisplayWidth(); 
+
+        int placeholderWidth = Display.getInstance().getDisplayWidth();
         int placeholderHeight = Display.getInstance().getDisplayHeight();
-         EncodedImage placeholderImageseparator = EncodedImage.createFromImage(Image.createImage(placeholderHeight, placeholderWidth), false);
+        EncodedImage placeholderImageseparator = EncodedImage.createFromImage(Image.createImage(placeholderHeight, placeholderWidth), false);
         String separURL = "http://127.0.0.1:8000/uploads/fa012ba78055ee27aeaa1130de51ab86.jpg";
         Image separatorIMG = URLImage.createToStorage(placeholderImageseparator, separURL, separURL, URLImage.RESIZE_SCALE_TO_FILL);
 
@@ -73,7 +77,7 @@ public class DisplayPaymentForm extends BaseForm{
 
         Container content = new Container();
         content.add(imageLab);
-        
+
         add(content);
         addTab(swipe, s1, res.getImage("profile-background.jpg"), "", "", res);
         ButtonGroup barGroup = new ButtonGroup();
@@ -82,15 +86,13 @@ public class DisplayPaymentForm extends BaseForm{
 
         Label arrow = new Label(res.getImage("news-tab-down-arrow.png"), "Container");
 
-
         liste.addActionListener((e) -> {
             DisplayPaymentForm paymentListForm = new DisplayPaymentForm(res);
             paymentListForm.show();
         });
 
-
         add(LayeredLayout.encloseIn(
-                GridLayout.encloseIn(1,liste),
+                GridLayout.encloseIn(1, liste),
                 FlowLayout.encloseBottom(arrow)
         ));
 
@@ -166,10 +168,19 @@ public class DisplayPaymentForm extends BaseForm{
         Label priceTxt = new Label("Nb Teenager : " + rec.getNbTeenager(), "NewsTopLine2");
         Label typeTxt = new Label("Nb Student: " + rec.getNbStudent(), "NewsTopLine2");
         Label typeTxt1 = new Label("Total Payment: " + rec.getTotalPayment(), "NewsTopLine2");
-      
+
         Label typeTxt2 = new Label("Paid: " + (rec.isPaid() ? "Yes" : "No"), "NewsTopLine2");
-        
+
         Label typeTxt3 = new Label(" ");
+
+        dateTxt.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+        edatetTxt.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+        priceTxt.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+        typeTxt.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+        typeTxt1.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+        typeTxt3.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+        typeTxt2.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+
         newCnt.add(BorderLayout.CENTER, BoxLayout.encloseY(
                 BoxLayout.encloseX(dateTxt),
                 BoxLayout.encloseX(edatetTxt),
@@ -179,9 +190,7 @@ public class DisplayPaymentForm extends BaseForm{
                 BoxLayout.encloseX(typeTxt2),
                 BoxLayout.encloseX(typeTxt3),
                 BoxLayout.encloseX()));
-                
-         
-            
+
         add(newCnt);
     }
 
@@ -201,7 +210,7 @@ public class DisplayPaymentForm extends BaseForm{
         imageScale.setBackgroundType(Style.BACKGROUND_IMAGE_SCALED_FILL);
 
         Label overLay = new Label("", "ImageOverlay");
-
+        overLay.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
         Container page1
                 = LayeredLayout.encloseIn(
                         imageScale,

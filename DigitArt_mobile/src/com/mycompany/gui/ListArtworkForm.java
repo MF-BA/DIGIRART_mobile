@@ -46,27 +46,28 @@ import java.util.ArrayList;
  *
  * @author mohamed
  */
-public class ListArtworkForm extends BaseForm{
-    
-        Form current;
-    public ListArtworkForm(Resources res ) {
-          super("Auction",BoxLayout.y()); //herigate men Newsfeed w l formulaire vertical
+public class ListArtworkForm extends BaseForm {
+
+    Form current;
+
+    public ListArtworkForm(Resources res) {
+        super("Auction", BoxLayout.y()); //herigate men Newsfeed w l formulaire vertical
         Toolbar tb = new Toolbar(true);
-        current = this ;
+        current = this;
         setToolbar(tb);
         getTitleArea().setUIID("Container");
         setTitle("Artworks");
         getContentPane().setScrollVisible(false);
-        
-        
 
-        
-          super.addSideMenu(res);
-        
+// Set the background color to black
+        this.getAllStyles().setBgColor(0x000000);
 
-        int placeholderWidth = Display.getInstance().getDisplayWidth(); 
+
+        super.addSideMenu(res);
+
+        int placeholderWidth = Display.getInstance().getDisplayWidth();
         int placeholderHeight = Display.getInstance().getDisplayHeight();
-         EncodedImage placeholderImageseparator = EncodedImage.createFromImage(Image.createImage(placeholderHeight, placeholderWidth), false);
+        EncodedImage placeholderImageseparator = EncodedImage.createFromImage(Image.createImage(placeholderHeight, placeholderWidth), false);
         String separURL = "http://127.0.0.1:8000/uploads/04c65335d567a6c9a3fbd0c6a42b3f7d.jpg";
         Image separatorIMG = URLImage.createToStorage(placeholderImageseparator, separURL, separURL, URLImage.RESIZE_SCALE_TO_FILL);
 
@@ -77,163 +78,136 @@ public class ListArtworkForm extends BaseForm{
 
         content.add(imageLab);
         add(content);
-      
-
 
         ButtonGroup barGroup = new ButtonGroup();
         RadioButton mesListes = RadioButton.createToggle("Add a new Artwork", barGroup);
         mesListes.setUIID("SelectBar");
         RadioButton partage = RadioButton.createToggle("List of Artworks", barGroup);
         partage.setUIID("SelectBar");
-        
-
 
         mesListes.addActionListener((e) -> {
-               
-        if(Statics.back_end==true)
-        {
-            AjoutArtworkForm a = new AjoutArtworkForm(res);
-            a.show();
-        }
-        else if (Statics.artist==true)
-        {
-            ajoutArtworkArtistForm z = new ajoutArtworkArtistForm(res);
-            z.show();
-        }
-         
+
+            if (Statics.back_end == true) {
+                AjoutArtworkForm a = new AjoutArtworkForm(res);
+                a.show();
+            } else if (Statics.artist == true) {
+                ajoutArtworkArtistForm z = new ajoutArtworkArtistForm(res);
+                z.show();
+            }
+
             refreshTheme();
         });
-if(Statics.back_end==true || Statics.artist==true)
-{
-add(LayeredLayout.encloseIn(
-                GridLayout.encloseIn(2, mesListes, partage)
-               
-        ));
+        if (Statics.back_end == true || Statics.artist == true) {
+            add(LayeredLayout.encloseIn(
+                    GridLayout.encloseIn(2, mesListes, partage)
+            ));
 
-}else{
-  add(LayeredLayout.encloseIn(
-                GridLayout.encloseIn(1, partage)
-               
-        ));
-}
-
-       
+        } else {
+            add(LayeredLayout.encloseIn(
+                    GridLayout.encloseIn(1, partage)
+            ));
+        }
 
         partage.setSelected(true);
-       
-       
-      
-     
-      
+
         //Appel affichage methode
-        ArrayList<Artwork>list = ServiceArtwork.getInstance().displayArtworks();
-        
-        for(Artwork rec : list ) {
+        ArrayList<Artwork> list = ServiceArtwork.getInstance().displayArtworks();
 
-               addButton(rec,res);
+        for (Artwork rec : list) {
 
-                Container containerImg = new Container();
-                
-             
+            addButton(rec, res);
+
+            Container containerImg = new Container();
+
         }
-        
-        
-        
-    }
-    
-    
 
-    private void addButton(Artwork rec , Resources res) {
-        
+    }
+
+    private void addButton(Artwork rec, Resources res) {
+
         int height = Display.getInstance().convertToPixels(11.5f);
         int width = Display.getInstance().convertToPixels(14f);
-         int placeholderWidth = Display.getInstance().getDisplayWidth() / 2; // half the screen width
+        int placeholderWidth = Display.getInstance().getDisplayWidth() / 2; // half the screen width
         int placeholderHeight = Display.getInstance().getDisplayHeight() / 4; // one quarter of the screen height
-        
-      Button image = new Button();
+
+        Button image = new Button();
         image.setUIID("Label");
         Container cnt = BorderLayout.west(image);
         EncodedImage placeholderImage = EncodedImage.createFromImage(Image.createImage(placeholderWidth, placeholderHeight), false);
         ArrayList images = AuctionServices.getInstance().getArtworkImages(rec.getIdArt());
         String imageURL = images.isEmpty() ? Statics.BASE_URL + "/uploads/Empty.jpeg" : Statics.BASE_URL + "/uploads/" + images.get(0);
         Image img = URLImage.createToStorage(placeholderImage, imageURL, imageURL, URLImage.RESIZE_SCALE_TO_FILL);
-        
-        
-        Label nameArtwork = new Label("Name : "+rec.getArtworkName(),"NewsTopLine2");
-        Label ArtistName = new Label("","NewsTopLine2");
-        if(!rec.getArtistName().isEmpty())
-           ArtistName.setText("ArtistName :"+rec.getArtistName());
-        
-        else{ArtistName.setText("ArtistName : User");
+
+        Label nameArtwork = new Label("Name : " + rec.getArtworkName(), "NewsTopLine2");
+        Label ArtistName = new Label("", "NewsTopLine2");
+        if (!rec.getArtistName().isEmpty()) {
+            ArtistName.setText("ArtistName :" + rec.getArtistName());
+        } else {
+            ArtistName.setText("ArtistName : User");
         }
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDate = formatter.format(rec.getDateArt());
-        Label dateTxt = new Label("Creation date :"+formattedDate);
+        Label dateTxt = new Label("Creation date :" + formattedDate);
         dateTxt.setUIID("NewsTopLine2");
-
-        
 
         String description = rec.getDescription();
 
-        Label desc = new Label("Description : ","NewsTopLine2");
+        Label desc = new Label("Description : ", "NewsTopLine2");
         TextArea descriptionLabel = new TextArea(description);
         descriptionLabel.setEditable(false);
-        
-        createLineSeparator();
-        
+                nameArtwork.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+                ArtistName.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+                dateTxt.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+                desc.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
 
-       
-        
+        createLineSeparator();
+
         //supprimer button
         Label lSupprimer = new Label(" ");
         lSupprimer.setUIID("NewsTopLine");
         Style supprmierStyle = new Style(lSupprimer.getUnselectedStyle());
         supprmierStyle.setFgColor(0xf21f1f);
-        
+
         FontImage suprrimerImage = FontImage.createMaterial(FontImage.MATERIAL_DELETE, supprmierStyle);
         lSupprimer.setIcon(suprrimerImage);
         lSupprimer.setTextPosition(RIGHT);
-        
+
         //click delete icon
         lSupprimer.addPointerPressedListener(l -> {
-            
             Dialog dig = new Dialog("Suppression");
-            
-            if(dig.show("Suppression","Vous voulez supprimer ce reclamation ?","Annuler","Oui")) {
+            if (dig.show("Suppression", "Vous voulez supprimer ce reclamation ?", "Annuler", "Oui")) {
+                dig.dispose();
+            } else {
                 dig.dispose();
             }
-            else {
-                dig.dispose();
-                 }
-                //n3ayto l suuprimer men service 
-                if(ServiceArtwork.getInstance().deleteArtwork(rec.getIdArt())) {
-                    new ListArtworkForm(res).show();
-                }
-           
+            //n3ayto l suuprimer men service 
+            if (ServiceArtwork.getInstance().deleteArtwork(rec.getIdArt())) {
+                new ListArtworkForm(res).show();
+            }
         });
-        
+
         //Update icon 
         Label lModifier = new Label(" ");
         lModifier.setUIID("NewsTopLine");
         Style modifierStyle = new Style(lModifier.getUnselectedStyle());
         modifierStyle.setFgColor(0xf7ad02);
-        
+
         FontImage mFontImage = FontImage.createMaterial(FontImage.MATERIAL_MODE_EDIT, modifierStyle);
         lModifier.setIcon(mFontImage);
         lModifier.setTextPosition(LEFT);
         lModifier.addPointerPressedListener(l -> {
             //System.out.println("hello update");
-            new ModifierArtworkForm(res,rec).show();
+            new ModifierArtworkForm(res, rec).show();
         });
-        
-        
-        
+
         Button more_info = new Button("more information");
-         more_info.addPointerPressedListener(l -> {
+        more_info.addPointerPressedListener(l -> {
             //System.out.println("hello update");
-            new ShowArtwork(res,rec).show();
+            new ShowArtwork(res, rec).show();
             refreshTheme();
-        });  
+        });
+        descriptionLabel.getAllStyles().setBgColor(0x000000); // Set the foreground color to black
+        descriptionLabel.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
         
         Container buttonsContainer = new Container(new FlowLayout(Component.CENTER));
         buttonsContainer.add(lModifier);
@@ -241,7 +215,7 @@ add(LayeredLayout.encloseIn(
 
         Container imgContainer = new Container(new FlowLayout(Component.CENTER));
         imgContainer.add(img);
-        
+
         Container cntt = new Container(new BoxLayout(BoxLayout.Y_AXIS));
         cntt.add(nameArtwork);
         cntt.add(imgContainer);
@@ -249,18 +223,13 @@ add(LayeredLayout.encloseIn(
         cntt.add(ArtistName);
         cntt.add(desc);
         cntt.add(descriptionLabel);
-        if(Statics.back_end == true)
-        cntt.add(buttonsContainer);
-      
-        
+        if (Statics.back_end == true) {
+            cntt.add(buttonsContainer);
+        }
+
         add(cntt);
-        
+
         add(more_info);
     }
-    
-   
-   
-    
-    
-    
+
 }

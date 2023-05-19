@@ -5,11 +5,7 @@
  */
 package com.mycompany.gui;
 
-
 //CODE TEMPLATE :
-
-
-
 import com.codename1.charts.views.BarChart;
 import com.codename1.charts.views.BarChart.Type;
 import com.codename1.charts.ChartComponent;
@@ -56,46 +52,47 @@ import com.codename1.ui.util.Resources;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  *
  * @author Chédy
  */
-
 public class StatisticsEvent extends BaseForm {
-  
-        
+
     private boolean drawOnMutableImage;
-   
-    
+
     private double nbr_feedback = 2;
     private double nbr_reclamation = 2;
-   
+
     Form current;
-BaseForm form;
-        public StatisticsEvent(Resources res)  {
+    BaseForm form;
+
+    public StatisticsEvent(Resources res) {
         super("Newsfeed", BoxLayout.y());
-            current= this;
+        current = this;
 
         Toolbar tb = new Toolbar(true);
         setToolbar(tb);
         getTitleArea().setUIID("Container");
         setTitle("Home");
         getContentPane().setScrollVisible(false);
-        
+
+        // Set the background color to black
+        this.getAllStyles().setBgColor(0x000000);
+
         super.addSideMenu(res);
-        tb.addSearchCommand(e -> {});
-        
+        tb.addSearchCommand(e -> {
+        });
+
         Tabs swipe = new Tabs();
 
         Label spacer1 = new Label();
         Label spacer2 = new Label();
         addTab(swipe, res.getImage("event_bg.jpg"), spacer1, "Bienvenue");
-                
+
         swipe.setUIID("Container");
         swipe.getContentPane().setUIID("Container");
         swipe.hideTabs();
-        
+
         ButtonGroup bg = new ButtonGroup();
         int size = Display.getInstance().convertToPixels(1);
         Image unselectedWalkthru = Image.createImage(size, size, 0);
@@ -113,90 +110,75 @@ BaseForm form;
         FlowLayout flow = new FlowLayout(CENTER);
         flow.setValign(BOTTOM);
         Container radioContainer = new Container(flow);
-        for(int iter = 0 ; iter < rbs.length ; iter++) {
+        for (int iter = 0; iter < rbs.length; iter++) {
             rbs[iter] = RadioButton.createToggle(unselectedWalkthru, bg);
             rbs[iter].setPressedIcon(selectedWalkthru);
             rbs[iter].setUIID("Label");
             radioContainer.add(rbs[iter]);
         }
-                
+
         rbs[0].setSelected(true);
         swipe.addSelectionListener((i, ii) -> {
-            if(!rbs[ii].isSelected()) {
+            if (!rbs[ii].isSelected()) {
                 rbs[ii].setSelected(true);
             }
         });
         refreshTheme();
         Component.setSameSize(radioContainer, spacer1, spacer2);
         add(LayeredLayout.encloseIn(swipe, radioContainer));
-        
+
         ButtonGroup barGroup = new ButtonGroup();
-        
-       
-       
+
         RadioButton popular = RadioButton.createToggle("Statistics", barGroup);
         popular.setUIID("SelectBar");
-       
-        
+
         add(LayeredLayout.encloseIn(
-                GridLayout.encloseIn(1,popular)
-               
+                GridLayout.encloseIn(1, popular)
         ));
-      
-       
-     
-             
-        
+
         // special case for rotation
-      
-    
-        
         //app 
         createPieChartForm();
         Button redirectButton = new Button("add event");
-redirectButton.addActionListener(e -> {
-    AjoutEventForm ajoutEventForm = new AjoutEventForm(res);
-    ajoutEventForm.show();
-});
-add(redirectButton);
-        
-        }
-    
-    
-    
-    
- 
+        redirectButton.addActionListener(e -> {
+            AjoutEventForm ajoutEventForm = new AjoutEventForm(res);
+            ajoutEventForm.show();
+        });
+        add(redirectButton);
+
+    }
+
     private void addTab(Tabs swipe, Image img, Label spacer, String text) {
         int size = Math.min(Display.getInstance().getDisplayWidth(), Display.getInstance().getDisplayHeight());
-        if(img.getHeight() < size) {
+        if (img.getHeight() < size) {
             img = img.scaledHeight(size);
         }
 
-        if(img.getHeight() > Display.getInstance().getDisplayHeight() / 2) {
+        if (img.getHeight() > Display.getInstance().getDisplayHeight() / 2) {
             img = img.scaledHeight(Display.getInstance().getDisplayHeight() / 2);
         }
         ScaleImageLabel image = new ScaleImageLabel(img);
         image.setUIID("Container");
         image.setBackgroundType(Style.BACKGROUND_IMAGE_SCALED_FILL);
         Label overlay = new Label(" ", "ImageOverlay");
-        
-        Container page1 = 
-            LayeredLayout.encloseIn(
-                image,
-                overlay,
-                BorderLayout.south(
-                    BoxLayout.encloseY(
-                            new SpanLabel(text, "LargeWhiteText"),
-                            spacer
+
+        Container page1
+                = LayeredLayout.encloseIn(
+                        image,
+                        overlay,
+                        BorderLayout.south(
+                                BoxLayout.encloseY(
+                                        new SpanLabel(text, "LargeWhiteText"),
+                                        spacer
+                                )
                         )
-                )
-            );
+                );
 
         swipe.addTab("", page1);
     }
-    
-   private void addButton(Image img,String title) {
-          int height = Display.getInstance().convertToPixels(11.5f);
+
+    private void addButton(Image img, String title) {
+        int height = Display.getInstance().convertToPixels(11.5f);
         int width = Display.getInstance().convertToPixels(14f);
         Button image = new Button(img.fill(width, height));
         image.setUIID("Label");
@@ -205,56 +187,52 @@ add(redirectButton);
         TextArea ta = new TextArea(title);
         ta.setUIID("NewsTopLine");
         ta.setEditable(false);
+        ;
 
-  ;       
-      
-       cnt.add(BorderLayout.CENTER, 
-               BoxLayout.encloseY(
-                       ta
-               ));
-       
-      
+        cnt.add(BorderLayout.CENTER,
+                BoxLayout.encloseY(
+                        ta
+                ));
+
         add(cnt);
         image.addActionListener(e -> ToastBar.showMessage(title, FontImage.MATERIAL_INFO));
-        
-   }
 
+    }
 
     //Statistique :
     //fontion : bch n7adhro size ta3 labels ta3 stat w margin w colors ba3d chn3aytoulha methode hethi.
-    public DefaultRenderer buildCatRendrer(int []colors) {
-        
+    public DefaultRenderer buildCatRendrer(int[] colors) {
+
         DefaultRenderer renderer = new DefaultRenderer();
         renderer.setLabelsTextSize(15);
         renderer.setLegendTextSize(15);
-        renderer.setMargins(new int[] {20, 30, 15, 0});
-        
-        for(int color : colors) {
+        renderer.setMargins(new int[]{20, 30, 15, 0});
+
+        for (int color : colors) {
             SimpleSeriesRenderer simpleSeriesRenderer = new SimpleSeriesRenderer();
-            
+
             simpleSeriesRenderer.setColor(color);
             renderer.addSeriesRenderer(simpleSeriesRenderer);
         }
         return renderer;
-     }  
-    
-    
+    }
+
     public void createPieChartForm() {
-        
+
         //chna3ml stat feedback par rapport l reclamation 
         double total = nbr_feedback + nbr_reclamation;
-        
+
         //values
-        double prcntFeed = (nbr_feedback *100)/total;
-        
-        double prcntRec = (nbr_reclamation * 100)/total;
-        
+        double prcntFeed = (nbr_feedback * 100) / total;
+
+        double prcntRec = (nbr_reclamation * 100) / total;
+
         //colors set:
-        int[]colors = new int[]{0xf4b342, 0x52b29a};
-        
+        int[] colors = new int[]{0xf4b342, 0x52b29a};
+
         DefaultRenderer renderer = buildCatRendrer(colors);
         renderer.setLabelsColor(0x000000); // black color for labels.
-        
+
         renderer.setZoomButtonsVisible(true);//zoom
         renderer.setLabelsTextSize(40);
         renderer.setZoomEnabled(true);
@@ -263,34 +241,33 @@ add(redirectButton);
         renderer.setShowLabels(true);
         SimpleSeriesRenderer r = renderer.getSeriesRendererAt(0);
         r.setHighlighted(true);
-        
+
         //CREATe the chart ...
-        PieChart chart = new PieChart(buildDataset("title",Math.round(prcntFeed),Math.round(prcntRec)), renderer);
-        
+        PieChart chart = new PieChart(buildDataset("title", Math.round(prcntFeed), Math.round(prcntRec)), renderer);
+
         // n7oto chart fi component
-        ChartComponent c  = new ChartComponent(chart);
-        
-        String []messages = {
+        ChartComponent c = new ChartComponent(chart);
+
+        String[] messages = {
             "Event Statistics"
         };
-        
+
         SpanLabel message = new SpanLabel(messages[0], "WelcomeMessage");
-        
+
         Container cnt = BorderLayout.center(message);
         cnt.setUIID("Container");
         add(cnt);
         add(c);
-                
-                
+
     }
 
     private CategorySeries buildDataset(String title, double prcntFeed, double prcntRec) {
-        
+
         CategorySeries series = new CategorySeries(title);
-        
-        series.add("Ongoing Events",4);
-        series.add("Finished Events",3);
-        
+
+        series.add("Ongoing Events", 4);
+        series.add("Finished Events", 3);
+
         return series;
     }
 

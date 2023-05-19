@@ -46,7 +46,8 @@ public class showAuction extends BaseForm {
         getTitleArea().setUIID("Welcome");
         setTitle("Auction");
         getContentPane().setScrollVisible(false);
-
+// Set the background color to black
+        this.getAllStyles().setBgColor(0x000000);
         super.addSideMenu(res);
         InfiniteProgress ip = new InfiniteProgress();
         final Dialog ipDlg = ip.showInifiniteBlocking();
@@ -69,7 +70,7 @@ public class showAuction extends BaseForm {
     }
 
     private void addauction(Auction auction, Resources res) {
-        
+
         ArrayList<Bid> bids;
         bids = BidServices.getInstance().getBids(auction);
         int height = Display.getInstance().convertToPixels(11.5f);
@@ -127,7 +128,7 @@ public class showAuction extends BaseForm {
             if (bids.isEmpty()) {
 
                 delete = new Button("Delete");
-               
+
                 delete.addActionListener(e -> {
                     if (AuctionServices.getInstance().DeleteAuction(auction)) {
                         Dialog.show("Auction Deleted", "The Auction is deleted successfully", "OK", null);
@@ -144,7 +145,6 @@ public class showAuction extends BaseForm {
             }
         } else {
             offer = new Button("Offer");
-            
             offer.addActionListener(e -> {
                 new BidAdd(res, auction, bids).showBack();
             });
@@ -173,6 +173,10 @@ public class showAuction extends BaseForm {
 
         Label Description = new Label("Description : ");
         Description.getStyle().setFont(Font.createSystemFont(Font.FACE_MONOSPACE, Font.STYLE_BOLD, Font.SIZE_MEDIUM));
+        Description.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+        highest_bid.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+        descriptionLabel.getAllStyles().setBgColor(0x000000); // Set the foreground color to black
+        descriptionLabel.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
 
         Container cnt = new Container(new BoxLayout(BoxLayout.Y_AXIS));
 
@@ -224,10 +228,12 @@ public class showAuction extends BaseForm {
     }
 
     private void addStringValue(String s, Component v) {
-
-        add(BorderLayout.west(new Label(s, "PaddedLabel"))
+        Label L = new Label(s, "PaddedLabel");
+        L.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+        v.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+        add(BorderLayout.west(L)
                 .add(BorderLayout.CENTER, v));
-        //add(createLineSeparator(0xeeeeee));
+        add(createLineSeparator(0x353537));
     }
 
 }
