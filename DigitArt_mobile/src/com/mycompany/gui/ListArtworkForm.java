@@ -87,17 +87,17 @@ public class ListArtworkForm extends BaseForm {
 
         mesListes.addActionListener((e) -> {
 
-            if (Statics.back_end == true) {
+            if (SessionUser.back_end == true) {
                 AjoutArtworkForm a = new AjoutArtworkForm(res);
                 a.show();
-            } else if (Statics.artist == true) {
+            } else if (SessionUser.artist == true) {
                 ajoutArtworkArtistForm z = new ajoutArtworkArtistForm(res);
                 z.show();
             }
 
             refreshTheme();
         });
-        if (Statics.back_end == true || Statics.artist == true) {
+        if (SessionUser.back_end == true || SessionUser.artist == true) {
             add(LayeredLayout.encloseIn(
                     GridLayout.encloseIn(2, mesListes, partage)
             ));
@@ -223,7 +223,7 @@ public class ListArtworkForm extends BaseForm {
         cntt.add(ArtistName);
         cntt.add(desc);
         cntt.add(descriptionLabel);
-        if (Statics.back_end == true) {
+        if (SessionUser.back_end == true) {
             cntt.add(buttonsContainer);
         }
 

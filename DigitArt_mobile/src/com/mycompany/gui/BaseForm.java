@@ -107,8 +107,8 @@ public class BaseForm extends Form {
         }
 
         if (SessionUser.getRole().equals("Artist")) {
-            Statics.back_end = false;
-            Statics.artist = true;
+            SessionUser.back_end = false;
+            SessionUser.artist = true;
             tb.addMaterialCommandToSideMenu("   Home Page", FontImage.MATERIAL_HOME, e -> new NewsfeedForm(res).show());
             tb.addMaterialCommandToSideMenu("   Ticket Purchase", FontImage.MATERIAL_EXIT_TO_APP, e -> new PaymentForm(res).show());
             tb.addMaterialCommandToSideMenu("   Auction", FontImage.MATERIAL_CREDIT_CARD, e -> new AuctionDisplay(res).show());
@@ -120,10 +120,10 @@ public class BaseForm extends Form {
             tb.addMaterialCommandToSideMenu("   Auction", FontImage.MATERIAL_CREDIT_CARD, e -> new AuctionDisplay(res).show());
             tb.addMaterialCommandToSideMenu("   Event", FontImage.MATERIAL_EVENT, e -> new EventFrontForm(res).show());
             tb.addMaterialCommandToSideMenu("   Artwork", FontImage.MATERIAL_IMAGE, e -> new ListArtworkForm(res).show());
-            Statics.back_end = false;
-            Statics.artist = false;
+            SessionUser.back_end = false;
+            SessionUser.artist = false;
         } else if (SessionUser.getRole().equals("Admin")) {
-            Statics.back_end = true;
+            SessionUser.back_end = true;
             tb.addMaterialCommandToSideMenu("   Users Management", FontImage.MATERIAL_VERIFIED_USER, e -> new ListUsersForm(res).show());
             tb.addMaterialCommandToSideMenu("   Ticket Management", FontImage.MATERIAL_MONEY, e -> new DisplayTicketForm(res).show());
             tb.addMaterialCommandToSideMenu("   Artwork Management", FontImage.MATERIAL_IMAGE, e -> new ListArtworkForm(res).show());
@@ -133,30 +133,30 @@ public class BaseForm extends Form {
             tb.addMaterialCommandToSideMenu("   Auction Management", FontImage.MATERIAL_CREDIT_CARD, e -> new AuctionDisplay(res).show());
 
         } else if (SessionUser.getRole().equals("Users Manager")) {
-            Statics.back_end = true;
+            SessionUser.back_end = true;
             tb.addMaterialCommandToSideMenu("   Users Management", FontImage.MATERIAL_VERIFIED_USER, e -> new ListUsersForm(res).show());
 
         } else if (SessionUser.getRole().equals("Tickets Manager")) {
-            Statics.back_end = true;
+            SessionUser.back_end = true;
             tb.addMaterialCommandToSideMenu("   Ticket Management", FontImage.MATERIAL_MONEY, e -> new DisplayTicketForm(res).show());
 
         } else if (SessionUser.getRole().equals("Artwork Manager")) {
-            Statics.back_end = true;
+            SessionUser.back_end = true;
             tb.addMaterialCommandToSideMenu("   Artwork Management", FontImage.MATERIAL_IMAGE, e -> new ListArtworkForm(res).show());
         } else if (SessionUser.getRole().equals("Events Manager")) {
-            Statics.back_end = true;
+            SessionUser.back_end = true;
             tb.addMaterialCommandToSideMenu("   Event Management", FontImage.MATERIAL_EVENT, e -> new AjoutEventForm(res).show());
 
         } else if (SessionUser.getRole().equals("Payment Manager")) {
-            Statics.back_end = true;
+            SessionUser.back_end = true;
             tb.addMaterialCommandToSideMenu("   Payment Management", FontImage.MATERIAL_CREDIT_CARD, e -> new DisplayPaymentForm(res).show());
 
         } else if (SessionUser.getRole().equals("Room Manager")) {
-            Statics.back_end = true;
+            SessionUser.back_end = true;
             tb.addMaterialCommandToSideMenu("   Room Management", FontImage.MATERIAL_HOME_WORK, e -> new ListRoomForm(res).show());
 
         } else if (SessionUser.getRole().equals("Auction Manager")) {
-            Statics.back_end = true;
+            SessionUser.back_end = true;
             tb.addMaterialCommandToSideMenu("   Auction Management", FontImage.MATERIAL_CREDIT_CARD, e -> new AuctionDisplay(res).show());
         }
         tb.addMaterialCommandToSideMenu("Profile", FontImage.MATERIAL_SETTINGS, e -> new ProfileForm(res).show());

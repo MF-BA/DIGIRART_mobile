@@ -93,8 +93,7 @@ public class StatisticsTicket extends BaseForm {
         getContentPane().setScrollVisible(false);
         super.addSideMenu(res);
          tb.addSearchCommand(e -> {});
-              // Set the background color to black
-        this.getAllStyles().setBgColor(0x000000);
+
         ServiceStats.getInstance().getStats();
 
         // Access prices through getter methods in ServiceTicket class

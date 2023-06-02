@@ -76,8 +76,7 @@ public class StatisticsEvent extends BaseForm {
         setTitle("Home");
         getContentPane().setScrollVisible(false);
 
-        // Set the background color to black
-        this.getAllStyles().setBgColor(0x000000);
+
 
         super.addSideMenu(res);
         tb.addSearchCommand(e -> {

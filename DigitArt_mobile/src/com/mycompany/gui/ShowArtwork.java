@@ -167,7 +167,7 @@ public class ShowArtwork extends BaseForm {
         cntt.add(ArtistName);
         cntt.add(desc);
         cntt.add(descriptionLabel);
-        if (Statics.back_end == true) {
+        if (SessionUser.back_end == true) {
             cntt.add(buttonsContainer);
         }
         cntt.add(back);

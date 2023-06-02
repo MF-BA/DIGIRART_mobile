@@ -45,17 +45,13 @@ public class AuctionDisplay extends BaseForm {
         Toolbar tb = new Toolbar(true);
         setToolbar(tb);
 
-        
         getContentPane().setScrollVisible(false);
 
         super.addSideMenu(res);
-        
+
         // Set the background color to black
         this.getAllStyles().setBgColor(0x000000);
 
-        
-        
-        
         int placeholderWidthh = Display.getInstance().getDisplayWidth();
         int placeholderHeightt = Display.getInstance().getDisplayHeight();
         EncodedImage placeholderImageseparatorr = EncodedImage.createFromImage(Image.createImage(placeholderHeightt, placeholderWidthh), false);
@@ -71,7 +67,7 @@ public class AuctionDisplay extends BaseForm {
         add(contentt);
         ButtonGroup barGroup = new ButtonGroup();
 
-        if (Statics.back_end == true || Statics.artist == true) {
+        if (SessionUser.back_end == true || SessionUser.artist == true) {
             RadioButton Display = RadioButton.createToggle("Ongoing Auction", barGroup);
             Display.setUIID("SelectBar");
             RadioButton add = RadioButton.createToggle("Add to Auction", barGroup);
@@ -108,6 +104,7 @@ public class AuctionDisplay extends BaseForm {
         //  a.show();
 //            refreshTheme();
         ArrayList<Auction> auctions = AuctionServices.getInstance().getAllAuctions();
+        System.out.println(auctions);
         for (int i = 0; i < auctions.size(); i++) {
             addauction(auctions.get(i), res);
         }
@@ -130,10 +127,9 @@ public class AuctionDisplay extends BaseForm {
         title.setUIID("CenterLabel");
         title.getStyle().setAlignment(Component.CENTER);
         title.getStyle().setFont(Font.createSystemFont(Font.FACE_MONOSPACE, Font.STYLE_BOLD, Font.SIZE_MEDIUM));
-        
+
         title.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
-        
-        
+
         Date date = auction.getDate();
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
         String formattedDate = formatter.format(date);
@@ -141,27 +137,33 @@ public class AuctionDisplay extends BaseForm {
         countdownLabel.setUIID("CenterLabel");
         countdownLabel.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
 
-        // create a new thread that will run the countdown timer
-        Thread countdownThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    String countdownTime = findDifference(date);
-                    Display.getInstance().callSerially(new Runnable() {
-                        @Override
-                        public void run() {
-                            countdownLabel.setText(countdownTime);
+        //if ( (int) auction.getDate().getTime()-new Date().getTime() > 0) {
+        if (!findDifference(auction.getDate()).startsWith("-") ) {
+            // create a new thread that will run the countdown timer
+            Thread countdownThread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    while (true) {
+                        String countdownTime = findDifference(date);
+                        Display.getInstance().callSerially(new Runnable() {
+                            @Override
+                            public void run() {
+                                countdownLabel.setText(countdownTime);
+                            }
+                        });
+                        try {
+                            Thread.sleep(1000); // pause for 1 second
+                        } catch (InterruptedException ex) {
+                            ex.printStackTrace();
                         }
-                    });
-                    try {
-                        Thread.sleep(1000); // pause for 1 second
-                    } catch (InterruptedException ex) {
-                        ex.printStackTrace();
                     }
                 }
-            }
-        });
-        countdownThread.start(); // start the countdown timer thread
+            });
+            countdownThread.start(); // start the countdown timer thread
+        }
+        else {
+            countdownLabel.setText("ENDED");
+        }
 
         Button more_info = new Button("more information");
 

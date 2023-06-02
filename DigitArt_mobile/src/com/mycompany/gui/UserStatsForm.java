@@ -86,7 +86,7 @@ BaseForm form;
         getContentPane().setScrollVisible(false);
         
         // Set the background color to black
-        this.getAllStyles().setBgColor(0x000000);
+        
         
         tb.addSearchCommand(e ->  {
             
@@ -96,7 +96,8 @@ BaseForm form;
         
         Label s1 = new Label();
         Label s2 = new Label();
-        
+        s1.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+        s2.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
         addTab(swipe,s1, res.getImage("back-couverture.jpg"),"","",res);
         
         // Welcome current user
@@ -139,6 +140,7 @@ BaseForm form;
             rbs[iter] = RadioButton.createToggle(unselectedWalkthru, bg);
             rbs[iter].setPressedIcon(selectedWalkthru);
             rbs[iter].setUIID("Label");
+            rbs[iter].getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
             radioContainer.add(rbs[iter]);
         }
 
@@ -351,6 +353,7 @@ BaseForm form;
         
         series.add("Male",nbmale);
         series.add("Female",nbfemale);
+        
        
         
         return series;

@@ -121,7 +121,7 @@ public class AuctionAdd extends BaseForm {
 
         ArrayList<Artwork> artworks_array = AuctionServices.getInstance().getArtworkNames();
 
-        if (!Statics.back_end) {
+        if (!SessionUser.back_end) {
             // Iterate through the artworks_array list and check each Artwork object for a match
             Iterator<Artwork> iterator = artworks_array.iterator();
             while (iterator.hasNext()) {

@@ -206,7 +206,8 @@ BaseForm form;
         image.setUIID("Container");
         image.setBackgroundType(Style.BACKGROUND_IMAGE_SCALED_FILL);
         Label overlay = new Label(" ", "ImageOverlay");
-        
+        spacer.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+        overlay.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
         Container page1 = 
             LayeredLayout.encloseIn(
                 image,
@@ -241,7 +242,8 @@ BaseForm form;
         
         Label overLay = new Label("","ImageOverlay");
         
-        
+                spacer.getAllStyles().setFgColor(0xFFFFFF); // Set the foreground color to white
+
         Container page1 = 
                 LayeredLayout.encloseIn(
                 imageScale,

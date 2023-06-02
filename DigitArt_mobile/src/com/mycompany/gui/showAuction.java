@@ -124,7 +124,7 @@ public class showAuction extends BaseForm {
         Button delete = null;
         Button edit = null;
         Button offer = null;
-        if (Statics.back_end) {
+        if (SessionUser.back_end) {
             if (bids.isEmpty()) {
 
                 delete = new Button("Delete");
@@ -190,7 +190,7 @@ public class showAuction extends BaseForm {
         cnt.add(descriptionLabel);
 
         add(cnt);
-        if (Statics.back_end) {
+        if (SessionUser.back_end) {
             if (bids.isEmpty()) {
                 addStringValue("", edit);
                 addStringValue("", delete);

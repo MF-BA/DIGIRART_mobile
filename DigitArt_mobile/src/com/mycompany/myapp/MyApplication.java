@@ -47,6 +47,7 @@ public class MyApplication {
     }
     
     public void start() {
+        
       /* SessionUser.pref.clearAll();
             Storage.getInstance().clearStorage();
             Storage.getInstance().clearCache();*/

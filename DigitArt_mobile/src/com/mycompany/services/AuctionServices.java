@@ -25,6 +25,7 @@ import java.util.Date;
 import java.util.HashMap;
 import com.mycompany.utils.Statics;
 import com.mycompany.entities.Auction;
+import com.mycompany.gui.SessionUser;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -76,7 +77,7 @@ public class AuctionServices {
     public ArrayList<Auction> parseAuctions(String jsonText) throws IOException, ParseException {
         ArrayList<Auction> auctions = new ArrayList<>();
         JSONParser parser = new JSONParser();
-
+        System.out.println(jsonText);
         Map<String, Object> jsonMap = parser.parseJSON(new CharArrayReader(jsonText.toCharArray()));
 
         List<Map<String, Object>> jsonArray = (List<Map<String, Object>>) jsonMap.get("root");
@@ -98,7 +99,7 @@ public class AuctionServices {
             String id_auction;
             if (obj.get("imageName").toString().isEmpty()) {
                 id_auction = null;
-                
+
             } else {
                 id_auction = obj.get("imageName").toString();
             }
@@ -127,7 +128,14 @@ public class AuctionServices {
     }
 
     public ArrayList<Auction> getAllAuctions() {
-        String url = Statics.BASE_URL + "/auction/mobile/Display";
+        String url;
+        if (SessionUser.back_end == true ) {
+            url = Statics.BASE_URL + "/auction/mobile/backDisplay";
+        } else {
+            url = Statics.BASE_URL + "/auction/mobile/Display";
+        }
+
+
         req.setUrl(url);
         req.setPost(false);
         req.addResponseListener(new ActionListener<NetworkEvent>() {
@@ -160,18 +168,16 @@ public class AuctionServices {
             // Convert the "idArt" string to an integer
             int id_artwork = Math.round(Float.parseFloat(idArtStr));
             int id_Artist = -1;
-            if(obj.get("idArtist") != null)
-            {
+            if (obj.get("idArtist") != null) {
                 Map<String, Object> artist = (Map<String, Object>) obj.get("idArtist");
                 // Extract the value of the "idArt" key as a string
                 String id_userSTR = artist.get("id").toString();
                 id_Artist = Math.round(Float.parseFloat(id_userSTR));
             }
-            
+
             String artworkName = obj.get("artworkName").toString();
 
             //System.out.println(id_artwork + " " + artworkName + " " + id_Artist);
-
             artworks.add(new Artwork(id_artwork, artworkName, id_Artist));
         }
 
@@ -207,18 +213,16 @@ public class AuctionServices {
 
         return artworks;
     }
-    
-    
-     public boolean addAuction(Auction auction) {
+
+    public boolean addAuction(Auction auction) {
         String url = Statics.BASE_URL + "/auction/mobile/add";
         req.setUrl(url);
-         System.out.println(String.valueOf(auction.getDate()));
+        System.out.println(String.valueOf(auction.getDate()));
         req.addArgument("StartingPrice", String.valueOf(auction.getStarting_price()));
         req.addArgument("Description", String.valueOf(auction.getDescription()));
         req.addArgument("EndingDate", String.valueOf(auction.getDate()));
         req.addArgument("Increment", String.valueOf(auction.getIncrement()));
         req.addArgument("Artwork", String.valueOf(auction.getId_artwork()));
-        
 
         req.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
@@ -230,34 +234,32 @@ public class AuctionServices {
         NetworkManager.getInstance().addToQueueAndWait(req);
         return resultOK;
     }
-     
-     ///mobile/{id}/delete
-     public boolean DeleteAuction(Auction auction) {
-        String url = Statics.BASE_URL + "/auction/mobile/"+auction.getId_auction()+"/delete";
-        req.setUrl(url);     
 
-        req.addResponseListener(new ActionListener<NetworkEvent>() {
-            @Override
-            public void actionPerformed(NetworkEvent evt) {
-                resultOK = req.getResponseCode() == 200; //Code HTTP 200 OK
-                req.removeResponseListener(this);
-            }
-        });
-        NetworkManager.getInstance().addToQueueAndWait(req);
-        return resultOK;
-    }
-     
-     
-     public boolean EditAuction(Auction auction) {
-        String url = Statics.BASE_URL + "/auction/mobile/"+auction.getId_auction()+"/edit";
+    ///mobile/{id}/delete
+    public boolean DeleteAuction(Auction auction) {
+        String url = Statics.BASE_URL + "/auction/mobile/" + auction.getId_auction() + "/delete";
         req.setUrl(url);
-         System.out.println(String.valueOf(auction.getDate()));
+
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                resultOK = req.getResponseCode() == 200; //Code HTTP 200 OK
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return resultOK;
+    }
+
+    public boolean EditAuction(Auction auction) {
+        String url = Statics.BASE_URL + "/auction/mobile/" + auction.getId_auction() + "/edit";
+        req.setUrl(url);
+        System.out.println(String.valueOf(auction.getDate()));
         req.addArgument("StartingPrice", String.valueOf(auction.getStarting_price()));
         req.addArgument("Description", String.valueOf(auction.getDescription()));
         req.addArgument("EndingDate", String.valueOf(auction.getDate()));
         req.addArgument("Increment", String.valueOf(auction.getIncrement()));
         req.addArgument("Artwork", String.valueOf(auction.getId_artwork()));
-        
 
         req.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
